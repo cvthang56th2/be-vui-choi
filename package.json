@@ -1,0 +1,14 @@
+{
+  "name": "be-vui-choi",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "mkdir -p www && cp index.html apple-touch-icon.png www/",
+    "ios": "npm run build && npx cap sync ios && npx cap open ios"
+  },
+  "dependencies": {
+    "@capacitor/cli": "^8.6.0",
+    "@capacitor/core": "^8.6.0",
+    "@capacitor/ios": "^8.6.0"
+  }
+}

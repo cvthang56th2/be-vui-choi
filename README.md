@@ -77,3 +77,21 @@ Dùng Web Speech API có sẵn trên thiết bị. Để giọng rõ hơn trên 
 - Chuyển sang Expo / React Native (`react-native-skia`, `expo-speech`, `expo-av`)
 - Thay giọng máy bằng file âm thanh thu sẵn
 - Thêm game & cấp độ theo tuổi
+
+## Cài app iOS lên iPhone/iPad qua cáp (Capacitor + Xcode)
+
+Thư mục `ios/` là project Xcode bọc `index.html` thành app thật (Capacitor 8, Swift Package Manager — không cần CocoaPods).
+
+```bash
+npm install          # lần đầu
+npm run ios          # copy index.html vào app, sync, mở Xcode
+```
+
+Trong Xcode:
+1. Chọn target **App** → tab **Signing & Capabilities** → *Team*: chọn Apple ID của bạn (Add Account… nếu chưa có). Nếu báo trùng Bundle ID, đổi `com.cvthang.bevuichoi` thành tên khác.
+2. Thanh trên cùng: chọn iPhone đang cắm cáp làm thiết bị chạy → bấm ▶ (Cmd+R).
+3. Lần đầu trên iPhone: **Cài đặt → Quyền riêng tư & Bảo mật → Chế độ nhà phát triển** → Bật (máy khởi động lại); sau đó **Cài đặt → Cài đặt chung → VPN & Quản lý thiết bị** → tin cậy tài khoản nhà phát triển.
+
+Với Apple ID miễn phí, app hết hạn sau **7 ngày** — cắm cáp và bấm ▶ lại để gia hạn. Tài khoản Apple Developer (99 USD/năm) cho 1 năm và cài qua TestFlight được.
+
+Mỗi khi sửa `index.html`: chạy `npm run ios` rồi ▶ lại.

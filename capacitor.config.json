@@ -1,0 +1,9 @@
+{
+  "appId": "com.cvthang.bevuichoi",
+  "appName": "Bé Vui Chơi",
+  "webDir": "www",
+  "ios": {
+    "contentInset": "never",
+    "backgroundColor": "#6fcbff"
+  }
+}
