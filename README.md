@@ -61,7 +61,12 @@ Một file HTML duy nhất, không cần build, không phụ thuộc thư viện
 npx serve .        # hoặc: python3 -m http.server 8000
 ```
 
-Mở `http://<ip-máy>:3000` trên iPad (cùng mạng Wi-Fi) → Chia sẻ → **Thêm vào MH chính** để chơi toàn màn hình.
+Mở `http://<ip-máy>:3000` trên iPad/iPhone (cùng mạng Wi-Fi) → Chia sẻ → **Thêm vào MH chính** để chơi toàn màn hình.
+
+### Chơi trên iPhone / iPad qua GitHub Pages
+Settings → Pages → Source: *Deploy from a branch* → Branch `main` / `(root)` → Save. Sau ~1 phút mở `https://cvthang56th2.github.io/be-vui-choi/` bằng Safari → nút Chia sẻ → **Thêm vào Màn hình chính**. App có biểu tượng riêng (bạn Mít) và mở toàn màn hình như app thật.
+
+Giao diện tự co giãn cho iPhone (dọc & ngang) và iPad. Nếu không nghe hiệu ứng âm thanh trên iPhone, kiểm tra công tắc im lặng / âm lượng.
 
 ## Giọng đọc
 

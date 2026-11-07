@@ -4,6 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Bé Vui Chơi">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#6fcbff">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="apple-touch-icon.png">
 <title>Bé Vui Chơi</title>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
 <style>
@@ -291,6 +297,62 @@ button{font-family:inherit;cursor:pointer}
 .vtest{align-self:flex-start;border:none;border-radius:999px;padding:8px 18px;font-size:1em;font-weight:800;background:#eef3ff;color:var(--blue)}
 .vtip{background:#fff6d6;border-radius:16px;padding:12px 14px;font-size:.9em;line-height:1.45;font-weight:500}
 
+/* ---------- PHONE (iPhone) ---------- */
+@media (max-width:540px),(max-height:540px){
+  .topbar{padding:8px 10px;gap:8px}
+  .btn-round{width:46px;height:46px;font-size:24px}
+  .prompt{font-size:17px;padding:6px 12px;white-space:normal;line-height:1.2;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+  .stars{font-size:17px;padding:4px 10px;box-shadow:0 4px 0 #d9a800}
+  .agetab{font-size:15px;padding:5px 12px}
+  .agetabs{gap:6px}
+  .gearbtn{width:42px;height:42px;font-size:20px}
+  .qopts{gap:12px}
+  .qopt{min-width:78px;height:78px;font-size:42px;border-radius:22px;box-shadow:0 6px 0 rgba(0,0,0,.2)}
+  .qopts.sm .qopt{font-size:28px;padding:0 14px;min-width:96px}
+  .qtext{font-size:32px;padding:4px 18px}
+  .abct{width:96px;font-size:58px;border-radius:24px}
+  .tile2{width:62px;font-size:38px;border-radius:16px}
+  .slot{width:52px;height:62px;font-size:38px}
+  .spiece,.shole{width:92px}
+  .sbox{gap:12px;padding:14px 16px}
+  .winbox{padding:20px 24px;border-radius:30px}
+  .wbtn{padding:10px 22px;font-size:20px}
+  .pb{font-size:15px;padding:6px 12px}
+}
+@media (max-width:540px) and (orientation:portrait){
+  #home{justify-content:flex-start;padding-top:calc(env(safe-area-inset-top) + 64px);overflow-y:auto;-webkit-overflow-scrolling:touch}
+  .bubble{font-size:15px;max-width:58vw}
+  .grid{width:94vw;gap:10px}.grid .card{width:calc((100% - 2*10px)/3);border-radius:22px;font-size:17px;padding:10px 4px}
+  .card .ico{font-size:46px}
+  .card small{font-size:11px}
+}
+@media (max-height:540px) and (orientation:landscape){
+  #home{justify-content:flex-start;gap:6px;padding-top:calc(env(safe-area-inset-top) + 8px);overflow-y:auto;-webkit-overflow-scrolling:touch}
+  .hero{display:none}
+  .title{font-size:34px;text-shadow:0 3px 0 var(--pink),0 6px 0 #c43b7c}
+  .homestars,.gearbtn{top:calc(env(safe-area-inset-top) + 8px)}
+  .grid{width:min(92vw,760px);gap:8px;margin-top:2px}.grid .card{width:calc((100% - 3*8px)/4);border-radius:18px;font-size:15px;padding:6px 4px;box-shadow:0 5px 0 rgba(0,0,0,.2)}
+  .card .ico{font-size:38px}
+  .card small{font-size:10px}
+  .qwrap,.abcwrap,.spellwrap{gap:8px;padding:6px}
+  .qarea{gap:6px}
+  .qbig,.abchint{font-size:min(26vh,96px)}
+  .clock{width:min(40vh,160px)}
+  .cbox{padding:6px 12px}.citem{font-size:min(12vh,48px)}.cbox.small .citem{font-size:min(8vh,32px)}
+  .seq{font-size:min(12vh,48px);padding:8px 14px}
+  .qopt{height:min(22vh,78px);min-width:min(22vh,78px);font-size:min(12vh,42px)}
+  .abct{width:min(24vh,90px);font-size:min(14vh,54px)}
+  .dots i{width:10px;height:10px}
+  .palette{grid-template-columns:repeat(3,auto);gap:8px}.sw{width:38px;border-width:3px}.donebtn{font-size:17px;padding:6px 14px}
+  .animal{font-size:min(30vh,120px)}.nd{width:44px;font-size:24px}.food{font-size:44px}.basket{padding:8px 16px;min-height:60px}
+  .spot{width:min(42vh,160px)}.spot .cover{font-size:min(34vh,140px)}.spot .ani{font-size:min(28vh,110px)}
+  .spiece,.shole{width:min(26vh,92px)}.sortwrap{padding:4px}
+  .btile .be{font-size:min(18vh,72px)}.btile{font-size:15px;border-radius:22px}.board6{gap:10px;padding:8px 12px 12px}
+  .pad button{width:56px;font-size:28px;border-radius:16px}.pad div{gap:56px}
+  .key .kan{font-size:30px}.key .kn{font-size:16px}.pbar{padding-bottom:6px}
+  .winbox .bigstar{font-size:56px}.winbox h2{font-size:34px}.winbox p{font-size:18px;margin:2px 0 10px}
+}
+
 /* ---------- WIN ---------- */
 #win{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(43,35,80,.45);z-index:50}
 #win.show{display:flex}
@@ -485,6 +547,7 @@ const cap=s=>s.charAt(0).toUpperCase()+s.slice(1);
 /* ---------- Sound (Web Audio, no files) ---------- */
 let actx=null;
 function audio(){
+  try{if(navigator.audioSession&&navigator.audioSession.type!=='playback')navigator.audioSession.type='playback'}catch(e){}
   if(!actx){try{actx=new (window.AudioContext||window.webkitAudioContext)()}catch(e){}}
   if(actx&&actx.state==='suspended'){try{actx.resume()}catch(e){}}
   return actx;
