@@ -2,19 +2,43 @@
 
 Bộ mini-game giáo dục cho trẻ nhỏ, chạy trên iPad (Safari) — giao diện tiếng Việt, có giọng đọc, chữ và hình to, thao tác đơn giản.
 
-## Các game
+## Các game (chia theo lứa tuổi)
 
+Màn hình chính có 3 tab tuổi; app nhớ tab bé chọn lần trước. Một số game tự chỉnh độ khó theo tuổi (Lật thẻ, Ghép hình, Cho thú ăn, Đếm số, Mê cung).
+
+### 🐣 2–3 tuổi
+| Game | Kỹ năng |
+|---|---|
+| 🎈 Bóng bay | Màu sắc, đếm |
+| 🐮 Con gì kêu? | Tiếng kêu & tên con vật |
+| 🔺 Hộp hình khối | Hình dạng, kéo thả (vận động tinh) |
+| 🥕 Cho thú ăn | Đếm 1–3 |
+| 🎹 Đàn piano | Âm nhạc |
+| 🎨 Tô màu | Sáng tạo, tên màu |
+
+### 🐥 4–5 tuổi
 | Game | Kỹ năng |
 |---|---|
 | 🏎️ Đua xe | Nhận biết số 1–9 |
-| 🔧 Lắp ráp | Hình khối, màu sắc, kéo thả |
-| 🐼 Lật thẻ | Trí nhớ, tên con vật (Việt + Anh) |
-| 🎈 Bóng bay | Màu sắc, đếm số |
-| 🎨 Tô màu | Sáng tạo, tên màu |
-| 🧩 Ghép hình | Tư duy không gian |
-| 🔤 Chữ cái | Bảng chữ cái & từ vựng tiếng Anh |
-| 🥕 Cho thú ăn | Đếm 1–5 |
-| 🎹 Đàn piano | Âm nhạc, nốt nhạc, chơi theo bài |
+| 🔢 Đếm số | Đếm 1–10 |
+| 🧠 Quy luật | Tư duy logic (AB, AAB, ABC…) |
+| 🌑 Tìm bóng | Quan sát hình dạng |
+| 🔧 Lắp ráp | Hình khối, màu sắc |
+| 🧩 Ghép hình | Tư duy không gian (2×2) |
+| 🐼 Lật thẻ | Trí nhớ, con vật Việt–Anh |
+| 🔤 Chữ cái | Bảng chữ cái tiếng Anh |
+
+### 🦉 6–7 tuổi
+| Game | Kỹ năng |
+|---|---|
+| ➕ Cộng trừ | Toán trong phạm vi 10, có hình minh hoạ |
+| 🔡 Đánh vần | Đánh vần từ tiếng Anh 3–4 chữ |
+| 🕐 Xem giờ | Đọc đồng hồ kim (giờ đúng, giờ rưỡi) |
+| 🌀 Mê cung | Định hướng, lập kế hoạch |
+| 🧩 Ghép hình | 3×3 |
+| 🐼 Lật thẻ | Bắt đầu từ 8 thẻ |
+| 🔤 Chữ cái | Bảng chữ cái tiếng Anh |
+| 🎹 Đàn piano | Học bài theo phím sáng |
 
 ## Chạy thử
 

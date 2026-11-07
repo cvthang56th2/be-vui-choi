@@ -32,7 +32,11 @@ button{font-family:inherit;cursor:pointer}
 .homestars{position:absolute;top:calc(env(safe-area-inset-top) + 2vmin);right:calc(env(safe-area-inset-right) + 3vmin);z-index:2}
 .grid{display:flex;flex-wrap:wrap;justify-content:center;gap:2.4vmin;width:min(94vw,860px);z-index:1;margin-top:1vmin}
 .grid .card{width:calc((100% - 2*2.4vmin)/3)}
-@media (orientation:landscape){.grid{width:min(96vw,1240px)}.grid .card{width:calc((100% - 4*2.4vmin)/5)}}
+@media (orientation:landscape){.grid{width:min(96vw,1060px)}.grid .card{width:calc((100% - 3*2.4vmin)/4)}.mascot{width:clamp(80px,12vmin,150px)}.bubble{font-size:clamp(16px,2.6vmin,28px)}}
+.grid .card{animation:pop .35s cubic-bezier(.2,1.6,.4,1) backwards}
+.agetabs{display:flex;gap:1.6vmin;z-index:1;flex-wrap:wrap;justify-content:center}
+.agetab{border:none;border-radius:999px;padding:.8vmin 3vmin;font-size:clamp(18px,3vmin,30px);font-weight:800;background:rgba(255,255,255,.6);color:var(--ink);box-shadow:0 5px 0 rgba(0,0,0,.1);transition:transform .15s}
+.agetab.on{background:#fff;color:var(--pink);box-shadow:0 5px 0 var(--pink);transform:scale(1.08)}
 .card{border:none;border-radius:32px;padding:1.8vmin 1vmin;color:#fff;font-size:clamp(20px,3.2vmin,34px);font-weight:800;
   box-shadow:0 10px 0 rgba(0,0,0,.2),inset 0 -8px 0 rgba(0,0,0,.08);display:flex;flex-direction:column;align-items:center;gap:.5vmin;transition:transform .12s;text-shadow:0 3px 0 rgba(0,0,0,.18)}
 .card:active{transform:translateY(7px) scale(.97);box-shadow:0 3px 0 rgba(0,0,0,.2)}
@@ -186,6 +190,59 @@ button{font-family:inherit;cursor:pointer}
 @keyframes keyglow{from{box-shadow:0 10px 0 rgba(0,0,0,.22),0 0 0 0 #fff}to{box-shadow:0 10px 0 rgba(0,0,0,.22),0 0 0 9px #fff,0 0 30px 10px rgba(255,255,255,.9)}}
 .key.next::before{content:"👇";position:absolute;top:3%;font-size:clamp(34px,6vmin,64px);animation:bob .8s ease-in-out infinite}
 
+/* ---------- QUIZ (shared) ---------- */
+.qwrap{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2.4vmin;padding:2vmin}
+.qarea{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2vmin;max-width:96vw}
+.qopts{display:flex;flex-wrap:wrap;justify-content:center;gap:3vmin}
+.qopt{min-width:clamp(110px,17vmin,180px);height:clamp(110px,17vmin,180px);padding:0 2vmin;border:none;border-radius:30px;color:#fff;font-family:inherit;font-size:clamp(50px,8.5vmin,96px);font-weight:800;line-height:1;box-shadow:0 9px 0 rgba(0,0,0,.2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.8vmin;text-shadow:0 4px 0 rgba(0,0,0,.15);animation:pop .35s cubic-bezier(.2,1.6,.4,1) backwards}
+.qopt small{font-size:.34em;font-weight:700}
+.qopt.white{background:#fff;color:var(--ink);text-shadow:none}
+.qopt.ok{background:#3ddc84!important;animation:hop .25s ease-in-out 2 alternate}
+.qopt.no{animation:shake .35s}
+.qopts.sm .qopt{font-size:clamp(36px,6vmin,64px);padding:0 3.5vmin}
+.qbig{font-size:clamp(110px,24vmin,240px);line-height:1}
+.shadow{filter:brightness(0);opacity:.8;transition:filter .6s,opacity .6s}
+.shadow.reveal{filter:none;opacity:1;animation:hop .3s ease-in-out 2 alternate}
+.qtext{border:none;font-family:inherit;color:var(--ink);font-size:clamp(40px,8vmin,84px);font-weight:800;background:#fff;border-radius:28px;padding:1vmin 4vmin;box-shadow:0 6px 0 rgba(0,0,0,.08)}
+.cbox{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:1.4vmin;max-width:min(92vw,820px);background:rgba(255,255,255,.65);border-radius:30px;padding:2vmin 3vmin}
+.citem{font-size:clamp(46px,8vmin,84px);position:relative;line-height:1.1;display:inline-block}
+.cbox.small .citem{font-size:clamp(30px,5vmin,54px)}
+.citem b{position:absolute;right:-10px;top:-10px;background:#ff4757;color:#fff;border-radius:50%;width:1.7em;height:1.7em;font-size:clamp(14px,2.4vmin,24px);display:flex;align-items:center;justify-content:center;animation:pop .3s;font-style:normal}
+.citem.gone{opacity:.35}
+.citem.gone::after{content:"✖";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#ff4757;font-size:.8em;font-weight:800}
+.cop{font-size:clamp(40px,7vmin,72px);font-weight:800;color:var(--ink);padding:0 1vmin}
+.seq{display:flex;gap:1.2vmin;align-items:center;background:#fff;border-radius:30px;padding:2vmin 3vmin;box-shadow:0 6px 0 rgba(0,0,0,.08);font-size:clamp(42px,7.5vmin,86px);flex-wrap:wrap;justify-content:center;max-width:94vw}
+.seq .q{display:inline-flex;width:1.15em;height:1.15em;align-items:center;justify-content:center;border:4px dashed #9b5de5;border-radius:18px;font-size:.8em;animation:glow .7s ease-in-out infinite alternate}
+.clock{width:clamp(220px,40vmin,380px);height:auto;filter:drop-shadow(0 8px 0 rgba(0,0,0,.1))}
+
+/* ---------- SORTER ---------- */
+.sortwrap{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:space-evenly;padding:2vmin}
+.spieces{display:flex;gap:5vmin;flex-wrap:wrap;justify-content:center;min-height:clamp(110px,19vmin,190px)}
+.spiece{width:clamp(110px,19vmin,190px);aspect-ratio:1;touch-action:none;cursor:grab;filter:drop-shadow(0 8px 0 rgba(0,0,0,.15))}
+.spiece svg,.shole svg{display:block;width:100%;height:100%;pointer-events:none}
+.sbox{display:flex;gap:4vmin;background:linear-gradient(#ffa866,#f07020);padding:3vmin 4vmin;border-radius:40px;box-shadow:0 14px 0 #b8510f,inset 0 6px 0 rgba(255,255,255,.3)}
+.shole{width:clamp(110px,19vmin,190px);aspect-ratio:1;background:rgba(255,255,255,.22);border-radius:26px;padding:5%}
+.shole.filled{animation:hop .25s ease-in-out 2 alternate}
+
+/* ---------- SPELL ---------- */
+.spellwrap{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2.6vmin;padding:2vmin}
+.slots{display:flex;gap:1.5vmin}
+.slot{width:clamp(64px,11vmin,110px);height:clamp(76px,13vmin,130px);border-radius:18px;background:#fff;border:4px dashed #b8b3d6;font-size:clamp(44px,8vmin,84px);font-weight:800;display:flex;align-items:center;justify-content:center;color:var(--ink)}
+.slot.on{border:4px solid #3ddc84;animation:pop .3s}
+.tiles{display:flex;gap:2vmin;flex-wrap:wrap;justify-content:center}
+.tile2{width:clamp(76px,12vmin,120px);aspect-ratio:1;border:none;border-radius:22px;color:#fff;font-family:inherit;font-size:clamp(44px,7vmin,76px);font-weight:800;box-shadow:0 7px 0 rgba(0,0,0,.2);text-shadow:0 3px 0 rgba(0,0,0,.15);transition:opacity .2s,transform .2s}
+.tile2.used{opacity:.2;transform:scale(.85)}
+.tile2.no{animation:shake .35s}
+
+/* ---------- MAZE ---------- */
+.mzwrap{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2.5vmin;padding:2vmin}
+@media (orientation:landscape){.mzwrap{flex-direction:row;gap:5vmin}}
+.mzcv{touch-action:none;flex:none;border-radius:24px;box-shadow:0 8px 0 rgba(0,0,0,.12);background:#fff}
+.pad{display:flex;flex-direction:column;align-items:center;gap:1.2vmin;flex:none}
+.pad div{display:flex;gap:clamp(70px,11vmin,110px)}
+.pad button{width:clamp(70px,11vmin,110px);aspect-ratio:1;border:none;border-radius:24px;background:#fff;font-size:clamp(34px,6vmin,60px);box-shadow:0 6px 0 rgba(0,0,0,.15)}
+.pad button:active{transform:translateY(4px);box-shadow:0 2px 0 rgba(0,0,0,.15)}
+
 /* ---------- VOICE SETTINGS ---------- */
 .gearbtn{position:absolute;top:calc(env(safe-area-inset-top) + 2vmin);left:calc(env(safe-area-inset-left) + 3vmin);z-index:2;width:clamp(48px,7vmin,64px);height:clamp(48px,7vmin,64px);font-size:clamp(22px,3.4vmin,32px)}
 #vset{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(43,35,80,.45);z-index:70;padding:3vmin}
@@ -242,17 +299,8 @@ button{font-family:inherit;cursor:pointer}
     <div class="bubble" id="bubble">Chào bé! Mình là Mít 🧡<br>Hôm nay chơi gì nào?</div>
   </div>
 
-  <div class="grid">
-    <button class="card c-race" data-game="race"><span class="ico">🏎️</span>Đua xe<small>Học số đếm</small></button>
-    <button class="card c-build" data-game="build"><span class="ico">🔧</span>Lắp ráp<small>Học hình khối</small></button>
-    <button class="card c-memory" data-game="memory"><span class="ico">🐼</span>Lật thẻ<small>Con vật · English</small></button>
-    <button class="card c-balloon" data-game="balloon"><span class="ico">🎈</span>Bóng bay<small>Học màu sắc</small></button>
-    <button class="card c-paint" data-game="paint"><span class="ico">🎨</span>Tô màu<small>Sáng tạo</small></button>
-    <button class="card c-puzzle" data-game="puzzle"><span class="ico">🧩</span>Ghép hình<small>Tư duy</small></button>
-    <button class="card c-abc" data-game="abc"><span class="ico">🔤</span>Chữ cái<small>ABC tiếng Anh</small></button>
-    <button class="card c-feed" data-game="feed"><span class="ico">🥕</span>Cho thú ăn<small>Tập đếm</small></button>
-    <button class="card c-piano" data-game="piano"><span class="ico">🎹</span>Đàn piano<small>Âm nhạc</small></button>
-  </div>
+  <div class="agetabs" id="agetabs"></div>
+  <div class="grid" id="grid"></div>
 </section>
 
 <!-- ================= RACE ================= -->
@@ -301,6 +349,42 @@ button{font-family:inherit;cursor:pointer}
 <section class="screen" id="piano">
   <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
   <div class="stage" id="kstage"></div>
+</section>
+<section class="screen" id="sound">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="sstage"></div>
+</section>
+<section class="screen" id="sorter">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="hstage"></div>
+</section>
+<section class="screen" id="shadow">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="shstage"></div>
+</section>
+<section class="screen" id="count">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="cstage"></div>
+</section>
+<section class="screen" id="pattern">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="ptstage"></div>
+</section>
+<section class="screen" id="math">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="mstage"></div>
+</section>
+<section class="screen" id="spell">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="wstage"></div>
+</section>
+<section class="screen" id="maze">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="mzstage"></div>
+</section>
+<section class="screen" id="clock">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="clstage"></div>
 </section>
 <!-- ================= VOICE SETTINGS (for parents) ================= -->
 <div id="vset">
@@ -414,6 +498,9 @@ function say(text,lang,queue,force){
 }
 function hush(){if(hasTTS){try{speechSynthesis.cancel()}catch(e){}}}
 
+/* ---------- Age group ---------- */
+let AGE=1;try{const a=parseInt(localStorage.getItem('bevui_age'),10);if(a>=0&&a<=2)AGE=a}catch(e){}
+
 /* ---------- Stars ---------- */
 let stars=0;
 try{stars=parseInt(localStorage.getItem('bevui_stars'),10)||0}catch(e){}
@@ -431,7 +518,7 @@ const promptSpeech={};
 function setPrompt(id,html,speech){
   $('#'+id+' .prompt').innerHTML=html;
   promptSpeech[id]=speech;
-  if(speech)say(speech);
+  if(typeof speech==='function')speech();else if(speech)say(speech);
 }
 document.querySelectorAll('.prompt').forEach(p=>p.addEventListener('click',()=>{
   const id=p.closest('.screen').id,sp=promptSpeech[id];typeof sp==='function'?sp():say(sp);
@@ -823,7 +910,7 @@ const Memory=(()=>{
       timer=setTimeout(()=>{f.c.classList.remove('flipped');c.classList.remove('flipped');lock=false},1300);
     }
   }
-  return{start:()=>{level=0;deal()},stop:()=>clearTimeout(timer),resize:layout};
+  return{start:()=>{level=[0,0,1][AGE];deal()},stop:()=>clearTimeout(timer),resize:layout};
 })();
 
 /* =====================================================
@@ -1026,7 +1113,7 @@ const Paint=(()=>{
 const Puzzle=(()=>{
   const stage=$('#zstage'),keys=Object.keys(PICS);
   let level=0,pi=0,n=2,placed=0,cell=0,board=null,pic=null;
-  function start(){level=0;pi=Math.floor(Math.random()*keys.length);deal()}
+  function start(){level=AGE>=2?1:0;pi=Math.floor(Math.random()*keys.length);deal()}
   function deal(){
     n=level===0?2:3;pic=PICS[keys[pi%keys.length]];placed=0;
     stage.innerHTML='<div class="zwrap"><div class="board"></div><div class="tray"></div></div>';
@@ -1089,7 +1176,7 @@ const ABC=(()=>{
       <div class="abcopts">${opts.map((o,i)=>`<button class="abct" data-l="${o[0]}" style="background:${TC[(i+round)%TC.length]};animation-delay:${i*.07}s">${o[0]}<small>${o[0].toLowerCase()}</small></button>`).join('')}</div>
       <div class="dots">${[...Array(ROUNDS)].map((_,i)=>`<i class="${i<round?'on':''}"></i>`).join('')}</div></div>`;
     stage.querySelectorAll('.abct').forEach(b=>b.addEventListener('click',()=>tap(b)));
-    setPrompt('abc',`🔊 Tìm chữ <b style="color:#13a89e;font-size:1.2em">${w[0]}</b>`,ask);ask();
+    setPrompt('abc',`🔊 Tìm chữ <b style="color:#13a89e;font-size:1.2em">${w[0]}</b>`,ask);
   }
   function tap(b){
     if(lock)return;const L=b.dataset.l;
@@ -1119,7 +1206,7 @@ const Feed=(()=>{
   function start(){round=0;pair=null;next()}
   function next(){
     clearTimeout(tmr);count=0;lock=false;
-    let p;do{p=pickOne(P)}while(p===pair);pair=p;need=1+Math.floor(Math.random()*5);
+    let p;do{p=pickOne(P)}while(p===pair);pair=p;need=1+Math.floor(Math.random()*(AGE===0?3:5));
     stage.innerHTML=`<div class="feedwrap"><div class="animal">${p[0]}</div>
       <div class="need">${`<div class="nd"><span>${p[1]}</span></div>`.repeat(need)}</div>
       <div class="basket">${`<div class="food">${p[1]}</div>`.repeat(need+3)}</div></div>`;
@@ -1226,8 +1313,283 @@ const Piano=(()=>{
   }));
 })();
 
+/* =====================================================
+   SHARED QUIZ ENGINE (question + big answer buttons)
+   ===================================================== */
+const QC=['#ff4757','#ff8a3d','#3d8bff','#9b5de5','#20b97a','#ff5fa2'];
+const PRAISE=['Giỏi quá!','Đúng rồi!','Tuyệt vời!','Bé thông minh quá!','Hoan hô!'];
+const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const ri=n=>Math.floor(Math.random()*n);
+function makeQuiz(cfg){
+  const stage=$(cfg.stage);let round=0,lock=false,tmr=0,q=null;
+  function start(){round=0;next()}
+  function next(){
+    clearTimeout(tmr);lock=false;q=cfg.gen(round);
+    stage.innerHTML=`<div class="qwrap"><div class="qarea">${q.html}</div><div class="qopts ${q.cls||''}"></div><div class="dots">${[...Array(cfg.rounds)].map((_,i)=>`<i class="${i<round?'on':''}"></i>`).join('')}</div></div>`;
+    const box=stage.querySelector('.qopts');
+    q.options.forEach((o,i)=>{
+      const b=document.createElement('button');b.className='qopt'+(o.white?' white':'');
+      if(!o.white)b.style.background=QC[(i+round)%QC.length];
+      b.style.animationDelay=(i*.07)+'s';b.innerHTML=o.html;b.addEventListener('click',()=>tap(b,o));box.appendChild(b);
+    });
+    const rp=stage.querySelector('[data-replay]');
+    if(rp)rp.addEventListener('click',()=>{typeof q.speech==='function'?q.speech():say(q.speech)});
+    setPrompt(cfg.id,q.prompt,q.speech);
+  }
+  function tap(b,o){
+    if(lock)return;
+    if(o.correct){
+      lock=true;b.classList.add('ok');sfx('ding');addStar();
+      let d=1600;if(q.onCorrect)d=q.onCorrect(stage)||1800;else say(pickOne(PRAISE));
+      round++;const dd=stage.querySelectorAll('.dots i');if(dd[round-1])dd[round-1].classList.add('on');
+      tmr=setTimeout(()=>round>=cfg.rounds?win(cfg.winMsg,start):next(),d);
+    }else{
+      b.classList.remove('no');void b.offsetWidth;b.classList.add('no');sfx('boing');
+      say(o.say||'Chưa đúng, bé thử lại nhé!');
+    }
+  }
+  return{start,stop:()=>clearTimeout(tmr)};
+}
+
+/* ---------- 2–3: CON GÌ KÊU? ---------- */
+const SOUNDS=[['🐶','Con chó','Gâu gâu'],['🐱','Con mèo','Meo meo'],['🐮','Con bò','Ụm bò'],['🐷','Con heo','Ụt ịt'],
+  ['🐔','Con gà','Cục ta cục tác'],['🦆','Con vịt','Cạp cạp'],['🐑','Con cừu','Be be'],['🐸','Con ếch','Ộp ộp'],
+  ['🦁','Sư tử','Gừm gừm'],['🐍','Con rắn','Xì xì'],['🐝','Con ong','Vo ve'],['🐴','Con ngựa','Hí hí']];
+const SoundQ=makeQuiz({id:'sound',stage:'#sstage',rounds:6,winMsg:'Bé biết tiếng kêu của các con vật! 🐮',gen(){
+  const opts=shuffle(SOUNDS.slice()).slice(0,3),a=pickOne(opts),snd=a[2].toLowerCase();
+  return{html:`<button class="qtext" data-replay>🔊 “${a[2]}”</button>`,prompt:'🔊 Con nào kêu thế này?',
+    speech:()=>say(`${a[2]}! Con nào kêu ${snd}?`),
+    options:opts.map(o=>({white:true,html:o[0],correct:o===a,say:`Đây là ${o[1].toLowerCase()}. ${o[1]} kêu ${o[2].toLowerCase()}.`})),
+    onCorrect(){say(`Đúng rồi! ${a[1]} kêu ${snd}!`);return 2400}};
+}});
+
+/* ---------- 4–5: TÌM BÓNG ---------- */
+const SHADOWS=[['🦒','hươu cao cổ'],['🐘','con voi'],['🦋','con bướm'],['🐢','con rùa'],['🦀','con cua'],['🐌','con ốc sên'],
+  ['🚲','xe đạp'],['✈️','máy bay'],['🎸','cây đàn'],['☂️','cái ô'],['🍐','quả lê'],['🐙','bạch tuộc'],['🦕','khủng long'],['🚁','trực thăng'],['🐇','con thỏ'],['🦩','chim hồng hạc']];
+const ShadowQ=makeQuiz({id:'shadow',stage:'#shstage',rounds:6,winMsg:'Bé quan sát tinh mắt quá! 🔍',gen(){
+  const opts=shuffle(SHADOWS.slice()).slice(0,3),a=pickOne(opts);
+  return{html:`<div class="qbig shadow">${a[0]}</div>`,prompt:'🔊 Đây là bóng của gì?',speech:'Cái bóng đen này là của cái gì nhỉ?',
+    options:opts.map(o=>({white:true,html:o[0],correct:o===a,say:`Đây là ${o[1]}. Chưa giống bóng, thử lại nhé!`})),
+    onCorrect(st){st.querySelector('.shadow').classList.add('reveal');say(`Đúng rồi! Đó là bóng của ${a[1]}!`);return 2400}};
+}});
+
+/* ---------- 4–5: ĐẾM SỐ ---------- */
+const COUNTI=[['🍎','quả táo'],['⭐','ngôi sao'],['🐟','con cá'],['🚗','chiếc xe'],['🌸','bông hoa'],['🐤','chú gà con'],['🎈','quả bóng bay'],['🍓','quả dâu'],['🐞','con bọ rùa']];
+const CountQ=makeQuiz({id:'count',stage:'#cstage',rounds:8,winMsg:'Bé đếm giỏi quá! 🔢',gen(){
+  const max=AGE===0?5:10,n=1+ri(max),it=pickOne(COUNTI),opts=new Set([n]);
+  while(opts.size<3){const m=n+ri(5)-2;if(m>=1&&m<=Math.max(max,n+2))opts.add(m)}
+  return{html:`<div class="cbox">${[...Array(n)].map(()=>`<span class="citem" style="transform:rotate(${Math.round(rand(-14,14))}deg)">${it[0]}</span>`).join('')}</div>`,
+    prompt:`🔊 Có bao nhiêu ${it[0]}?`,speech:`Có bao nhiêu ${it[1]} nhỉ?`,
+    options:shuffle([...opts]).map(m=>({html:m,correct:m===n,say:'Chưa đúng. Bé chỉ tay đếm lại nhé!'})),
+    onCorrect(st){
+      st.querySelectorAll('.citem').forEach((e,i)=>setTimeout(()=>e.insertAdjacentHTML('beforeend',`<b>${i+1}</b>`),i*450));
+      say(NUMW.slice(1,n+1).map(cap).join(', ')+'. Có '+NUMW[n]+' '+it[1]+'!');return n*450+1700}};
+}});
+
+/* ---------- 4–5: QUY LUẬT ---------- */
+const PSETS=[['🍎','🍌','🍇'],['🔴','🔵','🟡'],['🐶','🐱','🐰'],['⭐','🌙','☀️'],['🚗','🚌','🚲'],['🌸','🍀','🍄']];
+const PatternQ=makeQuiz({id:'pattern',stage:'#ptstage',rounds:6,winMsg:'Bé tìm ra quy luật rồi! 🧠',gen(r){
+  const set=shuffle(pickOne(PSETS).slice()),t=pickOne(r<2?['AB']:['AB','AAB','ABB','ABC']),unit=[...t].map(c=>set['ABC'.indexOf(c)]);
+  const L=unit.length*2+1+ri(unit.length),seq=[...Array(L)].map((_,i)=>unit[i%unit.length]),ans=seq[L-1];
+  return{html:`<div class="seq">${seq.slice(0,-1).map(e=>`<span>${e}</span>`).join('')}<span class="q">❓</span></div>`,
+    prompt:'🔊 Tiếp theo là gì?',speech:'Bé xem hàng này. Tiếp theo là hình gì nhỉ?',
+    options:shuffle(set.slice()).map(e=>({white:true,html:e,correct:e===ans})),
+    onCorrect(st){const q=st.querySelector('.seq .q');q.className='';q.textContent=ans;q.style.animation='pop .4s';say(pickOne(PRAISE));return 1800}};
+}});
+
+/* ---------- 6–7: CỘNG TRỪ ---------- */
+const MathQ=makeQuiz({id:'math',stage:'#mstage',rounds:8,winMsg:'Bé làm toán siêu giỏi! ➕',gen(r){
+  const plus=r<3||Math.random()<.5;let a,b;
+  if(plus){a=1+ri(8);b=1+ri(9-a)}else{a=3+ri(8);b=1+ri(a-1)}
+  const ans=plus?a+b:a-b,op=plus?'cộng':'trừ',it=pickOne(['🍎','⭐','🐟','🍓','🎈','🍪']);
+  const g=(n,cls)=>[...Array(n)].map(()=>`<span class="citem ${cls||''}">${it}</span>`).join('');
+  const vis=plus?g(a)+'<span class="cop">+</span>'+g(b):g(a-b)+g(b,'gone');
+  const opts=new Set([ans]);while(opts.size<4){const m=ans+ri(7)-3;if(m>=0&&m<=12)opts.add(m)}
+  return{html:`<div class="qtext">${a} ${plus?'+':'−'} ${b} = <span class="ans" style="color:#ff4757">?</span></div><div class="cbox small">${vis}</div>`,
+    prompt:`🔊 ${a} ${plus?'+':'−'} ${b} = ?`,speech:`${cap(NUMW[a])} ${op} ${NUMW[b]} bằng mấy?`,
+    options:shuffle([...opts]).map(m=>({html:m,correct:m===ans,say:'Chưa đúng. Bé đếm các hình bên trên nhé!'})),
+    onCorrect(st){st.querySelector('.ans').textContent=ans;say(`${cap(NUMW[a])} ${op} ${NUMW[b]} bằng ${NUMW[ans]}!`);return 2400}};
+}});
+
+/* ---------- 6–7: XEM GIỜ ---------- */
+const HW=['','một','hai','ba','bốn','năm','sáu','bảy','tám','chín','mười','mười một','mười hai'];
+function clockSVG(h,m){
+  let t='';for(let i=1;i<=12;i++){const a=i*Math.PI/6;t+=`<text x="${(100+70*Math.sin(a)).toFixed(1)}" y="${(100-70*Math.cos(a)+8).toFixed(1)}" text-anchor="middle" font-size="22" font-weight="800" font-family="Baloo 2,sans-serif" fill="${i%3?'#2b2350':'#ff4757'}">${i}</text>`}
+  let k='';for(let i=0;i<60;i+=5){k+=`<line x1="100" y1="10" x2="100" y2="17" stroke="#c9c4e6" stroke-width="3" transform="rotate(${i*6} 100 100)"/>`}
+  return`<svg class="clock" viewBox="0 0 200 200"><circle cx="100" cy="100" r="94" fill="#fff" stroke="#ff8a3d" stroke-width="10"/>${k}${t}
+    <line x1="100" y1="100" x2="100" y2="54" stroke="#2b2350" stroke-width="10" stroke-linecap="round" transform="rotate(${((h%12)+m/60)*30} 100 100)"/>
+    <line x1="100" y1="100" x2="100" y2="28" stroke="#3d8bff" stroke-width="6" stroke-linecap="round" transform="rotate(${m*6} 100 100)"/>
+    <circle cx="100" cy="100" r="8" fill="#ff4757"/></svg>`;
+}
+const ClockQ=makeQuiz({id:'clock',stage:'#clstage',rounds:8,winMsg:'Bé biết xem đồng hồ rồi! 🕐',gen(r){
+  const half=r>=3&&Math.random()<.6,h=1+ri(12),m=half?30:0,txt=(hh,mm)=>`${HW[hh]} giờ${mm?' rưỡi':''}`;
+  const key=(hh,mm)=>hh+':'+mm,opts=new Map([[key(h,m),[h,m]]]);
+  while(opts.size<3){const hh=((h-1+pickOne([-2,-1,1,2,3]))%12+12)%12+1,mm=r>=3?pickOne([0,30]):0;opts.set(key(hh,mm),[hh,mm])}
+  return{html:clockSVG(h,m),prompt:'🔊 Đồng hồ chỉ mấy giờ?',speech:'Kim ngắn chỉ giờ, kim dài chỉ phút. Đồng hồ đang chỉ mấy giờ?',cls:'sm',
+    options:shuffle([...opts.values()]).map(([hh,mm])=>({html:`${hh}:${mm?'30':'00'}<small>${hh} giờ${mm?' rưỡi':''}</small>`,correct:hh===h&&mm===m,say:`Đây là ${txt(hh,mm)}. Bé nhìn kim ngắn nhé!`})),
+    onCorrect(){say(`Đúng rồi! Bây giờ là ${txt(h,m)}!`);return 2200}};
+}});
+
+/* ---------- 2–3: HỘP HÌNH KHỐI (shape sorter) ---------- */
+const Sorter=(()=>{
+  const star=[...Array(10)].map((_,i)=>{const r=i%2?20:46,a=Math.PI/5*i-Math.PI/2;return(50+r*Math.cos(a)).toFixed(1)+','+(53+r*Math.sin(a)).toFixed(1)}).join(' ');
+  const SH={circle:['hình tròn','<circle cx="50" cy="50" r="44"/>'],square:['hình vuông','<rect x="8" y="8" width="84" height="84" rx="10"/>'],
+    tri:['hình tam giác','<polygon points="50,6 95,92 5,92" stroke-linejoin="round"/>'],star:['ngôi sao',`<polygon points="${star}" stroke-linejoin="round"/>`],
+    heart:['trái tim','<path d="M50 90 C20 68 4 50 4 31 C4 15 16 5 30 5 C40 5 47 11 50 19 C53 11 60 5 70 5 C84 5 96 15 96 31 C96 50 80 68 50 90Z"/>']};
+  const COL=['#ff4757','#ffd23f','#3d8bff','#3ddc84','#9b5de5','#ff5fa2','#13a89e'];
+  const ROUNDS=4,stage=$('#hstage');let round=0,left=0,tmr=0;
+  const svg=(k,fill,stroke)=>`<svg viewBox="0 0 100 100"><g fill="${fill}" stroke="${stroke}" stroke-width="5">${SH[k][1]}</g></svg>`;
+  function start(){round=0;next()}
+  function next(){
+    clearTimeout(tmr);const keys=shuffle(Object.keys(SH)).slice(0,3),cols=shuffle(COL.slice());left=3;
+    stage.innerHTML=`<div class="sortwrap"><div class="spieces">${shuffle(keys.slice()).map((k,i)=>`<div class="spiece" data-k="${k}">${svg(k,cols[i],'#fff')}</div>`).join('')}</div>
+      <div class="sbox">${keys.map(k=>`<div class="shole" data-k="${k}">${svg(k,'rgba(43,35,80,.72)','rgba(0,0,0,.15)')}</div>`).join('')}</div></div>`;
+    stage.querySelectorAll('.spiece').forEach(p=>{p.addEventListener('pointerdown',()=>say(cap(SH[p.dataset.k][0])));dragDom(p,drop)});
+    setPrompt('sorter','🔊 Bỏ hình vào đúng lỗ','Bé hãy kéo các hình vào đúng lỗ trong hộp nhé!');
+  }
+  function drop(el,x,y,back){
+    const k=el.dataset.k,hole=[...stage.querySelectorAll('.shole')].find(h=>{const r=h.getBoundingClientRect();return x>r.left-30&&x<r.right+30&&y>r.top-30&&y<r.bottom+30});
+    if(hole&&hole.dataset.k===k&&!hole.dataset.done){
+      hole.dataset.done=1;hole.innerHTML=el.innerHTML;hole.classList.add('filled');el.remove();
+      sfx('snap');addStar();say(cap(SH[k][0])+'! Vừa khít!');left--;
+      if(!left){round++;tmr=setTimeout(()=>{if(round>=ROUNDS)win('Bé xếp hình giỏi quá! 🔺',start);else{sfx('ding');say(pickOne(PRAISE));next()}},1400)}
+    }else{back();if(hole){sfx('boing');say('Không vừa rồi, bé thử lỗ khác nhé!')}}
+  }
+  return{start,stop:()=>clearTimeout(tmr)};
+})();
+
+/* ---------- 6–7: ĐÁNH VẦN (English spelling) ---------- */
+const Spell=(()=>{
+  const WORDS=[['CAT','🐱','con mèo'],['DOG','🐶','con chó'],['SUN','☀️','mặt trời'],['PIG','🐷','con heo'],['BUS','🚌','xe buýt'],
+    ['CAR','🚗','xe ô tô'],['COW','🐮','con bò'],['EGG','🥚','quả trứng'],['HAT','🎩','cái mũ'],['BEE','🐝','con ong'],
+    ['FISH','🐟','con cá'],['BALL','⚽','quả bóng'],['CAKE','🎂','bánh kem'],['FROG','🐸','con ếch'],['DUCK','🦆','con vịt'],
+    ['STAR','⭐','ngôi sao'],['MOON','🌙','mặt trăng'],['TREE','🌳','cái cây'],['BOOK','📖','quyển sách'],['MILK','🥛','sữa']];
+  const ROUNDS=6,stage=$('#wstage');let round=0,w=null,pos=0,lock=false,tmr=0,used=[];
+  function start(){round=0;used=[];next()}
+  function next(){
+    clearTimeout(tmr);pos=0;lock=false;
+    const pool=WORDS.filter(x=>(round<3?x[0].length===3:true)&&!used.includes(x[0]));w=pickOne(pool);used.push(w[0]);
+    const AZ='ABCDEFGHIJKLMNOPRSTUW',ex=[];while(ex.length<2){const c=AZ[ri(AZ.length)];if(!w[0].includes(c)&&!ex.includes(c))ex.push(c)}
+    const tiles=shuffle(w[0].split('').concat(ex));
+    stage.innerHTML=`<div class="spellwrap"><button class="qtext qbig" data-replay style="font-size:clamp(100px,20vmin,200px);padding:1vmin 3vmin">${w[1]}</button>
+      <div class="slots">${w[0].split('').map(()=>'<span class="slot"></span>').join('')}</div>
+      <div class="tiles">${tiles.map((L,i)=>`<button class="tile2" style="background:${QC[i%QC.length]}">${L}</button>`).join('')}</div>
+      <div class="dots">${[...Array(ROUNDS)].map((_,i)=>`<i class="${i<round?'on':''}"></i>`).join('')}</div></div>`;
+    const sp=()=>{say('Bé hãy đánh vần từ');say(w[0].toLowerCase(),'en-US',true)};
+    stage.querySelector('[data-replay]').addEventListener('click',sp);
+    stage.querySelectorAll('.tile2').forEach(b=>b.addEventListener('click',()=>tap(b)));
+    setPrompt('spell','🔊 Đánh vần tiếng Anh '+w[1],sp);
+  }
+  function tap(b){
+    if(lock||b.classList.contains('used'))return;const L=b.textContent;
+    if(L===w[0][pos]){
+      const sl=stage.querySelectorAll('.slot')[pos];sl.textContent=L;sl.classList.add('on');
+      b.classList.add('used');sfx('tap');say(L,'en-US');pos++;
+      if(pos===w[0].length){
+        lock=true;sfx('ding');addStar();round++;stage.querySelectorAll('.dots i')[round-1].classList.add('on');
+        setTimeout(()=>{say(w[0].split('').join(', ')+'. '+w[0].toLowerCase()+'!','en-US');say(cap(w[2])+'!','vi-VN',true)},350);
+        tmr=setTimeout(()=>round>=ROUNDS?win('Bé đánh vần giỏi quá! 🔡',start):next(),4200);
+      }
+    }else{b.classList.remove('no');void b.offsetWidth;b.classList.add('no');sfx('boing');say(L,'en-US')}
+  }
+  return{start,stop:()=>clearTimeout(tmr)};
+})();
+
+/* ---------- 6–7: MÊ CUNG ---------- */
+const Maze=(()=>{
+  const stage=$('#mzstage'),DX=[0,1,0,-1],DY=[-1,0,1,0],WB=[1,2,4,8];
+  let n=5,cells=[],px=0,py=0,trail=null,cv=null,ctx=null,S=0,cs=0,level=0,done=false,tmr=0,down=null;
+  function gen(n){
+    const c=Array(n*n).fill(15),seen=Array(n*n).fill(false),st=[0];seen[0]=true;
+    while(st.length){
+      const cur=st[st.length-1],x=cur%n,y=Math.floor(cur/n);
+      const nb=[0,1,2,3].filter(d=>{const nx=x+DX[d],ny=y+DY[d];return nx>=0&&ny>=0&&nx<n&&ny<n&&!seen[ny*n+nx]});
+      if(!nb.length){st.pop();continue}
+      const d=pickOne(nb),ni=(y+DY[d])*n+x+DX[d];c[cur]&=~WB[d];c[ni]&=~WB[(d+2)%4];seen[ni]=true;st.push(ni);
+    }
+    return c;
+  }
+  const can=(x,y,d)=>!(cells[y*n+x]&WB[d]);
+  function start(){level=0;build()}
+  function build(){
+    clearTimeout(tmr);n=Math.min(9,[4,5,6][AGE]+level);cells=gen(n);px=py=0;trail=new Set(['0,0']);done=false;
+    stage.innerHTML=`<div class="mzwrap"><canvas class="mzcv"></canvas><div class="pad"><button data-d="0">⬆️</button><div><button data-d="3">⬅️</button><button data-d="1">➡️</button></div><button data-d="2">⬇️</button></div></div>`;
+    cv=stage.querySelector('canvas');ctx=cv.getContext('2d');
+    const st=stage.getBoundingClientRect(),pr=stage.querySelector('.pad').getBoundingClientRect(),land=st.width>st.height;
+    S=Math.floor(land?Math.min(st.height*.92,st.width-pr.width-st.width*.12):Math.min(st.width*.92,st.height-pr.height-st.height*.08));
+    const dpr=window.devicePixelRatio||1;cv.width=S*dpr;cv.height=S*dpr;cv.style.width=cv.style.height=S+'px';ctx.setTransform(dpr,0,0,dpr,0,0);cs=S/n;
+    stage.querySelectorAll('.pad button').forEach(b=>b.addEventListener('pointerdown',e=>{e.preventDefault();move(+b.dataset.d)}));
+    cv.addEventListener('pointerdown',e=>{down=[e.clientX,e.clientY]});
+    cv.addEventListener('pointerup',e=>{
+      if(!down)return;const dx=e.clientX-down[0],dy=e.clientY-down[1];down=null;
+      let vx=dx,vy=dy;
+      if(Math.hypot(dx,dy)<25){const r=cv.getBoundingClientRect();vx=e.clientX-r.left-(px+.5)*cs;vy=e.clientY-r.top-(py+.5)*cs;if(Math.hypot(vx,vy)<cs*.4)return}
+      move(Math.abs(vx)>Math.abs(vy)?(vx>0?1:3):(vy>0?2:0));
+    });
+    setPrompt('maze','🔊 Đưa xe về nhà 🏠','Bé hãy đưa xe ô tô về nhà nhé! Bấm mũi tên hoặc vuốt màn hình.');
+    draw();
+  }
+  function move(d){
+    if(done)return;
+    if(!can(px,py,d)){sfx('bump');return}
+    let steps=0;
+    do{px+=DX[d];py+=DY[d];trail.add(px+','+py);steps++;
+      if(px===n-1&&py===n-1)break;
+      const exits=[0,1,2,3].filter(k=>can(px,py,k)).length;
+      if(exits!==2||!can(px,py,d))break;
+    }while(steps<60);
+    sfx('tap');draw();
+    if(px===n-1&&py===n-1){
+      done=true;sfx('ding');addStar(2);say('Về đến nhà rồi! Giỏi quá!');level++;
+      tmr=setTimeout(()=>level>=3?win('Bé thoát mê cung giỏi quá! 🌀',start):build(),1700);
+    }
+  }
+  function draw(){
+    ctx.clearRect(0,0,S,S);ctx.fillStyle='#fffdf4';ctx.fillRect(0,0,S,S);
+    ctx.fillStyle='rgba(255,210,63,.55)';
+    trail.forEach(k=>{const [x,y]=k.split(',').map(Number);ctx.beginPath();ctx.arc((x+.5)*cs,(y+.5)*cs,cs*.16,0,Math.PI*2);ctx.fill()});
+    ctx.textAlign='center';ctx.textBaseline='middle';ctx.font=Math.floor(cs*.62)+'px serif';
+    ctx.fillText('🏠',(n-.5)*cs,(n-.5)*cs+2);
+    ctx.fillText('🚗',(px+.5)*cs,(py+.5)*cs+2);
+    ctx.strokeStyle='#9b5de5';ctx.lineWidth=Math.max(4,cs*.11);ctx.lineCap='round';ctx.beginPath();
+    const m=ctx.lineWidth/2;
+    for(let y=0;y<n;y++)for(let x=0;x<n;x++){
+      const c=cells[y*n+x],X=x*cs,Y=y*cs;
+      if(c&1){ctx.moveTo(X,Y+(y?0:m));ctx.lineTo(X+cs,Y+(y?0:m))}
+      if(c&8){ctx.moveTo(X+(x?0:m),Y);ctx.lineTo(X+(x?0:m),Y+cs)}
+      if(x===n-1&&c&2){ctx.moveTo(S-m,Y);ctx.lineTo(S-m,Y+cs)}
+      if(y===n-1&&c&4){ctx.moveTo(X,S-m);ctx.lineTo(X+cs,S-m)}
+    }
+    ctx.stroke();
+  }
+  return{start,stop:()=>clearTimeout(tmr)};
+})();
+
+/* ---------- Home: age groups ---------- */
+const CARDS={race:['🏎️','Đua xe','Nhận biết số','#ff6b6b','#ff4757'],build:['🔧','Lắp ráp','Hình khối','#ffb84d','#ff8a3d'],
+  memory:['🐼','Lật thẻ','Trí nhớ · English','#b57bff','#9b5de5'],balloon:['🎈','Bóng bay','Màu sắc','#4cd9a0','#20b97a'],
+  paint:['🎨','Tô màu','Sáng tạo','#ff8cc0','#ff5fa2'],puzzle:['🧩','Ghép hình','Tư duy','#6aa8ff','#3d8bff'],
+  abc:['🔤','Chữ cái','ABC tiếng Anh','#3fd6cc','#13a89e'],feed:['🥕','Cho thú ăn','Tập đếm','#ffc94d','#f5a000'],
+  piano:['🎹','Đàn piano','Âm nhạc','#8a93ff','#5b6cff'],sound:['🐮','Con gì kêu?','Tiếng con vật','#ff9a76','#ff6f4f'],
+  sorter:['🔺','Hộp hình khối','Kéo thả hình','#ff7eb3','#e8457f'],shadow:['🌑','Tìm bóng','Quan sát','#8a93b8','#5a6290'],
+  count:['🔢','Đếm số','Đếm 1–10','#5fd38d','#2fb36a'],pattern:['🧠','Quy luật','Tư duy logic','#c38bff','#8f4fe0'],
+  math:['➕','Cộng trừ','Toán trong 10','#ff8a5c','#ff5e3a'],spell:['🔡','Đánh vần','Từ tiếng Anh','#4fc3f7','#1e9be0'],
+  maze:['🌀','Mê cung','Định hướng','#7ed957','#45b026'],clock:['🕐','Xem giờ','Đồng hồ','#ffb347','#ff8a00']};
+const AGES=[{icon:'🐣',label:'2–3 tuổi',say:'hai đến ba',games:['balloon','sound','sorter','feed','piano','paint']},
+  {icon:'🐥',label:'4–5 tuổi',say:'bốn đến năm',games:['race','count','pattern','shadow','build','puzzle','memory','abc']},
+  {icon:'🦉',label:'6–7 tuổi',say:'sáu đến bảy',games:['math','spell','clock','maze','puzzle','memory','abc','piano']}];
+function renderHome(){
+  $('#agetabs').innerHTML=AGES.map((a,i)=>`<button class="agetab${i===AGE?' on':''}" data-a="${i}">${a.icon} ${a.label}</button>`).join('');
+  $('#grid').innerHTML=AGES[AGE].games.map((g,i)=>{const c=CARDS[g];return`<button class="card" data-game="${g}" style="background:linear-gradient(160deg,${c[3]},${c[4]});animation-delay:${i*.05}s"><span class="ico" style="animation-delay:${(i*.27)%1.2}s">${c[0]}</span>${c[1]}<small>${c[2]}</small></button>`}).join('');
+  document.querySelectorAll('.agetab').forEach(b=>b.addEventListener('click',()=>{
+    AGE=+b.dataset.a;try{localStorage.setItem('bevui_age',AGE)}catch(e){}
+    sfx('tap');say('Trò chơi cho bé '+AGES[AGE].say+' tuổi');renderHome();
+  }));
+  document.querySelectorAll('#grid .card').forEach(c=>c.addEventListener('click',()=>{say(CARDS[c.dataset.game][1]);openGame(c.dataset.game)}));
+}
+
 /* ---------- Navigation ---------- */
-const GAMES={race:Race,build:Build,memory:Memory,balloon:Balloon,paint:Paint,puzzle:Puzzle,abc:ABC,feed:Feed,piano:Piano};
+const GAMES={race:Race,build:Build,memory:Memory,balloon:Balloon,paint:Paint,puzzle:Puzzle,abc:ABC,feed:Feed,piano:Piano,sound:SoundQ,sorter:Sorter,shadow:ShadowQ,count:CountQ,pattern:PatternQ,math:MathQ,spell:Spell,maze:Maze,clock:ClockQ};
 const NAMES={race:'Đua xe!',build:'Lắp ráp!',memory:'Lật thẻ!',balloon:'Bóng bay!',paint:'Tô màu!',puzzle:'Ghép hình!',abc:'Chữ cái!',feed:'Cho thú ăn!',piano:'Đàn piano!'};
 let current=null;
 function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===id))}
@@ -1237,7 +1599,7 @@ function openGame(name){
   requestAnimationFrame(()=>current.start());
 }
 function goHome(){if(current)current.stop();current=null;hideWin();hush();show('home')}
-document.querySelectorAll('.card').forEach(c=>c.addEventListener('click',()=>{say(NAMES[c.dataset.game]);openGame(c.dataset.game)}));
+renderHome();
 document.querySelectorAll('.home-btn').forEach(b=>b.addEventListener('click',()=>{sfx('tap');goHome()}));
 $('#mascot').addEventListener('click',()=>{
   const m=$('#mascot');m.classList.remove('jump');void m.getBoundingClientRect();m.classList.add('jump');
