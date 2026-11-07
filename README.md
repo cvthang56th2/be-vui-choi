@@ -4,7 +4,20 @@ Bộ mini-game giáo dục cho trẻ nhỏ, chạy trên iPad (Safari) — giao 
 
 ## Các game (chia theo lứa tuổi)
 
-Màn hình chính có 3 tab tuổi; app nhớ tab bé chọn lần trước. Một số game tự chỉnh độ khó theo tuổi (Lật thẻ, Ghép hình, Cho thú ăn, Đếm số, Mê cung).
+Màn hình chính có 4 tab tuổi; app nhớ tab bé chọn lần trước. Một số game tự chỉnh độ khó theo tuổi (Lật thẻ, Ghép hình, Cho thú ăn, Đếm số, Mê cung).
+
+### 👶 1–2 tuổi
+Không có đáp án sai — mọi lần chạm đều có âm thanh, hình ảnh và giọng đọc. Nút 🏠 bị khoá: bố mẹ **giữ 1 giây** mới thoát được, tránh bé bấm nhầm.
+
+| Game | Kỹ năng |
+|---|---|
+| 👆 Chạm là vui | Nguyên nhân – kết quả, từ vựng |
+| 🙈 Ú òa! | Bất ngờ, tên & tiếng con vật |
+| 🫧 Bong bóng | Vận động tay, phối hợp tay–mắt |
+| 🐶 Con vật | Tên & tiếng kêu con vật |
+| 🚒 Xe cộ | Tên & âm thanh xe cộ |
+| 🖍️ Vẽ ngón tay | Sáng tạo, vận động tinh |
+| 🎹 Đàn piano | Âm nhạc |
 
 ### 🐣 2–3 tuổi
 | Game | Kỹ năng |

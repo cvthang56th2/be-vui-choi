@@ -243,6 +243,40 @@ button{font-family:inherit;cursor:pointer}
 .pad button{width:clamp(70px,11vmin,110px);aspect-ratio:1;border:none;border-radius:24px;background:#fff;font-size:clamp(34px,6vmin,60px);box-shadow:0 6px 0 rgba(0,0,0,.15)}
 .pad button:active{transform:translateY(4px);box-shadow:0 2px 0 rgba(0,0,0,.15)}
 
+/* ---------- TODDLER (1–2) ---------- */
+.home-btn.holding{animation:holdring 1s linear forwards}
+@keyframes holdring{from{box-shadow:0 6px 0 rgba(0,0,0,.15),0 0 0 0 var(--pink)}to{box-shadow:0 6px 0 rgba(0,0,0,.15),0 0 0 14px var(--pink)}}
+#toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom) + 4vmin);transform:translate(-50%,30px);background:var(--ink);color:#fff;border-radius:999px;padding:1.2vmin 3.5vmin;font-size:clamp(16px,2.6vmin,26px);font-weight:700;opacity:0;transition:all .3s;z-index:80;pointer-events:none;white-space:nowrap}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+#tstage{background:radial-gradient(circle at 50% 40%,#ffe3f1,#ffc3de);transition:background .6s;touch-action:none}
+.pop1{position:absolute;font-size:clamp(80px,15vmin,150px);pointer-events:none;line-height:1;animation:tappop 1.7s ease-out forwards}
+@keyframes tappop{0%{transform:translate(-50%,-50%) scale(.2) rotate(-25deg);opacity:0}15%{transform:translate(-50%,-50%) scale(1.25) rotate(8deg);opacity:1}30%{transform:translate(-50%,-50%) scale(1) rotate(0)}100%{transform:translate(-50%,-190%) scale(.9);opacity:0}}
+.ring{position:absolute;width:44px;height:44px;border-radius:50%;border:7px solid var(--c);pointer-events:none;animation:ring .7s ease-out forwards}
+@keyframes ring{from{transform:translate(-50%,-50%) scale(.3);opacity:1}to{transform:translate(-50%,-50%) scale(5);opacity:0}}
+.tapdeco{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:clamp(28px,5vmin,48px);font-weight:800;color:rgba(43,35,80,.25);pointer-events:none;text-align:center}
+.peekwrap{position:absolute;inset:0;display:flex;align-items:center;justify-content:space-evenly;padding:3vmin;background:linear-gradient(180deg,transparent 60%,#9be38a 60%)}
+.spot{position:relative;width:clamp(170px,28vmin,300px);aspect-ratio:1;cursor:pointer;touch-action:none}
+.spot .ani{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:clamp(110px,18vmin,200px);transform:scale(.3) translateY(30%);opacity:0;transition:all .4s cubic-bezier(.2,1.6,.4,1)}
+.spot.open .ani{transform:scale(1);opacity:1;animation:hop .3s ease-in-out .4s 4 alternate}
+.spot .cover{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:clamp(150px,26vmin,280px);line-height:1;transition:transform .5s cubic-bezier(.3,1.4,.5,1),opacity .5s;filter:drop-shadow(0 10px 0 rgba(0,0,0,.12))}
+.spot:not(.open) .cover{animation:wiggle 2.4s ease-in-out infinite}
+.spot:nth-child(2):not(.open) .cover{animation-delay:.8s}.spot:nth-child(3):not(.open) .cover{animation-delay:1.6s}
+.spot.open .cover{transform:translate(55%,-60%) rotate(25deg) scale(.55);opacity:.9}
+@keyframes wiggle{0%,80%,100%{transform:rotate(0)}85%{transform:rotate(-6deg)}90%{transform:rotate(6deg)}95%{transform:rotate(-3deg)}}
+#bbstage{touch-action:none}
+.bub{position:absolute;left:0;top:0;border-radius:50%;will-change:transform;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;
+  background:radial-gradient(circle at 32% 28%,rgba(255,255,255,.95) 0 7%,rgba(255,255,255,.2) 22%,rgba(170,225,255,.25) 60%,rgba(255,140,230,.4) 100%);border:3px solid rgba(255,255,255,.85);box-shadow:inset -10px -12px 24px rgba(120,80,255,.22),0 4px 14px rgba(0,0,0,.05)}
+.board6{position:absolute;inset:0;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:3vmin;padding:2vmin 3vmin 3vmin}
+@media (orientation:portrait){.board6{grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(3,1fr)}}
+.btile{border:none;border-radius:36px;box-shadow:0 10px 0 rgba(0,0,0,.1);display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:inherit;color:var(--ink);font-size:clamp(20px,3.4vmin,34px);font-weight:800;gap:.5vmin;touch-action:none;overflow:hidden}
+.btile .be{font-size:clamp(80px,15vmin,160px);line-height:1.05}
+.btile:active{transform:translateY(5px);box-shadow:0 5px 0 rgba(0,0,0,.1)}
+.btile.go .be{animation:jump .6s ease}
+.btile.drive .be{animation:drive2 1.3s ease-in-out}
+@keyframes drive2{0%{transform:translateX(0)}35%{transform:translateX(-28%)}45%{transform:translateX(-28%) rotate(4deg)}100%{transform:translateX(0)}}
+.drcv{position:absolute;inset:0;touch-action:none}
+.clearbtn{position:absolute;right:3vmin;bottom:3vmin;width:clamp(72px,11vmin,100px);aspect-ratio:1;border:none;border-radius:50%;background:#fff;font-size:clamp(36px,6vmin,56px);box-shadow:0 6px 0 rgba(0,0,0,.15);z-index:2}
+
 /* ---------- VOICE SETTINGS ---------- */
 .gearbtn{position:absolute;top:calc(env(safe-area-inset-top) + 2vmin);left:calc(env(safe-area-inset-left) + 3vmin);z-index:2;width:clamp(48px,7vmin,64px);height:clamp(48px,7vmin,64px);font-size:clamp(22px,3.4vmin,32px)}
 #vset{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(43,35,80,.45);z-index:70;padding:3vmin}
@@ -386,6 +420,31 @@ button{font-family:inherit;cursor:pointer}
   <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
   <div class="stage" id="clstage"></div>
 </section>
+<section class="screen" id="tap">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="tstage"></div>
+</section>
+<section class="screen" id="peek">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="pkstage"></div>
+</section>
+<section class="screen" id="bubbles">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="bbstage"></div>
+</section>
+<section class="screen" id="animals">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="anstage"></div>
+</section>
+<section class="screen" id="vehicles">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="vhstage"></div>
+</section>
+<section class="screen" id="draw">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="drstage"></div>
+</section>
+<div id="toast"></div>
 <!-- ================= VOICE SETTINGS (for parents) ================= -->
 <div id="vset">
   <div class="vbox">
@@ -499,7 +558,7 @@ function say(text,lang,queue,force){
 function hush(){if(hasTTS){try{speechSynthesis.cancel()}catch(e){}}}
 
 /* ---------- Age group ---------- */
-let AGE=1;try{const a=parseInt(localStorage.getItem('bevui_age'),10);if(a>=0&&a<=2)AGE=a}catch(e){}
+let AGE=2;try{const a=parseInt(localStorage.getItem('bevui_age2'),10);if(a>=0&&a<=3)AGE=a}catch(e){}
 
 /* ---------- Stars ---------- */
 let stars=0;
@@ -910,7 +969,7 @@ const Memory=(()=>{
       timer=setTimeout(()=>{f.c.classList.remove('flipped');c.classList.remove('flipped');lock=false},1300);
     }
   }
-  return{start:()=>{level=[0,0,1][AGE];deal()},stop:()=>clearTimeout(timer),resize:layout};
+  return{start:()=>{level=[0,0,0,1][AGE];deal()},stop:()=>clearTimeout(timer),resize:layout};
 })();
 
 /* =====================================================
@@ -1113,7 +1172,7 @@ const Paint=(()=>{
 const Puzzle=(()=>{
   const stage=$('#zstage'),keys=Object.keys(PICS);
   let level=0,pi=0,n=2,placed=0,cell=0,board=null,pic=null;
-  function start(){level=AGE>=2?1:0;pi=Math.floor(Math.random()*keys.length);deal()}
+  function start(){level=AGE>=3?1:0;pi=Math.floor(Math.random()*keys.length);deal()}
   function deal(){
     n=level===0?2:3;pic=PICS[keys[pi%keys.length]];placed=0;
     stage.innerHTML='<div class="zwrap"><div class="board"></div><div class="tray"></div></div>';
@@ -1206,7 +1265,7 @@ const Feed=(()=>{
   function start(){round=0;pair=null;next()}
   function next(){
     clearTimeout(tmr);count=0;lock=false;
-    let p;do{p=pickOne(P)}while(p===pair);pair=p;need=1+Math.floor(Math.random()*(AGE===0?3:5));
+    let p;do{p=pickOne(P)}while(p===pair);pair=p;need=1+Math.floor(Math.random()*(AGE<=1?3:5));
     stage.innerHTML=`<div class="feedwrap"><div class="animal">${p[0]}</div>
       <div class="need">${`<div class="nd"><span>${p[1]}</span></div>`.repeat(need)}</div>
       <div class="basket">${`<div class="food">${p[1]}</div>`.repeat(need+3)}</div></div>`;
@@ -1376,7 +1435,7 @@ const ShadowQ=makeQuiz({id:'shadow',stage:'#shstage',rounds:6,winMsg:'Bé quan s
 /* ---------- 4–5: ĐẾM SỐ ---------- */
 const COUNTI=[['🍎','quả táo'],['⭐','ngôi sao'],['🐟','con cá'],['🚗','chiếc xe'],['🌸','bông hoa'],['🐤','chú gà con'],['🎈','quả bóng bay'],['🍓','quả dâu'],['🐞','con bọ rùa']];
 const CountQ=makeQuiz({id:'count',stage:'#cstage',rounds:8,winMsg:'Bé đếm giỏi quá! 🔢',gen(){
-  const max=AGE===0?5:10,n=1+ri(max),it=pickOne(COUNTI),opts=new Set([n]);
+  const max=AGE<=1?5:10,n=1+ri(max),it=pickOne(COUNTI),opts=new Set([n]);
   while(opts.size<3){const m=n+ri(5)-2;if(m>=1&&m<=Math.max(max,n+2))opts.add(m)}
   return{html:`<div class="cbox">${[...Array(n)].map(()=>`<span class="citem" style="transform:rotate(${Math.round(rand(-14,14))}deg)">${it[0]}</span>`).join('')}</div>`,
     prompt:`🔊 Có bao nhiêu ${it[0]}?`,speech:`Có bao nhiêu ${it[1]} nhỉ?`,
@@ -1512,7 +1571,7 @@ const Maze=(()=>{
   const can=(x,y,d)=>!(cells[y*n+x]&WB[d]);
   function start(){level=0;build()}
   function build(){
-    clearTimeout(tmr);n=Math.min(9,[4,5,6][AGE]+level);cells=gen(n);px=py=0;trail=new Set(['0,0']);done=false;
+    clearTimeout(tmr);n=Math.min(9,[4,4,5,6][AGE]+level);cells=gen(n);px=py=0;trail=new Set(['0,0']);done=false;
     stage.innerHTML=`<div class="mzwrap"><canvas class="mzcv"></canvas><div class="pad"><button data-d="0">⬆️</button><div><button data-d="3">⬅️</button><button data-d="1">➡️</button></div><button data-d="2">⬇️</button></div></div>`;
     cv=stage.querySelector('canvas');ctx=cv.getContext('2d');
     const st=stage.getBoundingClientRect(),pr=stage.querySelector('.pad').getBoundingClientRect(),land=st.width>st.height;
@@ -1565,6 +1624,132 @@ const Maze=(()=>{
   return{start,stop:()=>clearTimeout(tmr)};
 })();
 
+/* =====================================================
+   1–2 TUỔI — no wrong answers, every touch rewards
+   ===================================================== */
+const PENTA=[523,587,659,784,880,1047,1175];
+function sparks(stage,cx,cy,color,n){
+  for(let i=0;i<(n||10);i++){const s=document.createElement('div');s.className='spark';s.style.left=cx+'px';s.style.top=cy+'px';
+    s.style.background=i%2?color:'#fff';const a=i/(n||10)*Math.PI*2;s.style.setProperty('--dx',Math.cos(a)*90+'px');s.style.setProperty('--dy',Math.sin(a)*90+'px');
+    stage.appendChild(s);setTimeout(()=>s.remove(),650)}
+}
+const TapFun=(()=>{
+  const IT=[['🐶','con chó'],['🐱','con mèo'],['⭐','ngôi sao'],['🦋','con bướm'],['🌸','bông hoa'],['🐠','con cá'],['🍎','quả táo'],
+    ['🎈','bóng bay'],['🐥','gà con'],['🚗','ô tô'],['🌈','cầu vồng'],['🐰','con thỏ'],['🐘','con voi'],['🍌','quả chuối']];
+  const stage=$('#tstage');let lastSay=0,hue=330;
+  stage.addEventListener('pointerdown',e=>{
+    if(current!==TapFun)return;e.preventDefault();
+    const r=stage.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top,it=pickOne(IT);
+    const deco=stage.querySelector('.tapdeco');if(deco)deco.remove();
+    const el=document.createElement('div');el.className='pop1';el.textContent=it[0];el.style.left=x+'px';el.style.top=y+'px';stage.appendChild(el);setTimeout(()=>el.remove(),1800);
+    const rg=document.createElement('div');rg.className='ring';rg.style.left=x+'px';rg.style.top=y+'px';rg.style.setProperty('--c',pickOne(QC));stage.appendChild(rg);setTimeout(()=>rg.remove(),750);
+    audio();tone(pickOne(PENTA),.45,'triangle',.2);
+    const now=Date.now();if(now-lastSay>1300){lastSay=now;say(cap(it[1]))}
+    hue=(hue+28)%360;stage.style.background=`radial-gradient(circle at 50% 40%,hsl(${hue},95%,90%),hsl(${(hue+40)%360},85%,79%))`;
+  });
+  return{start(){stage.innerHTML='<div class="tapdeco">👆<br>Chạm vào đây!</div>';setPrompt('tap','👆 Bé chạm vào màn hình nhé!','Bé chạm vào màn hình đi!')},stop(){}};
+})();
+
+const Peek=(()=>{
+  const stage=$('#pkstage'),COV=['🎁','🧺','📦'];let timers=[];
+  function start(){
+    stop();
+    stage.innerHTML=`<div class="peekwrap">${COV.map(c=>`<div class="spot"><div class="ani"></div><div class="cover">${c}</div></div>`).join('')}</div>`;
+    stage.querySelectorAll('.spot').forEach(sp=>sp.addEventListener('pointerdown',e=>{
+      e.preventDefault();if(sp.classList.contains('open'))return;
+      const a=pickOne(SOUNDS);sp.querySelector('.ani').textContent=a[0];sp.classList.add('open');
+      audio();tone(300,.35,'sine',.22,0,3);tone(1200,.2,'triangle',.12,.3);addStar();
+      say(`Ú òa! ${a[1]}! ${a[2]}!`);
+      timers.push(setTimeout(()=>sp.classList.remove('open'),2800));
+    }));
+    setPrompt('peek','🙈 Ai trốn trong này nhỉ?','Ai đang trốn trong này nhỉ? Bé chạm vào xem nào!');
+  }
+  function stop(){timers.forEach(clearTimeout);timers=[]}
+  return{start,stop};
+})();
+
+const Bubbles=(()=>{
+  const stage=$('#bbstage'),EM={'🐟':'Con cá','🐥':'Gà con','⭐':'Ngôi sao','🦆':'Con vịt','🐸':'Con ếch','🌸':'Bông hoa','🐞':'Bọ rùa'};
+  let list=[],raf=0,run=false,last=0,spT=0,W=0,H=0;
+  function spawn(){
+    const s=rand(100,180),d=document.createElement('div');d.className='bub';d.style.width=d.style.height=s+'px';
+    const em=Math.random()<.4?pickOne(Object.keys(EM)):'';d.textContent=em;d.style.fontSize=(s*.45)+'px';
+    const b={el:d,x:rand(0,Math.max(10,W-s)),y:H+10,s,v:rand(45,85),ph:rand(0,6),em,p:false};
+    d.addEventListener('pointerdown',e=>{e.preventDefault();pop(b)});stage.appendChild(d);list.push(b);
+  }
+  function pop(b){
+    if(b.p)return;b.p=true;
+    sparks(stage,b.x+b.s/2+Math.sin(performance.now()/800+b.ph)*20,b.y+b.s/2,pickOne(QC),12);b.el.remove();
+    audio();tone(pickOne(PENTA),.3,'sine',.22,0,1.5);
+    if(b.em)say(EM[b.em]);else sfx('pop');
+  }
+  function loop(t){
+    if(!run)return;const dt=Math.min(.05,(t-last)/1000);last=t;
+    spT-=dt;if(spT<=0){spawn();spT=rand(.5,.9)}
+    for(const b of list){if(!b.p){b.y-=b.v*dt;b.el.style.transform=`translate3d(${b.x+Math.sin(t/800+b.ph)*20}px,${b.y}px,0)`}}
+    list=list.filter(b=>{if(b.p)return false;if(b.y<-b.s-20){b.el.remove();return false}return true});
+    raf=requestAnimationFrame(loop);
+  }
+  function start(){
+    stop();stage.innerHTML='';list=[];const r=stage.getBoundingClientRect();W=r.width;H=r.height;
+    for(let i=0;i<4;i++){spawn();list[i].y=rand(H*.2,H*.8)}
+    run=true;last=performance.now();spT=.4;raf=requestAnimationFrame(loop);
+    setPrompt('bubbles','🫧 Chạm vỡ bong bóng nào!','Bé chạm vào bong bóng cho vỡ nhé!');
+  }
+  function stop(){run=false;cancelAnimationFrame(raf)}
+  return{start,stop};
+})();
+
+const SND={
+  horn(){audio();tone(440,.14,'square',.09);tone(440,.24,'square',.09,.2)},
+  siren(){audio();[0,.38,.76].forEach((w,i)=>tone(i%2?880:660,.36,'sine',.16,w))},
+  bell(){audio();tone(1568,.5,'sine',.14);tone(1568,.5,'sine',.12,.28)},
+  train(){audio();tone(392,.45,'triangle',.16);tone(330,.7,'triangle',.16,.42)},
+  plane(){audio();tone(160,1.2,'sawtooth',.05,0,2)}
+};
+function makeBoard(id,stageSel,items,promptHtml,speech,anim){
+  const stage=$(stageSel),TINT=['#fff0f0','#fff6dc','#e9ffef','#e8f3ff','#f3ebff','#ffedf6'];
+  function start(){
+    stage.innerHTML=`<div class="board6">${items.map((it,i)=>`<button class="btile" style="background:${TINT[i%TINT.length]}"><span class="be">${it[0]}</span>${it[1]}</button>`).join('')}</div>`;
+    stage.querySelectorAll('.btile').forEach((b,i)=>b.addEventListener('pointerdown',e=>{
+      e.preventDefault();const it=items[i];b.classList.remove(anim);void b.offsetWidth;b.classList.add(anim);
+      if(it[3])SND[it[3]]();else sfx('boing');
+      say(it[1]+'!');say(it[2],'vi-VN',true);
+    }));
+    setPrompt(id,promptHtml,speech);
+  }
+  return{start,stop(){}};
+}
+const AnimalBoard=makeBoard('animals','#anstage',[['🐶','Con chó','Gâu gâu!'],['🐱','Con mèo','Meo meo!'],['🐮','Con bò','Ụm bò!'],
+  ['🐔','Con gà','Cục ta cục tác!'],['🦆','Con vịt','Cạp cạp!'],['🐷','Con heo','Ụt ịt!']],'🐶 Chạm vào con vật nhé!','Bé chạm vào các con vật nhé!','go');
+const VehicleBoard=makeBoard('vehicles','#vhstage',[['🚗','Ô tô','Bim bim!','horn'],['🚂','Tàu hỏa','Xình xịch, tu tu!','train'],['✈️','Máy bay','Ù ù ù!','plane'],
+  ['🚒','Xe cứu hỏa','Í o, í o!','siren'],['🚌','Xe buýt','Bim bim!','horn'],['🚲','Xe đạp','Kính coong!','bell']],'🚒 Chạm vào xe nhé!','Bé chạm vào các loại xe nhé!','drive');
+
+const Draw=(()=>{
+  const stage=$('#drstage');let cv=null,ctx=null,W=0,H=0,pts={},hue=0,lastNote=0,lw=20;
+  function clear(){ctx.fillStyle='#fff';ctx.fillRect(0,0,W,H)}
+  function start(){
+    stage.innerHTML='<canvas class="drcv"></canvas><button class="clearbtn">🧽</button>';
+    cv=stage.querySelector('canvas');ctx=cv.getContext('2d');const r=stage.getBoundingClientRect(),d=window.devicePixelRatio||1;
+    W=r.width;H=r.height;cv.width=W*d;cv.height=H*d;cv.style.width=W+'px';cv.style.height=H+'px';ctx.setTransform(d,0,0,d,0,0);
+    ctx.lineCap=ctx.lineJoin='round';lw=Math.max(18,Math.min(W,H)*.035);clear();pts={};
+    const pos=e=>{const b=cv.getBoundingClientRect();return[e.clientX-b.left,e.clientY-b.top]};
+    cv.addEventListener('pointerdown',e=>{e.preventDefault();const [x,y]=pos(e);pts[e.pointerId]=[x,y];
+      ctx.fillStyle=`hsl(${hue},90%,55%)`;ctx.beginPath();ctx.arc(x,y,lw/2,0,Math.PI*2);ctx.fill();audio();tone(pickOne(PENTA),.25,'triangle',.12)});
+    cv.addEventListener('pointermove',e=>{
+      const p=pts[e.pointerId];if(!p)return;const [x,y]=pos(e);
+      ctx.strokeStyle=`hsl(${hue},90%,55%)`;ctx.lineWidth=lw;ctx.beginPath();ctx.moveTo(p[0],p[1]);ctx.lineTo(x,y);ctx.stroke();
+      hue=(hue+3)%360;pts[e.pointerId]=[x,y];
+      if(Math.random()<.04){ctx.font=(lw*1.6)+'px serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(pickOne(['✨','⭐','💖']),x+rand(-lw*2,lw*2),y+rand(-lw*2,lw*2))}
+      const now=performance.now();if(now-lastNote>140){lastNote=now;tone(300+(1-y/H)*700,.14,'sine',.07)}
+    });
+    const end=e=>{delete pts[e.pointerId]};['pointerup','pointercancel','pointerleave'].forEach(ev=>cv.addEventListener(ev,end));
+    stage.querySelector('.clearbtn').addEventListener('click',()=>{clear();sfx('boing');say('Xóa rồi! Bé vẽ lại nào!')});
+    setPrompt('draw','🖍️ Vẽ bằng ngón tay nhé!','Bé lấy ngón tay vẽ lên màn hình nhé!');
+  }
+  return{start,stop(){pts={}}};
+})();
+
 /* ---------- Home: age groups ---------- */
 const CARDS={race:['🏎️','Đua xe','Nhận biết số','#ff6b6b','#ff4757'],build:['🔧','Lắp ráp','Hình khối','#ffb84d','#ff8a3d'],
   memory:['🐼','Lật thẻ','Trí nhớ · English','#b57bff','#9b5de5'],balloon:['🎈','Bóng bay','Màu sắc','#4cd9a0','#20b97a'],
@@ -1574,22 +1759,26 @@ const CARDS={race:['🏎️','Đua xe','Nhận biết số','#ff6b6b','#ff4757']
   sorter:['🔺','Hộp hình khối','Kéo thả hình','#ff7eb3','#e8457f'],shadow:['🌑','Tìm bóng','Quan sát','#8a93b8','#5a6290'],
   count:['🔢','Đếm số','Đếm 1–10','#5fd38d','#2fb36a'],pattern:['🧠','Quy luật','Tư duy logic','#c38bff','#8f4fe0'],
   math:['➕','Cộng trừ','Toán trong 10','#ff8a5c','#ff5e3a'],spell:['🔡','Đánh vần','Từ tiếng Anh','#4fc3f7','#1e9be0'],
-  maze:['🌀','Mê cung','Định hướng','#7ed957','#45b026'],clock:['🕐','Xem giờ','Đồng hồ','#ffb347','#ff8a00']};
-const AGES=[{icon:'🐣',label:'2–3 tuổi',say:'hai đến ba',games:['balloon','sound','sorter','feed','piano','paint']},
+  maze:['🌀','Mê cung','Định hướng','#7ed957','#45b026'],
+  tap:['👆','Chạm là vui','Chạm & khám phá','#ff9cc6','#ff6aa8'],peek:['🙈','Ú òa!','Bất ngờ thú vị','#ffd166','#f5a623'],
+  bubbles:['🫧','Bong bóng','Vận động tay','#8fd8ff','#3fa9ec'],animals:['🐶','Con vật','Tên & tiếng kêu','#9fe07c','#55c234'],
+  vehicles:['🚒','Xe cộ','Tên & âm thanh','#ff9f80','#ff6a3d'],draw:['🖍️','Vẽ ngón tay','Sáng tạo','#c8a2ff','#9466ff'],clock:['🕐','Xem giờ','Đồng hồ','#ffb347','#ff8a00']};
+const AGES=[{icon:'👶',label:'1–2 tuổi',say:'một đến hai',games:['tap','peek','bubbles','animals','vehicles','draw','piano']},
+  {icon:'🐣',label:'2–3 tuổi',say:'hai đến ba',games:['balloon','sound','sorter','feed','piano','paint']},
   {icon:'🐥',label:'4–5 tuổi',say:'bốn đến năm',games:['race','count','pattern','shadow','build','puzzle','memory','abc']},
   {icon:'🦉',label:'6–7 tuổi',say:'sáu đến bảy',games:['math','spell','clock','maze','puzzle','memory','abc','piano']}];
 function renderHome(){
   $('#agetabs').innerHTML=AGES.map((a,i)=>`<button class="agetab${i===AGE?' on':''}" data-a="${i}">${a.icon} ${a.label}</button>`).join('');
   $('#grid').innerHTML=AGES[AGE].games.map((g,i)=>{const c=CARDS[g];return`<button class="card" data-game="${g}" style="background:linear-gradient(160deg,${c[3]},${c[4]});animation-delay:${i*.05}s"><span class="ico" style="animation-delay:${(i*.27)%1.2}s">${c[0]}</span>${c[1]}<small>${c[2]}</small></button>`}).join('');
   document.querySelectorAll('.agetab').forEach(b=>b.addEventListener('click',()=>{
-    AGE=+b.dataset.a;try{localStorage.setItem('bevui_age',AGE)}catch(e){}
+    AGE=+b.dataset.a;try{localStorage.setItem('bevui_age2',AGE)}catch(e){}
     sfx('tap');say('Trò chơi cho bé '+AGES[AGE].say+' tuổi');renderHome();
   }));
   document.querySelectorAll('#grid .card').forEach(c=>c.addEventListener('click',()=>{say(CARDS[c.dataset.game][1]);openGame(c.dataset.game)}));
 }
 
 /* ---------- Navigation ---------- */
-const GAMES={race:Race,build:Build,memory:Memory,balloon:Balloon,paint:Paint,puzzle:Puzzle,abc:ABC,feed:Feed,piano:Piano,sound:SoundQ,sorter:Sorter,shadow:ShadowQ,count:CountQ,pattern:PatternQ,math:MathQ,spell:Spell,maze:Maze,clock:ClockQ};
+const GAMES={tap:TapFun,peek:Peek,bubbles:Bubbles,animals:AnimalBoard,vehicles:VehicleBoard,draw:Draw,race:Race,build:Build,memory:Memory,balloon:Balloon,paint:Paint,puzzle:Puzzle,abc:ABC,feed:Feed,piano:Piano,sound:SoundQ,sorter:Sorter,shadow:ShadowQ,count:CountQ,pattern:PatternQ,math:MathQ,spell:Spell,maze:Maze,clock:ClockQ};
 const NAMES={race:'Đua xe!',build:'Lắp ráp!',memory:'Lật thẻ!',balloon:'Bóng bay!',paint:'Tô màu!',puzzle:'Ghép hình!',abc:'Chữ cái!',feed:'Cho thú ăn!',piano:'Đàn piano!'};
 let current=null;
 function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===id))}
@@ -1600,7 +1789,15 @@ function openGame(name){
 }
 function goHome(){if(current)current.stop();current=null;hideWin();hush();show('home')}
 renderHome();
-document.querySelectorAll('.home-btn').forEach(b=>b.addEventListener('click',()=>{sfx('tap');goHome()}));
+document.querySelectorAll('.home-btn').forEach(b=>{
+  let t=0,fired=false;
+  b.addEventListener('pointerdown',()=>{if(AGE!==0)return;fired=false;b.classList.add('holding');t=setTimeout(()=>{fired=true;b.classList.remove('holding');sfx('tap');goHome()},1000)});
+  const cancel=()=>{clearTimeout(t);b.classList.remove('holding')};
+  ['pointerup','pointerleave','pointercancel'].forEach(ev=>b.addEventListener(ev,cancel));
+  b.addEventListener('click',()=>{if(AGE===0){if(!fired)toast('Bố mẹ giữ nút 🏠 khoảng 1 giây để thoát');return}sfx('tap');goHome()});
+});
+let toastT=0;
+function toast(msg){const el=$('#toast');el.textContent=msg;el.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>el.classList.remove('show'),2200)}
 $('#mascot').addEventListener('click',()=>{
   const m=$('#mascot');m.classList.remove('jump');void m.getBoundingClientRect();m.classList.add('jump');
   sfx('boing');say('Chào bé! Mình là Mít. Hôm nay bé muốn chơi gì nào?');
