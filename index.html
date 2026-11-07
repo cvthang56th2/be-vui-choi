@@ -10,6 +10,7 @@
 <meta name="theme-color" content="#6fcbff">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
 <title>Bé Vui Chơi</title>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
 <style>
@@ -1868,6 +1869,10 @@ $('#mascot').addEventListener('click',()=>{
 window.addEventListener('resize',()=>{if(current&&current.resize)current.resize()});
 // unlock audio on first touch (iOS requirement)
 window.addEventListener('pointerdown',()=>audio(),{once:true});
+// Offline + auto-update when hosted (GitHub Pages). Skipped inside the iOS app and sandboxed previews.
+if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost')){
+  window.addEventListener('load',()=>{try{navigator.serviceWorker.register('sw.js').catch(()=>{})}catch(e){}});
+}
 // block pinch / double-tap zoom on iPad
 document.addEventListener('gesturestart',e=>e.preventDefault());
 document.addEventListener('dblclick',e=>e.preventDefault());

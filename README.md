@@ -78,6 +78,14 @@ Dùng Web Speech API có sẵn trên thiết bị. Để giọng rõ hơn trên 
 - Thay giọng máy bằng file âm thanh thu sẵn
 - Thêm game & cấp độ theo tuổi
 
+## ⭐ Cách khuyên dùng: web app trên màn hình chính (không hết hạn, không cần cáp)
+
+1. Push code, bật **Settings → Pages → Branch `main` / `(root)`**.
+2. Trên iPhone/iPad mở `https://cvthang56th2.github.io/be-vui-choi/` bằng **Safari** → nút Chia sẻ → **Thêm vào Màn hình chính** → Thêm.
+3. Mở app từ biểu tượng Mít: chạy toàn màn hình, **chơi được cả khi không có mạng** (service worker lưu sẵn).
+
+Cập nhật: chỉ cần `git push`. App tự tải bản mới ngầm, lần mở sau là bản mới.
+
 ## Cài app iOS lên iPhone/iPad qua cáp (Capacitor + Xcode)
 
 Thư mục `ios/` là project Xcode bọc `index.html` thành app thật (Capacitor 8, Swift Package Manager — không cần CocoaPods).
