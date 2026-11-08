@@ -1,9 +1,12 @@
 {
   "name": "be-vui-choi",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
-    "build": "mkdir -p www && cp index.html apple-touch-icon.png www/",
+    "build": "node scripts/build.mjs",
     "ios": "npm run build && npx cap sync ios && npx cap open ios"
   },
   "dependencies": {

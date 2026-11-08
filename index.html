@@ -38,16 +38,18 @@ button{font-family:inherit;cursor:pointer}
 .title span{display:inline-block;animation:wave 2s ease-in-out infinite}
 .homestars{position:absolute;top:calc(env(safe-area-inset-top) + 2vmin);right:calc(env(safe-area-inset-right) + 3vmin);z-index:2}
 .grid{display:flex;flex-wrap:wrap;justify-content:center;gap:2.4vmin;width:min(94vw,860px);z-index:1;margin-top:1vmin}
-.grid .card{width:calc((100% - 2*2.4vmin)/3)}
-@media (orientation:landscape){.grid{width:min(96vw,1060px)}.grid .card{width:calc((100% - 3*2.4vmin)/4)}.mascot{width:clamp(80px,12vmin,150px)}.bubble{font-size:clamp(16px,2.6vmin,28px)}}
+.grid .card{width:calc((100% - 3*2.4vmin)/4)}
+#home{overflow-y:auto;-webkit-overflow-scrolling:touch;justify-content:flex-start;padding-top:calc(env(safe-area-inset-top) + 2vmin);padding-bottom:calc(env(safe-area-inset-bottom) + 4vmin)}
+#home::before,#home::after{content:'';flex:1 1 0}
+@media (orientation:landscape){.grid{width:min(96vw,1180px)}.grid .card{width:calc((100% - 5*2.4vmin)/6)}.mascot{width:clamp(80px,12vmin,150px)}.bubble{font-size:clamp(16px,2.6vmin,28px)}}
 .grid .card{animation:pop .35s cubic-bezier(.2,1.6,.4,1) backwards}
 .agetabs{display:flex;gap:1.6vmin;z-index:1;flex-wrap:wrap;justify-content:center}
 .agetab{border:none;border-radius:999px;padding:.8vmin 3vmin;font-size:clamp(18px,3vmin,30px);font-weight:800;background:rgba(255,255,255,.6);color:var(--ink);box-shadow:0 5px 0 rgba(0,0,0,.1);transition:transform .15s}
 .agetab.on{background:#fff;color:var(--pink);box-shadow:0 5px 0 var(--pink);transform:scale(1.08)}
-.card{border:none;border-radius:32px;padding:1.8vmin 1vmin;color:#fff;font-size:clamp(20px,3.2vmin,34px);font-weight:800;
+.card{border:none;border-radius:30px;padding:1.6vmin 1vmin;color:#fff;font-size:clamp(17px,2.7vmin,30px);font-weight:800;
   box-shadow:0 10px 0 rgba(0,0,0,.2),inset 0 -8px 0 rgba(0,0,0,.08);display:flex;flex-direction:column;align-items:center;gap:.5vmin;transition:transform .12s;text-shadow:0 3px 0 rgba(0,0,0,.18)}
 .card:active{transform:translateY(7px) scale(.97);box-shadow:0 3px 0 rgba(0,0,0,.2)}
-.card .ico{font-size:clamp(52px,9.5vmin,104px);line-height:1.1;animation:bob 2s ease-in-out infinite;text-shadow:none}
+.card .ico{font-size:clamp(44px,8vmin,90px);line-height:1.1;animation:bob 2s ease-in-out infinite;text-shadow:none}
 .card small{font-size:.55em;font-weight:600;opacity:.95}
 .card:nth-child(2) .ico{animation-delay:.3s}.card:nth-child(3) .ico{animation-delay:.6s}.card:nth-child(4) .ico{animation-delay:.9s}
 .c-race{background:linear-gradient(160deg,#ff6b6b,#ff4757)}
@@ -298,6 +300,149 @@ button{font-family:inherit;cursor:pointer}
 .vtest{align-self:flex-start;border:none;border-radius:999px;padding:8px 18px;font-size:1em;font-weight:800;background:#eef3ff;color:var(--blue)}
 .vtip{background:#fff6d6;border-radius:16px;padding:12px 14px;font-size:.9em;line-height:1.45;font-weight:500}
 
+/* ---------- 40 MORE GAMES ---------- */
+.cdot{display:inline-block;width:1em;height:1em;border-radius:50%;border:.08em solid #fff;box-shadow:0 .06em 0 rgba(0,0,0,.15);vertical-align:middle}
+.shp{width:1em;height:1em;display:inline-block;vertical-align:middle;filter:drop-shadow(0 .05em 0 rgba(0,0,0,.15))}
+.qopt.grpbtn{height:auto;min-height:clamp(110px,17vmin,180px);max-width:44vw;flex-direction:row;flex-wrap:wrap;font-size:clamp(28px,5vmin,52px);padding:2vmin;gap:.12em;line-height:1.1}
+.qopt.txt{font-size:clamp(24px,4.2vmin,42px);padding:0 3.4vmin;min-width:auto}
+.qopt .dts{font-size:.22em;letter-spacing:.05em;opacity:.9;max-width:5.5em;line-height:1.2;white-space:normal;text-align:center}
+.qopt.white .lb{font-size:.3em;font-weight:700}
+.track{position:relative;width:min(86vw,700px);height:clamp(60px,10vmin,90px);background:#565b78;border-radius:20px;border-top:5px dashed #fff;border-bottom:5px dashed #fff}
+.rcar{position:absolute;top:50%;transform:translateY(-50%) scaleX(-1);font-size:clamp(38px,7vmin,64px);transition:left .7s ease;line-height:1}
+.flag{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:clamp(32px,6vmin,56px);line-height:1}
+.lrrow{display:flex;align-items:flex-end;gap:5vmin;font-size:clamp(70px,14vmin,150px);line-height:1;background:rgba(255,255,255,.6);border-radius:30px;padding:2vmin 4vmin}
+.vcol{display:flex;flex-direction:column;align-items:center;font-size:clamp(50px,10vmin,110px);line-height:1.05;background:rgba(255,255,255,.6);border-radius:30px;padding:1.5vmin 5vmin}
+.aqua{position:absolute;inset:0;background:linear-gradient(#8fe3ff,#1f86d6);overflow:hidden;touch-action:none}
+.sand{position:absolute;left:0;right:0;bottom:0;height:14%;background:linear-gradient(#ffe7ad,#f0c062);pointer-events:none}
+.sand span{position:absolute;bottom:55%;font-size:min(10vmin,70px);line-height:1}
+.fish{position:absolute;left:0;top:0;line-height:1;cursor:pointer;transform-origin:center;will-change:transform}
+.fi{display:inline-block}.fi.jump2{animation:jump .6s ease}
+.ubub{position:absolute;border-radius:50%;border:3px solid rgba(255,255,255,.85);background:rgba(255,255,255,.2);pointer-events:none;animation:ubub 1.5s ease-out forwards}
+@keyframes ubub{to{transform:translateY(-220px) scale(1.3);opacity:0}}
+.dn{position:absolute;inset:0;background:linear-gradient(#8fd8ff,#e6fff0);transition:background 1s;overflow:hidden;touch-action:none;cursor:pointer}
+.dn.night{background:linear-gradient(#141640,#3b2f7a)}
+.orbw{position:absolute;left:0;right:0;top:8%;text-align:center}
+.orb{display:inline-block;font-size:min(26vmin,220px);line-height:1;animation:bob 3s ease-in-out infinite}
+.stars2 i{position:absolute;color:#fff6b0;font-size:min(5vmin,34px);opacity:0;transition:opacity 1s;font-style:normal}
+.dn.night .stars2 i{opacity:1;animation:tw 1.6s ease-in-out infinite alternate}
+@keyframes tw{from{opacity:.25}to{opacity:1}}
+.hill{position:absolute;left:-10%;right:-10%;bottom:-30%;height:55%;background:#6cc95a;border-radius:50%;transition:background 1s}
+.dn.night .hill{background:#2d5a3a}
+.dnrow{position:absolute;left:0;right:0;bottom:8%;display:flex;justify-content:space-evenly;z-index:2;font-size:min(12vmin,110px);line-height:1}
+.dna{position:relative;transition:transform .6s;display:inline-block}
+.dna b{position:absolute;right:-.3em;top:-.5em;font-size:.45em;opacity:0;transition:opacity .6s}
+.dn.night .dna{transform:rotate(-14deg) translateY(10%)}
+.dn.night .dna b{opacity:1}
+.eggwrap{position:absolute;inset:0;display:flex;align-items:center;justify-content:space-evenly;background:linear-gradient(transparent 64%,#ffe7a8 64%)}
+.egg{position:relative;width:min(26vmin,220px);aspect-ratio:100/124;cursor:pointer;touch-action:none}
+.eggin{position:absolute;inset:0;transition:transform .4s,opacity .4s}
+.eggin svg{width:100%;height:100%;display:block}
+.eggin.shake{animation:shake .35s}
+.ck{stroke:#2b2350;stroke-width:4;fill:none;stroke-linecap:round;stroke-linejoin:round;opacity:0;transition:opacity .2s}
+.baby{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:min(20vmin,170px);transform:scale(0);transition:transform .5s cubic-bezier(.2,1.6,.4,1);pointer-events:none}
+.egg.hatched .eggin{transform:translateY(20%) scale(.7);opacity:0}
+.egg.hatched .baby{transform:scale(1)}
+.cswrap{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:space-evenly;padding:2vmin}
+.csitems{display:flex;flex-wrap:wrap;gap:3vmin;justify-content:center;min-height:clamp(70px,12vmin,120px)}
+.csi{font-size:clamp(56px,10vmin,100px);line-height:1.1;touch-action:none;cursor:grab;display:flex;align-items:center;justify-content:center}
+.bks{display:flex;gap:6vmin}
+.bk{width:clamp(150px,30vmin,300px);min-height:clamp(140px,24vmin,240px);border-radius:30px;background:#fff;border:8px solid var(--c);display:flex;flex-direction:column;align-items:center;padding:1.5vmin;box-shadow:0 8px 0 rgba(0,0,0,.12)}
+.bk .lbl{font-size:clamp(20px,3.4vmin,34px);font-weight:800;display:flex;align-items:center;gap:.4em}
+.bkin{display:flex;flex-wrap:wrap;justify-content:center;font-size:clamp(34px,6vmin,60px)}
+.bk.ok{animation:hop .25s ease-in-out 2 alternate}
+.wgrid{position:absolute;inset:0;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:3vmin;padding:3vmin 6vmin;background:linear-gradient(#a8ea92,#6cc95a)}
+.hole{position:relative;overflow:hidden;touch-action:none}
+.hole::after{content:'';position:absolute;left:6%;right:6%;bottom:2%;height:26%;background:radial-gradient(#4a2c17,#7a4a2a);border-radius:50%;z-index:2;pointer-events:none}
+.mole{position:absolute;left:0;right:0;bottom:10%;text-align:center;font-size:min(15vmin,130px);line-height:1;transform:translateY(120%);transition:transform .22s;cursor:pointer;z-index:1}
+.mole.up{transform:translateY(0)}
+.mn{position:absolute;top:-.45em;left:50%;transform:translateX(-50%);background:#fff;border-radius:999px;padding:0 .35em;font-size:.42em;font-weight:800;color:var(--ink);border:4px solid #ffd23f;line-height:1.2}
+.mole.bonk{filter:brightness(1.3)}
+.simon{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:3vmin;padding:3vmin 8vmin}
+.spad{border:none;border-radius:40px;opacity:.5;font-size:clamp(60px,12vmin,120px);box-shadow:0 10px 0 rgba(0,0,0,.18);transition:opacity .12s,transform .12s;touch-action:none}
+.spad.lit{opacity:1;transform:scale(1.04);filter:brightness(1.15)}
+.sdwrap{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3vmin}
+@media (orientation:landscape){.sdwrap{flex-direction:row;gap:6vmin}.spal{flex-direction:column}}
+.sgrid{display:grid;grid-template-columns:repeat(2,auto);gap:10px;background:#8f86c9;padding:10px;border-radius:22px;box-shadow:0 8px 0 rgba(0,0,0,.12)}
+.sbox4{display:grid;grid-template-columns:repeat(2,var(--c));gap:5px}
+.scell{width:var(--c);height:var(--c);background:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:calc(var(--c)*.62);cursor:pointer;line-height:1}
+.scell.given{background:#e7e2fb;cursor:default}
+.scell.sel{box-shadow:inset 0 0 0 5px #ffb000}
+.scell.ok{animation:pop .3s}.scell.no{animation:shake .35s}
+.spal{display:flex;gap:2vmin}
+.spb{width:calc(var(--c)*.95);height:calc(var(--c)*.95);border:none;border-radius:20px;background:#fff;font-size:calc(var(--c)*.58);box-shadow:0 6px 0 rgba(0,0,0,.15)}
+.spb:active{transform:translateY(4px)}
+
+/* ---------- 1–2 TUỔI: 10 more ---------- */
+.meadow{position:absolute;inset:0;background:linear-gradient(#bdf0ff 0,#bdf0ff 28%,#9be38a 28%,#6cc95a 100%);overflow:hidden;touch-action:none}
+.pup{position:absolute;left:0;top:0;font-size:min(16vmin,120px);line-height:1;will-change:transform;pointer-events:none;z-index:3}
+.pup span{display:inline-block}.pup.happy span{animation:jump .5s ease}
+.bone{position:absolute;font-size:min(9vmin,64px);line-height:1;transform:translate(-50%,-50%);animation:bob 1.6s ease-in-out infinite;pointer-events:none}
+.paw{position:absolute;font-size:min(4vmin,26px);opacity:.35;transform:translate(-50%,-50%);pointer-events:none;animation:fade 2.2s forwards}
+@keyframes fade{to{opacity:0}}
+.wipewrap{position:absolute;inset:0;background:radial-gradient(circle,#fff8e1,#ffd6a5);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.wipepic{font-size:min(52vmin,420px);line-height:1}
+.wipepic.show{animation:hop .3s ease-in-out 4 alternate}
+.wipecv{position:absolute;inset:0;touch-action:none}
+.pumpwrap{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:4vmin;overflow:hidden}
+.pballoon{position:absolute;left:50%;bottom:34%;width:min(36vmin,300px);transform-origin:50% 100%;transition:transform .25s cubic-bezier(.2,1.6,.4,1)}
+.pballoon .bb{width:100%}
+.pballoon .rider{position:absolute;left:50%;top:100%;transform:translateX(-50%);margin-top:34%;font-size:.55em}
+.pballoon.fly{transition:transform 2.4s ease-in,bottom 2.4s ease-in;bottom:130%!important}
+.pumpbtn{position:relative;z-index:2;border:none;border-radius:999px;padding:2vmin 7vmin;font-family:inherit;font-size:clamp(28px,6vmin,56px);font-weight:800;color:#fff;background:linear-gradient(#ff7a85,#ff4757);box-shadow:0 10px 0 #c02c3a;touch-action:none}
+.pumpbtn:active{transform:translateY(7px);box-shadow:0 3px 0 #c02c3a}
+.gardenw{position:absolute;inset:0;background:linear-gradient(#bdf0ff 0,#e8fbff 35%,#9be38a 35%,#5fbf4f 100%);overflow:hidden;touch-action:none}
+.sun2{position:absolute;right:5%;top:5%;font-size:min(16vmin,120px);animation:bob 4s ease-in-out infinite;pointer-events:none}
+.flw{position:absolute;font-size:min(13vmin,100px);line-height:1;transform:translate(-50%,-90%) scale(0);transform-origin:50% 100%;animation:grow .8s cubic-bezier(.2,1.6,.4,1) forwards;pointer-events:none}
+@keyframes grow{to{transform:translate(-50%,-90%) scale(1)}}
+.bfly{position:absolute;font-size:min(10vmin,70px);pointer-events:none;animation:flyby 5s linear forwards}
+@keyframes flyby{0%{transform:translate(-15vw,0)}25%{transform:translate(25vw,-6vh)}50%{transform:translate(55vw,4vh)}75%{transform:translate(80vw,-5vh)}100%{transform:translate(115vw,0)}}
+.trainw{position:absolute;inset:0;background:linear-gradient(#bdf0ff 0,#e8fbff 55%,#9be38a 55%,#6cc95a 100%);overflow:hidden;touch-action:none}
+.rail{position:absolute;left:0;right:0;bottom:22%;height:14px;background:repeating-linear-gradient(90deg,#7a4a2a 0 18px,transparent 18px 34px),linear-gradient(#555 0 4px,transparent 4px 10px,#555 10px)}
+.trainc{position:absolute;left:0;bottom:calc(22% + 10px);display:flex;align-items:flex-end;will-change:transform;font-size:min(17vmin,140px);line-height:1}
+.car2{position:relative;display:inline-block;cursor:pointer}
+.car2 .rid{position:absolute;left:50%;bottom:62%;transform:translateX(-50%);font-size:.55em}
+.car2.go{animation:jump .5s ease}
+.smoke{position:absolute;font-size:min(7vmin,50px);opacity:.8;pointer-events:none;animation:smoke 1.6s ease-out forwards}
+@keyframes smoke{to{transform:translate(20px,-120px) scale(1.8);opacity:0}}
+.dancew{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:space-evenly;transition:background .6s}
+.dancew.on{background:radial-gradient(circle at 50% 40%,#fff3b0,#ffb3d9 60%,#b3c6ff)}
+.drow{display:flex;gap:4vmin;flex-wrap:wrap;justify-content:center}
+.dan{font-size:min(17vmin,140px);line-height:1;cursor:pointer;touch-action:none;display:inline-block}
+.dancew.on .dan:nth-child(1){animation:dz1 .5s ease-in-out infinite alternate}
+.dancew.on .dan:nth-child(2){animation:dz2 .5s ease-in-out infinite alternate}
+.dancew.on .dan:nth-child(3){animation:dz1 .5s ease-in-out .25s infinite alternate}
+.dancew.on .dan:nth-child(4){animation:dz2 .5s ease-in-out .25s infinite alternate}
+@keyframes dz1{from{transform:translateY(0) rotate(-10deg)}to{transform:translateY(-25%) rotate(10deg)}}
+@keyframes dz2{from{transform:scale(1,1)}to{transform:scale(1.15,.85) translateY(-10%)}}
+.dan.spin{animation:spin .7s ease!important}
+@keyframes spin{to{transform:rotate(360deg)}}
+.playbtn{border:none;border-radius:999px;padding:2vmin 7vmin;font-family:inherit;font-size:clamp(26px,5.5vmin,52px);font-weight:800;color:#fff;background:linear-gradient(#5fe39a,#20b97a);box-shadow:0 10px 0 #128a58}
+.playbtn.on{background:linear-gradient(#ff8a8a,#ff4757);box-shadow:0 10px 0 #c02c3a}
+.icew{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:3vmin;padding:2vmin 2vmin 4vmin}
+.cone{position:relative;width:min(30vmin,220px);display:flex;flex-direction:column-reverse;align-items:center}
+.cone svg{width:70%;display:block}
+.scoop{width:80%;aspect-ratio:1/.8;border-radius:50% 50% 42% 42%;margin-bottom:-22%;box-shadow:inset -8px -10px 0 rgba(0,0,0,.1);animation:drop .35s cubic-bezier(.3,1.4,.5,1)}
+@keyframes drop{from{transform:translateY(-60vh)}to{transform:none}}
+.scoop.eat{animation:eat .3s forwards}@keyframes eat{to{transform:scale(0);opacity:0}}
+.cherry{font-size:min(9vmin,64px);margin-bottom:-6%;animation:drop .35s}
+.flv{display:flex;gap:2.5vmin;flex-wrap:wrap;justify-content:center}
+.flb{width:clamp(70px,12vmin,110px);aspect-ratio:1;border-radius:50%;border:6px solid #fff;font-size:clamp(32px,6vmin,56px);box-shadow:0 7px 0 rgba(0,0,0,.15);touch-action:none}
+.flb:active{transform:translateY(5px)}
+.blockw{position:absolute;inset:0;overflow:hidden;touch-action:none;background:linear-gradient(transparent 88%,#d9b38c 88%)}
+.blk{position:absolute;border-radius:16px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;box-shadow:inset 0 -8px 0 rgba(0,0,0,.15),0 4px 0 rgba(0,0,0,.1);transition:top .45s cubic-bezier(.3,1.3,.5,1)}
+.blk.fall{transition:transform 1s ease-in,top 1s ease-in}
+.flw2{position:absolute;inset:0;overflow:hidden;touch-action:none;background:linear-gradient(#4b5d8f,#2f3b66)}
+.hid{position:absolute;font-size:min(14vmin,110px);line-height:1;transform:translate(-50%,-50%)}
+.hid.found{animation:hop .3s ease-in-out 4 alternate;filter:drop-shadow(0 0 14px #fff6b0)}
+.dark{position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at var(--x) var(--y),transparent 0,transparent var(--r),rgba(5,6,20,.97) calc(var(--r) + 40px))}
+.phonew{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:2vmin}
+.phone{background:linear-gradient(#ff8fc7,#ff5fa2);border-radius:44px;padding:2.4vmin;box-shadow:0 12px 0 #c43b7c;display:flex;flex-direction:column;gap:1.6vmin;width:min(92vw,62vh,520px)}
+.pscreen{background:#e9fff4;border-radius:26px;min-height:min(16vh,130px);display:flex;align-items:center;justify-content:center;font-size:clamp(30px,6vmin,56px);font-weight:800;letter-spacing:.08em;color:var(--ink);overflow:hidden;white-space:nowrap}
+.pscreen .who{font-size:1.9em;animation:hop .3s ease-in-out 6 alternate}
+.keys2{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4vmin}
+.k2{border:none;border-radius:22px;aspect-ratio:1.5;font-family:inherit;font-size:clamp(28px,5.5vmin,52px);font-weight:800;color:#fff;box-shadow:0 6px 0 rgba(0,0,0,.18);touch-action:none}
+.k2:active{transform:translateY(5px);box-shadow:0 1px 0 rgba(0,0,0,.18)}
+
 /* ---------- PHONE (iPhone) ---------- */
 @media (max-width:540px),(max-height:540px){
   .topbar{padding:8px 10px;gap:8px}
@@ -319,6 +464,10 @@ button{font-family:inherit;cursor:pointer}
   .winbox{padding:20px 24px;border-radius:30px}
   .wbtn{padding:10px 22px;font-size:20px}
   .pb{font-size:15px;padding:6px 12px}
+  .bk{width:40vw;min-height:120px;border-width:6px}.csi{font-size:48px}
+  .qopt.grpbtn{min-height:78px;font-size:24px;padding:8px}.qopt.txt{font-size:20px;padding:0 12px}
+  .spad{border-radius:24px}.simon{padding:12px 16px;gap:12px}
+  .track{height:54px}
 }
 @media (max-width:540px) and (orientation:portrait){
   #home{justify-content:flex-start;padding-top:calc(env(safe-area-inset-top) + 64px);overflow-y:auto;-webkit-overflow-scrolling:touch}
@@ -332,7 +481,7 @@ button{font-family:inherit;cursor:pointer}
   .hero{display:none}
   .title{font-size:34px;text-shadow:0 3px 0 var(--pink),0 6px 0 #c43b7c}
   .homestars,.gearbtn{top:calc(env(safe-area-inset-top) + 8px)}
-  .grid{width:min(92vw,760px);gap:8px;margin-top:2px}.grid .card{width:calc((100% - 3*8px)/4);border-radius:18px;font-size:15px;padding:6px 4px;box-shadow:0 5px 0 rgba(0,0,0,.2)}
+  .grid{width:min(92vw,760px);gap:8px;margin-top:2px}.grid .card{width:calc((100% - 5*8px)/6);border-radius:18px;font-size:14px;padding:6px 3px;box-shadow:0 5px 0 rgba(0,0,0,.2)}
   .card .ico{font-size:38px}
   .card small{font-size:10px}
   .qwrap,.abcwrap,.spellwrap{gap:8px;padding:6px}
@@ -506,6 +655,206 @@ button{font-family:inherit;cursor:pointer}
 <section class="screen" id="draw">
   <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
   <div class="stage" id="drstage"></div>
+</section>
+<section class="screen" id="fruitsB">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="fbstage"></div>
+</section>
+<section class="screen" id="colorsB">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="cbstage"></div>
+</section>
+<section class="screen" id="bodyB">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="bdstage"></div>
+</section>
+<section class="screen" id="instr">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="instage"></div>
+</section>
+<section class="screen" id="family">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="fmstage"></div>
+</section>
+<section class="screen" id="aqua">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="aqstage"></div>
+</section>
+<section class="screen" id="daynight">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="dnstage"></div>
+</section>
+<section class="screen" id="fireworks">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="fwstage"></div>
+</section>
+<section class="screen" id="eggs">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="egstage"></div>
+</section>
+<section class="screen" id="shapesB">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="sbstage"></div>
+</section>
+<section class="screen" id="fruitQ">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="fqstage"></div>
+</section>
+<section class="screen" id="colorQ">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="cqstage"></div>
+</section>
+<section class="screen" id="sizeQ">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="szstage"></div>
+</section>
+<section class="screen" id="bodyQ">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="bqstage"></div>
+</section>
+<section class="screen" id="sameQ">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="smstage"></div>
+</section>
+<section class="screen" id="eatQ">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="eqstage"></div>
+</section>
+<section class="screen" id="homeQ">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="hqstage"></div>
+</section>
+<section class="screen" id="count3">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="c3stage"></div>
+</section>
+<section class="screen" id="shapeQ">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="sqstage"></div>
+</section>
+<section class="screen" id="csort">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="csstage"></div>
+</section>
+<section class="screen" id="bigger">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="bgstage"></div>
+</section>
+<section class="screen" id="vnletter">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="vlstage"></div>
+</section>
+<section class="screen" id="moreless">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="mlstage"></div>
+</section>
+<section class="screen" id="oddone">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="oostage"></div>
+</section>
+<section class="screen" id="opposite">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="opstage"></div>
+</section>
+<section class="screen" id="emotion">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="emstage"></div>
+</section>
+<section class="screen" id="nextnum">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="nnstage"></div>
+</section>
+<section class="screen" id="whack">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="wkstage"></div>
+</section>
+<section class="screen" id="simon">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="sistage"></div>
+</section>
+<section class="screen" id="vehq">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="vqstage"></div>
+</section>
+<section class="screen" id="math20">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="m2stage"></div>
+</section>
+<section class="screen" id="compare">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="cpstage"></div>
+</section>
+<section class="screen" id="readvn">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="rvstage"></div>
+</section>
+<section class="screen" id="listen">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="lsstage"></div>
+</section>
+<section class="screen" id="days">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="dystage"></div>
+</section>
+<section class="screen" id="evenodd">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="eostage"></div>
+</section>
+<section class="screen" id="tens">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="tnstage"></div>
+</section>
+<section class="screen" id="sudoku">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="sdstage"></div>
+</section>
+<section class="screen" id="mathrace">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="mrstage"></div>
+</section>
+<section class="screen" id="leftright">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="lrstage"></div>
+</section>
+<section class="screen" id="walk">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="wlstage"></div>
+</section>
+<section class="screen" id="wipe">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="wpstage"></div>
+</section>
+<section class="screen" id="pump">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="pmstage"></div>
+</section>
+<section class="screen" id="garden">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="gdstage"></div>
+</section>
+<section class="screen" id="train">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="trstage"></div>
+</section>
+<section class="screen" id="dance">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="dcstage"></div>
+</section>
+<section class="screen" id="icecream">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="icstage"></div>
+</section>
+<section class="screen" id="blocks">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="blstage"></div>
+</section>
+<section class="screen" id="flashlight">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="flstage"></div>
+</section>
+<section class="screen" id="phone">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="phstage"></div>
 </section>
 <div id="toast"></div>
 <!-- ================= VOICE SETTINGS (for parents) ================= -->
@@ -1451,7 +1800,7 @@ function makeQuiz(cfg){
     stage.innerHTML=`<div class="qwrap"><div class="qarea">${q.html}</div><div class="qopts ${q.cls||''}"></div><div class="dots">${[...Array(cfg.rounds)].map((_,i)=>`<i class="${i<round?'on':''}"></i>`).join('')}</div></div>`;
     const box=stage.querySelector('.qopts');
     q.options.forEach((o,i)=>{
-      const b=document.createElement('button');b.className='qopt'+(o.white?' white':'');
+      const b=document.createElement('button');b.className='qopt'+(o.white?' white':'')+(o.cls?' '+o.cls:'');
       if(!o.white)b.style.background=QC[(i+round)%QC.length];
       b.style.animationDelay=(i*.07)+'s';b.innerHTML=o.html;b.addEventListener('click',()=>tap(b,o));box.appendChild(b);
     });
@@ -1814,6 +2163,649 @@ const Draw=(()=>{
   return{start,stop(){pts={}}};
 })();
 
+/* =====================================================
+   40 MORE GAMES (10 per age group)
+   ===================================================== */
+function viNum(n){
+  const u=['không','một','hai','ba','bốn','năm','sáu','bảy','tám','chín'];
+  if(n<10)return u[n];const t=Math.floor(n/10),r=n%10;let s=t===1?'mười':u[t]+' mươi';
+  if(!r)return s;if(r===1)return s+(t===1?' một':' mốt');if(r===4&&t>1)return s+' tư';if(r===5)return s+' lăm';return s+' '+u[r];
+}
+const pickN=(arr,n)=>shuffle(arr.slice()).slice(0,n);
+const dot=c=>`<span class="cdot" style="background:${c}"></span>`;
+const SHP=(()=>{const st=[...Array(10)].map((_,i)=>{const r=i%2?20:46,a=Math.PI/5*i-Math.PI/2;return(50+r*Math.cos(a)).toFixed(1)+','+(53+r*Math.sin(a)).toFixed(1)}).join(' ');
+  return{circle:['hình tròn','<circle cx="50" cy="50" r="44"/>','Tròn như quả bóng!'],square:['hình vuông','<rect x="8" y="8" width="84" height="84" rx="10"/>','Vuông như cái hộp!'],
+    tri:['hình tam giác','<polygon points="50,6 95,92 5,92" stroke-linejoin="round"/>','Có ba cạnh!'],star:['ngôi sao',`<polygon points="${st}" stroke-linejoin="round"/>`,'Lấp lánh trên trời!'],
+    heart:['trái tim','<path d="M50 90 C20 68 4 50 4 31 C4 15 16 5 30 5 C40 5 47 11 50 19 C53 11 60 5 70 5 C84 5 96 15 96 31 C96 50 80 68 50 90Z"/>','Bé yêu bố mẹ!'],
+    rect:['hình chữ nhật','<rect x="4" y="22" width="92" height="56" rx="10"/>','Dài như cái cửa!']}})();
+const shpSvg=(k,c)=>`<svg class="shp" viewBox="0 0 100 100"><g fill="${c}" stroke="#fff" stroke-width="5">${SHP[k][1]}</g></svg>`;
+const FRUITS=[['🍎','Quả táo','đỏ'],['🍌','Quả chuối','vàng'],['🍇','Chùm nho','tím'],['🍊','Quả cam','cam'],['🍉','Dưa hấu','xanh và đỏ'],['🍓','Quả dâu','đỏ'],
+  ['🍍','Quả dứa','vàng'],['🥭','Quả xoài','vàng'],['🍐','Quả lê','xanh'],['🥥','Quả dừa','nâu'],['🍒','Quả anh đào','đỏ'],['🥝','Quả kiwi','xanh']];
+const COLORS=[['#ff4757','đỏ','Đỏ như quả táo!'],['#ffd23f','vàng','Vàng như quả chuối!'],['#3ddc84','xanh lá','Xanh như chiếc lá!'],['#3d8bff','xanh dương','Xanh như bầu trời!'],
+  ['#9b5de5','tím','Tím như chùm nho!'],['#ff8a3d','cam','Cam như quả cam!'],['#ff5fa2','hồng','Hồng như bông hoa!']];
+const BODY=[['👀','Đôi mắt','Mắt để nhìn!'],['👃','Cái mũi','Mũi để ngửi!'],['👂','Cái tai','Tai để nghe!'],['👄','Cái miệng','Miệng để ăn và nói!'],['✋','Bàn tay','Tay để cầm!'],['🦶','Bàn chân','Chân để đi!'],['🦷','Cái răng','Răng để nhai!']];
+
+/* ---- extra sounds ---- */
+SND.drum=()=>{audio();tone(140,.35,'sine',.45,0,.35);tone(90,.3,'sine',.35,.18,.4)};
+SND.trumpet=()=>{audio();[523,659,784].forEach((f,i)=>tone(f,.25,'sawtooth',.07,i*.18))};
+SND.guitar=()=>{audio();[330,415,494].forEach((f,i)=>tone(f,.6,'triangle',.18,i*.12))};
+SND.piano2=()=>{audio();[262,330,392,523].forEach((f,i)=>tone(f,.4,'triangle',.2,i*.15))};
+SND.violin=()=>{audio();tone(440,.9,'sawtooth',.05);tone(554,.7,'sawtooth',.04,.4)};
+SND.chime=()=>{audio();[784,988,1175].forEach((f,i)=>tone(f,.5,'sine',.12,i*.12))};
+SND.note=()=>{audio();tone(pickOne(PENTA),.4,'triangle',.18)};
+
+/* ================= 1–2 TUỔI ================= */
+const FruitBoard=makeBoard('fruitsB','#fbstage',FRUITS.slice(0,6).map(f=>[f[0],f[1],'Màu '+f[2]+'!','note']),'🍎 Chạm vào trái cây nhé!','Bé chạm vào các loại trái cây nhé!','go');
+const ColorBoard=makeBoard('colorsB','#cbstage',COLORS.slice(0,6).map(c=>[dot(c[0]),'Màu '+c[1],c[2],'note']),'🌈 Chạm vào các màu nhé!','Bé chạm vào các màu nhé!','go');
+const BodyBoard=makeBoard('bodyB','#bdstage',BODY.slice(0,6).map(b=>[b[0],b[1],b[2],'note']),'👀 Cơ thể của bé','Bé chạm vào xem đây là gì nhé!','go');
+const InstrBoard=makeBoard('instr','#instage',[['🥁','Cái trống','Tùng tùng tùng!','drum'],['🎺','Kèn trumpet','Toe toe toe!','trumpet'],['🎸','Đàn ghi-ta','Tưng tưng!','guitar'],
+  ['🔔','Cái chuông','Leng keng!','chime'],['🎹','Đàn piano','Đô rê mi!','piano2'],['🎻','Đàn vi-ô-lông','Du dương!','violin']],'🥁 Chạm để nghe nhạc cụ!','Bé chạm vào nhạc cụ để nghe nhé!','go');
+const FamilyBoard=makeBoard('family','#fmstage',[['👨','Bố','Bố yêu bé!'],['👩','Mẹ','Mẹ yêu bé!'],['👴','Ông','Ông yêu bé!'],['👵','Bà','Bà yêu bé!'],
+  ['👦','Anh trai','Anh chơi với bé!'],['👧','Chị gái','Chị chơi với bé!']].map(x=>x.concat('chime')),'👨‍👩‍👧 Gia đình của bé','Đây là gia đình của bé!','go');
+const ShapeBoard=makeBoard('shapesB','#sbstage',['circle','square','tri','star','heart','rect'].map((k,i)=>[shpSvg(k,QC[i]),cap(SHP[k][0]),SHP[k][2],'note']),'⭐ Chạm vào các hình nhé!','Bé chạm vào các hình nhé!','go');
+
+function bubblesAt(par,x,y){
+  for(let i=0;i<6;i++){const b=document.createElement('div');b.className='ubub';const s=rand(12,30);b.style.width=b.style.height=s+'px';
+    b.style.left=(x+rand(-25,25))+'px';b.style.top=(y+rand(-10,10))+'px';b.style.animationDelay=rand(0,.3)+'s';par.appendChild(b);setTimeout(()=>b.remove(),1900)}
+}
+const Aqua=(()=>{
+  const stage=$('#aqstage'),F=[['🐠','Cá vàng'],['🐟','Cá xanh'],['🐡','Cá nóc'],['🐬','Cá heo'],['🐳','Cá voi'],['🐙','Bạch tuộc']];
+  let list=[],raf=0,run=false,last=0,W=0,H=0;
+  function start(){
+    stop();stage.innerHTML='<div class="aqua"><div class="sand"><span style="left:6%">🌿</span><span style="left:24%">🪸</span><span style="left:46%">🐚</span><span style="left:66%">🌿</span><span style="left:84%">🪸</span></div></div>';
+    const aq=stage.firstChild,r=stage.getBoundingClientRect();W=r.width;H=r.height;list=[];
+    F.forEach(f=>{
+      const el=document.createElement('div');el.className='fish';el.innerHTML=`<span class="fi">${f[0]}</span>`;
+      const sz=Math.max(60,Math.min(130,Math.min(W,H)*.15));el.style.fontSize=sz+'px';
+      const b={el,x:rand(0,W-sz),y:rand(H*.05,H*.68),vx:(Math.random()<.5?-1:1)*rand(40,90),ph:rand(0,6),sz};
+      el.addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();const fi=el.firstChild;fi.classList.remove('jump2');void fi.offsetWidth;fi.classList.add('jump2');
+        audio();tone(pickOne(PENTA),.35,'sine',.2);say(f[1]+'!')});
+      aq.appendChild(el);list.push(b);
+    });
+    aq.addEventListener('pointerdown',e=>{const rr=aq.getBoundingClientRect();bubblesAt(aq,e.clientX-rr.left,e.clientY-rr.top);audio();tone(pickOne(PENTA)/2,.25,'sine',.15,0,1.8)});
+    run=true;last=performance.now();raf=requestAnimationFrame(loop);
+    setPrompt('aqua','🐠 Chạm vào các bạn cá nhé!','Bé chạm vào các bạn cá nhé!');
+  }
+  function loop(t){
+    if(!run)return;const dt=Math.min(.05,(t-last)/1000);last=t;
+    for(const b of list){
+      b.x+=b.vx*dt;if(b.x<0){b.x=0;b.vx=Math.abs(b.vx)}if(b.x>W-b.sz){b.x=W-b.sz;b.vx=-Math.abs(b.vx)}
+      b.el.style.transform=`translate3d(${b.x}px,${b.y+Math.sin(t/700+b.ph)*12}px,0) scaleX(${b.vx>0?-1:1})`;
+    }
+    raf=requestAnimationFrame(loop);
+  }
+  function stop(){run=false;cancelAnimationFrame(raf)}
+  return{start,stop};
+})();
+const DayNight=(()=>{
+  const stage=$('#dnstage');let night=false;
+  function start(){
+    night=false;
+    stage.innerHTML=`<div class="dn"><div class="stars2">${[...Array(18)].map(()=>`<i style="left:${rand(3,95).toFixed(0)}%;top:${rand(3,55).toFixed(0)}%;animation-delay:${rand(0,2).toFixed(1)}s">✦</i>`).join('')}</div>
+      <div class="orbw"><span class="orb">☀️</span></div><div class="hill"></div><div class="dnrow">${['🐔','🐶','🐱','🐮','🐷'].map(a=>`<span class="dna">${a}<b>💤</b></span>`).join('')}</div></div>`;
+    const w=stage.firstChild;
+    w.addEventListener('pointerdown',e=>{
+      e.preventDefault();night=!night;w.classList.toggle('night',night);w.querySelector('.orb').textContent=night?'🌙':'☀️';audio();
+      if(night){[784,659,523,392].forEach((f,i)=>tone(f,.5,'sine',.15,i*.25));say('Trời tối rồi. Các bạn đi ngủ thôi. Chúc ngủ ngon!')}
+      else{[392,523,659,784].forEach((f,i)=>tone(f,.3,'triangle',.18,i*.12));say('Ông mặt trời thức dậy rồi! Chào buổi sáng!')}
+    });
+    setPrompt('daynight','🌞 Chạm để đổi ngày và đêm','Bé chạm vào màn hình để đổi ngày và đêm nhé!');
+  }
+  return{start,stop(){}};
+})();
+const Fireworks=(()=>{
+  const stage=$('#fwstage');let cv,ctx,W=0,H=0,parts=[],rockets=[],raf=0,run=false,last=0,lastSay=0;
+  function start(){
+    stop();stage.innerHTML='<canvas class="drcv" style="background:#141640"></canvas><div class="tapdeco" style="color:rgba(255,255,255,.45)">🎆<br>Chạm để bắn pháo hoa!</div>';
+    cv=stage.querySelector('canvas');ctx=cv.getContext('2d');const r=stage.getBoundingClientRect(),d=window.devicePixelRatio||1;
+    W=r.width;H=r.height;cv.width=W*d;cv.height=H*d;cv.style.width=W+'px';cv.style.height=H+'px';ctx.setTransform(d,0,0,d,0,0);
+    ctx.fillStyle='#141640';ctx.fillRect(0,0,W,H);parts=[];rockets=[];
+    cv.addEventListener('pointerdown',e=>{e.preventDefault();const dd=stage.querySelector('.tapdeco');if(dd)dd.remove();const b=cv.getBoundingClientRect();launch(e.clientX-b.left,e.clientY-b.top)});
+    run=true;last=performance.now();raf=requestAnimationFrame(loop);
+    setPrompt('fireworks','🎆 Chạm để bắn pháo hoa!','Bé chạm vào màn hình để bắn pháo hoa nhé!');
+  }
+  function launch(x,y){rockets.push({x,y:H,ty:Math.min(y,H*.8),vy:-Math.max(520,H*1.2),c:`hsl(${ri(360)},95%,65%)`});audio();tone(300,.45,'sawtooth',.04,0,3)}
+  function burst(x,y){
+    const hue=ri(360);for(let i=0;i<50;i++){const a=Math.random()*Math.PI*2,s=rand(80,300);parts.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:1,c:`hsl(${(hue+ri(70))%360},95%,65%)`})}
+    audio();tone(120,.4,'sine',.35,0,.4);for(let i=0;i<5;i++)tone(rand(1500,3000),.05,'square',.03,.1+i*.06);
+    const n=Date.now();if(n-lastSay>1500){lastSay=n;say(pickOne(['Bùm!','Đẹp quá!','Oa!','Lấp lánh quá!']))}
+  }
+  function loop(t){
+    if(!run)return;const dt=Math.min(.05,(t-last)/1000);last=t;
+    ctx.fillStyle='rgba(20,22,64,.25)';ctx.fillRect(0,0,W,H);
+    rockets=rockets.filter(r=>{r.y+=r.vy*dt;ctx.fillStyle=r.c;ctx.beginPath();ctx.arc(r.x,r.y,5,0,7);ctx.fill();if(r.y<=r.ty){burst(r.x,r.y);return false}return true});
+    parts=parts.filter(p=>{p.vy+=160*dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.vx*=.985;p.life-=dt*.7;ctx.globalAlpha=Math.max(0,p.life);ctx.fillStyle=p.c;ctx.beginPath();ctx.arc(p.x,p.y,4,0,7);ctx.fill();ctx.globalAlpha=1;return p.life>0});
+    raf=requestAnimationFrame(loop);
+  }
+  function stop(){run=false;cancelAnimationFrame(raf)}
+  return{start,stop};
+})();
+const Eggs=(()=>{
+  const stage=$('#egstage'),HB=[['🐥','Gà con'],['🐢','Rùa con'],['🦖','Khủng long con'],['🐊','Cá sấu con'],['🐧','Chim cánh cụt'],['🦆','Vịt con'],['🐍','Rắn con'],['🦜','Vẹt con']],
+    COLS=['#fff3d6','#e6f4ff','#ffe8f2'];let timers=[];
+  const svg=c=>`<svg viewBox="0 0 100 124"><ellipse cx="50" cy="66" rx="42" ry="54" fill="${c}" stroke="#2b2350" stroke-width="4"/><circle cx="34" cy="50" r="6" fill="#ffd0a8"/><circle cx="62" cy="82" r="8" fill="#ffd0a8"/><circle cx="66" cy="40" r="4" fill="#ffd0a8"/>
+    <path class="ck" d="M14 62 L30 54 L40 64 L50 52"/><path class="ck" d="M50 52 L60 66 L72 56 L86 64"/><path class="ck" d="M40 64 L44 82 M60 66 L56 86"/></svg>`;
+  function start(){
+    stop();
+    stage.innerHTML='<div class="eggwrap">'+COLS.map(c=>`<div class="egg" data-s="0"><div class="eggin">${svg(c)}</div><div class="baby"></div></div>`).join('')+'</div>';
+    stage.querySelectorAll('.egg').forEach(eg=>eg.addEventListener('pointerdown',e=>{
+      e.preventDefault();let s=+eg.dataset.s;if(s>=3)return;s++;eg.dataset.s=s;
+      const ein=eg.querySelector('.eggin');ein.classList.remove('shake');void ein.offsetWidth;ein.classList.add('shake');
+      eg.querySelectorAll('.ck').forEach((c,i)=>c.style.opacity=i<s?1:0);audio();tone(300+s*140,.15,'square',.08);
+      if(s<3){say(s===1?'Cốc!':'Cốc cốc!');return}
+      const a=pickOne(HB);eg.querySelector('.baby').textContent=a[0];
+      timers.push(setTimeout(()=>{eg.classList.add('hatched');audio();tone(400,.4,'sine',.2,0,2.5);addStar();say(`Ồ! ${a[1]} chui ra rồi!`)},250));
+      timers.push(setTimeout(()=>{eg.classList.remove('hatched');eg.dataset.s=0;eg.querySelectorAll('.ck').forEach(c=>c.style.opacity=0)},4200));
+    }));
+    setPrompt('eggs','🥚 Gõ vào trứng xem ai chui ra!','Bé gõ vào quả trứng ba lần xem ai chui ra nhé!');
+  }
+  function stop(){timers.forEach(clearTimeout);timers=[]}
+  return{start,stop};
+})();
+
+/* ================= 2–3 TUỔI ================= */
+const FruitQ=makeQuiz({id:'fruitQ',stage:'#fqstage',rounds:6,winMsg:'Bé biết nhiều trái cây quá! 🍎',gen(){
+  const o=pickN(FRUITS,3),a=pickOne(o);
+  return{html:`<button class="qtext" data-replay>🔊 ${a[1]}</button>`,prompt:`🔊 ${a[1]} đâu?`,speech:`${a[1]} đâu nhỉ?`,
+    options:o.map(x=>({white:true,html:x[0],correct:x===a,say:`Đây là ${x[1].toLowerCase()}. Thử lại nhé!`})),onCorrect(){say(`Đúng rồi! ${a[1]}!`);return 1800}};
+}});
+const ColorQ=makeQuiz({id:'colorQ',stage:'#cqstage',rounds:6,winMsg:'Bé biết nhiều màu quá! 🎨',gen(){
+  const o=pickN(COLORS,3),a=pickOne(o);
+  return{html:`<button class="qtext" data-replay>🔊 Màu ${a[1]}</button>`,prompt:`🔊 Màu ${a[1]} đâu?`,speech:`Màu ${a[1]} đâu nhỉ?`,
+    options:o.map(x=>({white:true,html:dot(x[0]),correct:x===a,say:`Đây là màu ${x[1]}.`})),onCorrect(){say(`Đúng rồi! ${a[2]}`);return 2000}};
+}});
+const SizeQ=makeQuiz({id:'sizeQ',stage:'#szstage',rounds:6,winMsg:'Bé phân biệt to nhỏ giỏi quá! 🐘',gen(){
+  const it=pickOne([['🐘','Con voi'],['🍎','Quả táo'],['🐶','Chú chó'],['⭐','Ngôi sao'],['🚗','Chiếc xe'],['🎈','Quả bóng'],['🐟','Con cá'],['🌸','Bông hoa']]),big=Math.random()<.5,w=big?'to':'nhỏ';
+  return{html:`<div class="qtext">${big?'TO 🔼':'NHỎ 🔽'}</div>`,prompt:`🔊 ${it[1]} nào ${w}?`,speech:`${it[1]} nào ${w}?`,
+    options:shuffle([1,0]).map(b=>({white:true,html:`<span style="font-size:${b?1.3:.5}em;line-height:1">${it[0]}</span>`,correct:!!b===big,say:`Cái này ${b?'to':'nhỏ'}. Bé tìm cái ${w} nhé!`})),
+    onCorrect(){say(`Đúng rồi! ${it[1]} này ${w}!`);return 1800}};
+}});
+const BodyQ=makeQuiz({id:'bodyQ',stage:'#bqstage',rounds:6,winMsg:'Bé biết các bộ phận cơ thể! 👀',gen(){
+  const o=pickN(BODY,3),a=pickOne(o);
+  return{html:`<button class="qtext" data-replay>🔊 ${a[1]}</button>`,prompt:`🔊 ${a[1]} đâu?`,speech:`${a[1]} đâu nhỉ?`,
+    options:o.map(x=>({white:true,html:x[0],correct:x===a,say:`Đây là ${x[1].toLowerCase()}.`})),onCorrect(){say(`Đúng rồi! ${a[2]}`);return 2000}};
+}});
+const SAMEPOOL=['🐶','🐱','🐰','🐼','🦊','🐻','🐨','🐯','🦁','🐮','🐷','🐸','🐵','🐔','🐧','🐤','🍎','🍌','🍇','🍓','🚗','🚌','🚲','⭐','🌸','🎈','⚽','🧸'];
+const SameQ=makeQuiz({id:'sameQ',stage:'#smstage',rounds:6,winMsg:'Bé tinh mắt quá! 👀',gen(){
+  const o=pickN(SAMEPOOL,3),a=pickOne(o);
+  return{html:`<div class="qbig">${a}</div>`,prompt:'🔊 Tìm hình giống hệt',speech:'Bé tìm hình giống hệt hình này nhé!',
+    options:o.map(x=>({white:true,html:x,correct:x===a,say:'Chưa giống, bé nhìn kỹ lại nhé!'}))};
+}});
+const EATS=[['🐰','Thỏ','🥕','cà rốt'],['🐵','Khỉ','🍌','chuối'],['🐼','Gấu trúc','🎋','tre'],['🐶','Cún','🦴','xương'],['🐱','Mèo','🐟','cá'],['🐻','Gấu','🍯','mật ong'],['🐔','Gà','🌽','ngô'],['🐭','Chuột','🧀','phô mai'],['🐦','Chim','🐛','sâu']];
+const EatQ=makeQuiz({id:'eatQ',stage:'#eqstage',rounds:6,winMsg:'Bé biết các bạn thích ăn gì! 🥕',gen(){
+  const o=pickN(EATS,3),a=pickOne(o);
+  return{html:`<div class="qbig">${a[0]}</div>`,prompt:`🔊 ${a[1]} thích ăn gì?`,speech:`${a[1]} thích ăn gì nhỉ?`,
+    options:o.map(x=>({white:true,html:x[2],correct:x===a,say:`Đây là ${x[3]}. ${x[1]} mới thích ăn ${x[3]}!`})),onCorrect(){say(`Đúng rồi! ${a[1]} thích ăn ${a[3]}!`);return 2000}};
+}});
+const HOMES=[['🌊','Dưới nước'],['🌳','Trên cây'],['🏡','Trang trại']];
+const HomeQ=makeQuiz({id:'homeQ',stage:'#hqstage',rounds:6,winMsg:'Bé biết nhà của các con vật! 🏡',gen(){
+  const a=pickOne([['🐟','Con cá',0],['🐙','Bạch tuộc',0],['🐬','Cá heo',0],['🦀','Con cua',0],['🐦','Con chim',1],['🦉','Cú mèo',1],['🐿️','Con sóc',1],['🐒','Con khỉ',1],['🐮','Con bò',2],['🐷','Con heo',2],['🐔','Con gà',2],['🐑','Con cừu',2]]);
+  return{html:`<div class="qbig">${a[0]}</div>`,prompt:`🔊 ${a[1]} sống ở đâu?`,speech:`${a[1]} sống ở đâu nhỉ?`,
+    options:HOMES.map((h,i)=>({white:true,html:`${h[0]}<span class="lb">${h[1]}</span>`,correct:i===a[2],say:`Không phải ${h[1].toLowerCase()}. Thử lại nhé!`})),
+    onCorrect(){say(`Đúng rồi! ${a[1]} sống ${HOMES[a[2]][1].toLowerCase()}!`);return 2000}};
+}});
+const Count3Q=makeQuiz({id:'count3',stage:'#c3stage',rounds:6,winMsg:'Bé đếm giỏi quá! 3️⃣',gen(){
+  const n=1+ri(3),it=pickOne(COUNTI);
+  return{html:`<div class="cbox">${[...Array(n)].map(()=>`<span class="citem">${it[0]}</span>`).join('')}</div>`,prompt:`🔊 Có mấy ${it[0]}?`,speech:`Có mấy ${it[1]} nhỉ?`,
+    options:[1,2,3].map(m=>({html:m,correct:m===n,say:'Bé chỉ tay đếm lại nhé!'})),
+    onCorrect(st){st.querySelectorAll('.citem').forEach((e,i)=>setTimeout(()=>e.insertAdjacentHTML('beforeend',`<b>${i+1}</b>`),i*500));say(NUMW.slice(1,n+1).map(cap).join(', ')+'!');return n*500+1500}};
+}});
+const ShapeQ=makeQuiz({id:'shapeQ',stage:'#sqstage',rounds:6,winMsg:'Bé biết nhiều hình quá! 🔷',gen(){
+  const ks=pickN(['circle','square','tri','star','heart'],3),a=pickOne(ks),cols=pickN(QC,3);
+  return{html:`<button class="qtext" data-replay>🔊 ${cap(SHP[a][0])}</button>`,prompt:`🔊 ${cap(SHP[a][0])} đâu?`,speech:`${cap(SHP[a][0])} đâu nhỉ?`,
+    options:ks.map((k,i)=>({white:true,html:shpSvg(k,cols[i]),correct:k===a,say:`Đây là ${SHP[k][0]}.`})),onCorrect(){say(`Đúng rồi! ${cap(SHP[a][0])}! ${SHP[a][2]}`);return 2000}};
+}});
+const CSort=(()=>{
+  const CS=[['đỏ','#ff4757',['🍎','🍓','🍒','🌹','🚒','🍅']],['vàng','#ffd23f',['🍌','🌻','🐥','⭐','🍋','🧀']],['xanh lá','#3ddc84',['🥦','🍀','🐸','🥒','🍏','🌲']],['xanh dương','#3d8bff',['🐳','💙','🧢','🫐','🧊','🦋']]];
+  const stage=$('#csstage'),ROUNDS=3;let round=0,left=0,cols=null,tmr=0;
+  function start(){round=0;next()}
+  function next(){
+    clearTimeout(tmr);cols=pickN(CS,2);const items=shuffle(cols.flatMap((c,ci)=>pickN(c[2],3).map(e=>[e,ci])));left=items.length;
+    stage.innerHTML=`<div class="cswrap"><div class="csitems">${items.map(([e,ci])=>`<div class="csi" data-c="${ci}">${e}</div>`).join('')}</div>
+      <div class="bks">${cols.map((c,ci)=>`<div class="bk" data-c="${ci}" style="--c:${c[1]}"><div class="lbl">🧺 ${dot(c[1])}</div><div class="bkin"></div></div>`).join('')}</div></div>`;
+    stage.querySelectorAll('.csi').forEach(el=>dragDom(el,drop));
+    setPrompt('csort',`🔊 Xếp đồ vào giỏ cùng màu`,`Bé kéo đồ màu ${cols[0][0]} vào giỏ màu ${cols[0][0]}, đồ màu ${cols[1][0]} vào giỏ màu ${cols[1][0]} nhé!`);
+  }
+  function drop(el,x,y,back){
+    const bk=[...stage.querySelectorAll('.bk')].find(b=>{const r=b.getBoundingClientRect();return x>r.left-20&&x<r.right+20&&y>r.top-20&&y<r.bottom+20});
+    const ci=+el.dataset.c;
+    if(bk&&+bk.dataset.c===ci){
+      const e=el.textContent;el.remove();bk.querySelector('.bkin').insertAdjacentHTML('beforeend',`<span>${e}</span>`);
+      bk.classList.remove('ok');void bk.offsetWidth;bk.classList.add('ok');sfx('snap');addStar();say('Màu '+cols[ci][0]+'!');left--;
+      if(!left){round++;tmr=setTimeout(()=>round>=ROUNDS?win('Bé xếp màu giỏi quá! 🧺',start):(sfx('ding'),say(pickOne(PRAISE)),next()),1300)}
+    }else{back();if(bk){sfx('boing');say('Cái này màu '+cols[ci][0]+' mà!')}}
+  }
+  return{start,stop:()=>clearTimeout(tmr)};
+})();
+
+/* ================= 4–5 TUỔI ================= */
+const BiggerQ=makeQuiz({id:'bigger',stage:'#bgstage',rounds:8,winMsg:'Bé so sánh số giỏi quá! 🔢',gen(r){
+  let a=1+ri(10),b;do{b=1+ri(10)}while(b===a);const big=r<3||Math.random()<.6,ans=big?Math.max(a,b):Math.min(a,b),w=big?'lớn hơn':'bé hơn';
+  return{html:`<div class="qtext">Số nào ${w.toUpperCase()}?</div>`,prompt:`🔊 Số nào ${w}?`,speech:`Số nào ${w}?`,
+    options:[a,b].map(n=>({html:`${n}<small class="dts">${'●'.repeat(n)}</small>`,correct:n===ans,say:`Chưa đúng. Bé đếm các chấm nhé!`})),
+    onCorrect(){say(`Đúng rồi! ${cap(viNum(ans))} ${w} ${viNum(ans===a?b:a)}!`);return 2000}};
+}});
+const VL=[['A','a','áo','👕'],['Ă','á','ăn','🍚'],['Â','ớ','ấm','🫖'],['B','bờ','bò','🐮'],['C','cờ','cá','🐟'],['D','dờ','dê','🐐'],['Đ','đờ','đèn','💡'],['E','e','em bé','👶'],
+  ['Ê','ê','ếch','🐸'],['G','gờ','gà','🐔'],['H','hờ','hoa','🌸'],['K','ca','kem','🍦'],['L','lờ','lá','🍃'],['M','mờ','mèo','🐱'],['N','nờ','nấm','🍄'],['O','o','ong','🐝'],
+  ['Ô','ô','ô tô','🚗'],['Ơ','ơ','ớt','🌶️'],['P','pờ','pin','🔋'],['Q','quờ','quà','🎁'],['R','rờ','rùa','🐢'],['S','sờ','sao','⭐'],['T','tờ','táo','🍎'],['U','u','ủng','👢'],['V','vờ','voi','🐘'],['X','xờ','xe đạp','🚲']];
+const VNLetterQ=makeQuiz({id:'vnletter',stage:'#vlstage',rounds:8,winMsg:'Bé biết nhiều chữ cái tiếng Việt! 🅰️',gen(){
+  const a=pickOne(VL),o=[a].concat(pickN(VL.filter(x=>x!==a),2));
+  return{html:`<div class="qbig">${a[3]}</div><div class="qtext"><span style="color:#ff4757">_</span>${a[2].slice(1)}</div>`,prompt:`🔊 Chữ đầu tiên là chữ gì?`,
+    speech:()=>{say(cap(a[2])+'. Chữ đầu tiên là chữ gì nhỉ?')},
+    options:shuffle(o).map(x=>({html:x[0],correct:x===a,say:`Đây là chữ ${x[1]}. Thử lại nhé!`})),
+    onCorrect(st){st.querySelector('.qtext').innerHTML=`<span style="color:#13a89e">${a[2].charAt(0)}</span>${a[2].slice(1)}`;say(`Đúng rồi! Chữ ${a[1]}. ${cap(a[2])}!`);return 2200}};
+}});
+const MoreLessQ=makeQuiz({id:'moreless',stage:'#mlstage',rounds:6,winMsg:'Bé so sánh nhiều ít giỏi quá! 🍬',gen(){
+  let a=1+ri(9),b;do{b=1+ri(9)}while(Math.abs(a-b)<2);const more=Math.random()<.5,ans=more?Math.max(a,b):Math.min(a,b),it=pickOne(COUNTI),w=more?'nhiều hơn':'ít hơn';
+  return{html:`<div class="qtext">Bên nào ${w.toUpperCase()}?</div>`,prompt:`🔊 Bên nào ${w}?`,speech:`Bên nào có ${w} ${it[1]}?`,
+    options:[a,b].map(n=>({white:true,cls:'grpbtn',html:it[0].repeat(n),correct:n===ans,say:'Bé đếm thử xem nhé!'})),
+    onCorrect(){say(`Đúng rồi! Bên này có ${viNum(ans)} ${it[1]}, ${w}!`);return 2200}};
+}});
+const CATS=[['trái cây',['🍎','🍌','🍇','🍊','🍉','🍓','🍐']],['con vật',['🐶','🐱','🐰','🐼','🦁','🐮','🐸']],['xe cộ',['🚗','🚌','🚲','✈️','🚂','🚀','🚁']],['quần áo',['👕','👖','👗','🧦','🧢','👟','🧤']]];
+const OddQ=makeQuiz({id:'oddone',stage:'#oostage',rounds:6,winMsg:'Bé phân loại giỏi quá! 🧐',gen(){
+  const [A,B]=pickN(CATS,2),odd=pickOne(B[1]),o=shuffle(pickN(A[1],3).concat(odd));
+  return{html:`<div class="qtext">Cái nào KHÁC nhóm?</div>`,prompt:'🔊 Cái nào khác nhóm?',speech:'Cái nào không cùng nhóm với các bạn còn lại?',
+    options:o.map(x=>({white:true,html:x,correct:x===odd,say:`Cái này là ${A[0]}, giống các bạn khác mà!`})),onCorrect(){say(`Đúng rồi! Cái đó là ${B[0]}, còn lại đều là ${A[0]}!`);return 2400}};
+}});
+const OPP=[[['🔥','Cái nào nóng?'],['🧊','Cái nào lạnh?']],[['🐘','Con nào to?'],['🐭','Con nào nhỏ?']],[['☀️','Hình nào là ban ngày?'],['🌙','Hình nào là ban đêm?']],
+  [['😀','Bạn nào đang vui?'],['😢','Bạn nào đang buồn?']],[['🐇','Con nào chạy nhanh?'],['🐢','Con nào đi chậm?']],[['🦒','Con nào cao?'],['🐧','Con nào thấp?']],[['🍦','Món nào lạnh?'],['🍵','Món nào nóng?']]];
+const OppQ=makeQuiz({id:'opposite',stage:'#opstage',rounds:6,winMsg:'Bé hiểu từ trái nghĩa rồi! 🔥',gen(){
+  const p=pickOne(OPP),i=ri(2),a=p[i];
+  return{html:`<div class="qtext">${a[1]}</div>`,prompt:'🔊 '+a[1],speech:a[1],
+    options:shuffle([0,1]).map(k=>({white:true,html:p[k][0],correct:k===i,say:'Ngược lại rồi. Thử lại nhé!'})),onCorrect(){say(pickOne(PRAISE));return 1500}};
+}});
+const FEEL=[['😀','vui'],['😢','buồn'],['😠','tức giận'],['😮','ngạc nhiên'],['😴','buồn ngủ'],['😨','sợ hãi']];
+const EmotionQ=makeQuiz({id:'emotion',stage:'#emstage',rounds:6,winMsg:'Bé hiểu cảm xúc của bạn bè! 😊',gen(){
+  const o=pickN(FEEL,3),a=pickOne(o);
+  return{html:`<div class="qtext">Bạn nào đang ${a[1].toUpperCase()}?</div>`,prompt:`🔊 Bạn nào đang ${a[1]}?`,speech:`Bạn nào đang ${a[1]}?`,
+    options:o.map(x=>({white:true,html:x[0],correct:x===a,say:`Bạn này đang ${x[1]}.`})),onCorrect(){say(`Đúng rồi! Bạn ấy đang ${a[1]}!`);return 1900}};
+}});
+const NextNumQ=makeQuiz({id:'nextnum',stage:'#nnstage',rounds:8,winMsg:'Bé biết dãy số rồi! ➡️',gen(r){
+  const step=r<3?1:pickOne([1,1,2,-1]),len=4;let s=step>0?1+ri(20-step*len):len+ri(20-len);
+  const seq=[...Array(len)].map((_,i)=>s+i*step),ans=s+len*step,o=new Set([ans]);while(o.size<3){const m=ans+pickOne([-2,-1,1,2]);if(m>=0)o.add(m)}
+  return{html:`<div class="seq">${seq.map(n=>`<span>${n}</span>`).join('')}<span class="q">❓</span></div>`,prompt:'🔊 Số tiếp theo là số mấy?',speech:'Số tiếp theo là số mấy?',
+    options:shuffle([...o]).map(n=>({html:n,correct:n===ans,say:'Bé đếm theo dãy số nhé!'})),
+    onCorrect(st){const q=st.querySelector('.seq .q');q.className='';q.textContent=ans;say(`Đúng rồi! Số ${viNum(ans)}!`);return 1800}};
+}});
+const VehQ=makeQuiz({id:'vehq',stage:'#vqstage',rounds:6,winMsg:'Bé biết xe đi ở đâu rồi! 🚢',gen(){
+  const P=[['🛣️','Trên đường'],['🌊','Trên biển'],['☁️','Trên trời']];
+  const a=pickOne([['🚗','Ô tô',0],['🚌','Xe buýt',0],['🚲','Xe đạp',0],['🚜','Máy cày',0],['⛵','Thuyền buồm',1],['🚢','Tàu thủy',1],['🚤','Ca nô',1],['✈️','Máy bay',2],['🚁','Trực thăng',2],['🚀','Tên lửa',2]]);
+  return{html:`<div class="qbig">${a[0]}</div>`,prompt:`🔊 ${a[1]} đi ở đâu?`,speech:`${a[1]} đi ở đâu nhỉ?`,
+    options:P.map((p,i)=>({white:true,html:`${p[0]}<span class="lb">${p[1]}</span>`,correct:i===a[2],say:'Chưa đúng. Thử lại nhé!'})),onCorrect(){say(`Đúng rồi! ${a[1]} đi ${P[a[2]][1].toLowerCase()}!`);return 2000}};
+}});
+const Whack=(()=>{
+  const stage=$('#wkstage'),GOAL=10;let target=0,hits=0,tick=0,run=false,timers=[];
+  function start(){
+    stop();hits=0;run=true;
+    stage.innerHTML=`<div class="wgrid">${[...Array(6)].map(()=>`<div class="hole"><div class="mole"><span class="mn"></span>🐹</div></div>`).join('')}</div>`;
+    stage.querySelectorAll('.mole').forEach(m=>m.addEventListener('pointerdown',e=>{
+      e.preventDefault();if(!m.classList.contains('up')||m.dataset.hit)return;const n=+m.dataset.n;
+      if(n===target){m.dataset.hit=1;m.classList.add('bonk');m.querySelector('.mn').textContent='⭐';sfx('ding');addStar();hits++;
+        setTimeout(()=>m.classList.remove('up'),250);setPrompt('whack',`🔊 Đập chuột số <b style="color:#ff4757;font-size:1.2em">${target}</b> &nbsp;${hits}/${GOAL}`);
+        if(hits>=GOAL){run=false;stop();setTimeout(()=>win('Bé đập chuột giỏi quá! 🐹',start),500);return}
+        if(hits%4===0)setTimeout(newTarget,400);else say(pickOne(['Bốp!','Trúng rồi!','Giỏi!']));
+      }else{sfx('boing');say('Đây là số '+viNum(n)+'!')}
+    }));
+    newTarget();tick=setInterval(pop,800);
+  }
+  function newTarget(){if(!run)return;let t;do{t=1+ri(9)}while(t===target);target=t;
+    setPrompt('whack',`🔊 Đập chuột số <b style="color:#ff4757;font-size:1.2em">${target}</b> &nbsp;${hits}/${GOAL}`,`Bé đập chú chuột có số ${viNum(target)} nhé!`)}
+  function pop(){
+    if(!run)return;const free=[...stage.querySelectorAll('.mole:not(.up)')];if(!free.length)return;
+    const m=pickOne(free),n=Math.random()<.45?target:1+ri(9);m.dataset.n=n;delete m.dataset.hit;m.classList.remove('bonk');m.querySelector('.mn').textContent=n;m.classList.add('up');
+    timers.push(setTimeout(()=>m.classList.remove('up'),rand(1500,2100)));
+  }
+  function stop(){run=false;clearInterval(tick);timers.forEach(clearTimeout);timers=[]}
+  return{start,stop};
+})();
+const Simon=(()=>{
+  const stage=$('#sistage'),P=[['#ff4757','🐱',262],['#3d8bff','🐶',330],['#ffd23f','🐥',392],['#3ddc84','🐸',523]];
+  let seq=[],pos=0,lock=true,timers=[],pads=[];const GOAL=6;
+  function light(i,ms){audio();tone(P[i][2],ms/1000,'triangle',.25);pads[i].classList.add('lit');timers.push(setTimeout(()=>pads[i].classList.remove('lit'),ms-60))}
+  function start(){
+    stop();stage.innerHTML=`<div class="simon">${P.map(p=>`<button class="spad" style="background:${p[0]}">${p[1]}</button>`).join('')}</div>`;
+    pads=[...stage.querySelectorAll('.spad')];pads.forEach((b,i)=>b.addEventListener('pointerdown',e=>{e.preventDefault();press(i)}));
+    seq=[ri(4),ri(4)];timers.push(setTimeout(play,900));
+    setPrompt('simon','🔊 Nhìn kỹ rồi bấm lại theo thứ tự','Bé nhìn và nghe thật kỹ, rồi bấm lại theo đúng thứ tự nhé!');
+  }
+  function play(){lock=true;pos=0;seq.forEach((k,j)=>timers.push(setTimeout(()=>light(k,520),j*700)));timers.push(setTimeout(()=>{lock=false;say('Đến lượt bé!')},seq.length*700+100))}
+  function press(i){
+    if(lock)return;light(i,300);
+    if(i!==seq[pos]){lock=true;sfx('boing');say('Ôi, chưa đúng. Mình xem lại nhé!');timers.push(setTimeout(play,1600));return}
+    pos++;
+    if(pos===seq.length){lock=true;addStar();
+      if(seq.length>=GOAL){timers.push(setTimeout(()=>win('Bé có trí nhớ siêu giỏi! 🎵',start),600));return}
+      say(pickOne(PRAISE));seq.push(ri(4));timers.push(setTimeout(play,1400));
+    }
+  }
+  function stop(){timers.forEach(clearTimeout);timers=[];lock=true}
+  return{start,stop};
+})();
+
+/* ================= 6–7 TUỔI ================= */
+function arith(max){const plus=Math.random()<.5;let a,b;if(plus){a=1+ri(max-1);b=1+ri(max-a)}else{a=2+ri(max-1);b=1+ri(a-1)}return{a,b,plus,ans:plus?a+b:a-b,op:plus?'cộng':'trừ',sym:plus?'+':'−'}}
+function numOpts(ans,n,spread){const o=new Set([ans]);while(o.size<n){const m=ans+ri(spread*2+1)-spread;if(m>=0)o.add(m)}return shuffle([...o])}
+const Math20Q=makeQuiz({id:'math20',stage:'#m2stage',rounds:10,winMsg:'Bé làm toán đến 20 giỏi quá! 🧮',gen(){
+  const p=arith(20);
+  return{html:`<div class="qtext" style="font-size:clamp(48px,10vmin,100px)">${p.a} ${p.sym} ${p.b} = <span class="ans" style="color:#ff4757">?</span></div>`,prompt:`🔊 ${p.a} ${p.sym} ${p.b} = ?`,speech:`${cap(viNum(p.a))} ${p.op} ${viNum(p.b)} bằng mấy?`,
+    options:numOpts(p.ans,4,3).map(m=>({html:m,correct:m===p.ans,say:'Chưa đúng, bé tính lại nhé!'})),
+    onCorrect(st){st.querySelector('.ans').textContent=p.ans;say(`${cap(viNum(p.a))} ${p.op} ${viNum(p.b)} bằng ${viNum(p.ans)}!`);return 2200}};
+}});
+const CompareQ=makeQuiz({id:'compare',stage:'#cpstage',rounds:8,winMsg:'Bé so sánh số siêu giỏi! ⚖️',gen(){
+  const a=ri(21),b=Math.random()<.25?a:ri(21),ans=a>b?'>':a<b?'<':'=',W={'>':'lớn hơn','<':'bé hơn','=':'bằng'};
+  return{html:`<div class="qtext" style="font-size:clamp(52px,11vmin,110px)">${a} <span class="ans" style="color:#ff4757">?</span> ${b}</div>`,prompt:`🔊 ${a} ? ${b}`,speech:`So sánh ${viNum(a)} và ${viNum(b)}`,
+    options:['>','<','='].map(x=>({html:`${x}<small>${W[x]}</small>`,correct:x===ans,say:`${cap(viNum(a))} không ${W[x]} ${viNum(b)}. Thử lại nhé!`})),
+    onCorrect(st){st.querySelector('.ans').textContent=ans;say(`${cap(viNum(a))} ${W[ans]} ${viNum(b)}!`);return 2000}};
+}});
+const RV=[['🐮','con bò'],['🐔','con gà'],['🐟','con cá'],['🐱','con mèo'],['🐶','con chó'],['🦆','con vịt'],['🐷','con heo'],['🐘','con voi'],['🐝','con ong'],
+  ['🚗','ô tô'],['🚲','xe đạp'],['🏠','ngôi nhà'],['🌸','bông hoa'],['🍎','quả táo'],['☀️','mặt trời'],['🌙','mặt trăng'],['⭐','ngôi sao'],['🌳','cái cây'],['📖','quyển sách'],['🎈','bóng bay']];
+const ReadVNQ=makeQuiz({id:'readvn',stage:'#rvstage',rounds:8,winMsg:'Bé đọc chữ giỏi quá! 📖',gen(){
+  const o=pickN(RV,3),a=pickOne(o);
+  return{html:`<div class="qbig">${a[0]}</div>`,prompt:'🔊 Chữ nào đúng với hình?',speech:'Bé đọc xem chữ nào đúng với hình nhé!',
+    options:o.map(x=>({white:true,cls:'txt',html:x[1],correct:x===a,say:`Chữ này đọc là ${x[1]}. Thử lại nhé!`})),onCorrect(){say(`Đúng rồi! ${cap(a[1])}!`);return 1800}};
+}});
+const EN=[['apple','🍎','quả táo'],['banana','🍌','quả chuối'],['cat','🐱','con mèo'],['dog','🐶','con chó'],['fish','🐟','con cá'],['bird','🐦','con chim'],['car','🚗','ô tô'],['bus','🚌','xe buýt'],
+  ['sun','☀️','mặt trời'],['moon','🌙','mặt trăng'],['star','⭐','ngôi sao'],['tree','🌳','cái cây'],['flower','🌸','bông hoa'],['house','🏠','ngôi nhà'],['ball','⚽','quả bóng'],['book','📖','quyển sách'],
+  ['milk','🥛','sữa'],['egg','🥚','quả trứng'],['hat','🎩','cái mũ'],['shoe','👟','giày'],['cake','🎂','bánh kem'],['duck','🦆','con vịt'],['elephant','🐘','con voi'],['rabbit','🐰','con thỏ'],
+  ['monkey','🐵','con khỉ'],['bear','🐻','con gấu'],['rain','🌧️','mưa'],['umbrella','☂️','cái ô'],['train','🚂','tàu hỏa'],['boat','⛵','thuyền']];
+const ListenQ=makeQuiz({id:'listen',stage:'#lsstage',rounds:8,winMsg:'Bé nghe tiếng Anh giỏi quá! 🎧',gen(){
+  const o=pickN(EN,4),a=pickOne(o);
+  return{html:`<button class="qtext" data-replay>🔊 Listen!</button>`,prompt:'🔊 Nghe và chọn hình đúng',speech:()=>{say(a[0],'en-US')},
+    options:o.map(x=>({white:true,html:x[1],correct:x===a,say:`This is ${x[0]}. Thử lại nhé!`})),
+    onCorrect(st){st.querySelector('.qtext').textContent=a[0];say(a[0]+'!','en-US');say(cap(a[2])+'!','vi-VN',true);return 2400}};
+}});
+const DAYS=['Thứ Hai','Thứ Ba','Thứ Tư','Thứ Năm','Thứ Sáu','Thứ Bảy','Chủ Nhật'];
+const DaysQ=makeQuiz({id:'days',stage:'#dystage',rounds:8,winMsg:'Bé thuộc các thứ trong tuần! 📅',gen(r){
+  const i=ri(7),after=r<4||Math.random()<.5,ans=(i+(after?1:6))%7,w=after?'Sau':'Trước',o=new Set([ans]);while(o.size<3)o.add(ri(7));
+  return{html:`<div class="qtext">${w} <span style="color:#3d8bff">${DAYS[i]}</span> là?</div>`,prompt:`🔊 ${w} ${DAYS[i]} là thứ mấy?`,speech:`${w} ${DAYS[i].toLowerCase()} là thứ mấy?`,
+    options:shuffle([...o]).map(k=>({cls:'txt',html:DAYS[k],correct:k===ans,say:'Chưa đúng. Bé đọc lại các thứ trong tuần nhé!'})),
+    onCorrect(){say(`Đúng rồi! ${w} ${DAYS[i].toLowerCase()} là ${DAYS[ans].toLowerCase()}!`);return 2200}};
+}});
+const EvenOddQ=makeQuiz({id:'evenodd',stage:'#eostage',rounds:8,winMsg:'Bé hiểu số chẵn số lẻ rồi! 🎲',gen(){
+  const even=Math.random()<.5,want=n=>(n%2===0)===even;let ans;do{ans=1+ri(20)}while(!want(ans));const o=[ans];
+  while(o.length<3){const m=1+ri(20);if(!want(m)&&!o.includes(m))o.push(m)}const w=even?'chẵn':'lẻ';
+  return{html:`<div class="qtext">Số nào là số ${w.toUpperCase()}?</div>`,prompt:`🔊 Số nào là số ${w}?`,speech:`Số nào là số ${w}?`,
+    options:shuffle(o).map(n=>({html:n,correct:n===ans,say:`${cap(viNum(n))} là số ${even?'lẻ':'chẵn'}. Thử lại nhé!`})),
+    onCorrect(){say(even?`Đúng rồi! ${cap(viNum(ans))} là số chẵn, chia được thành hai phần bằng nhau!`:`Đúng rồi! ${cap(viNum(ans))} là số lẻ, chia hai còn dư một!`);return 2600}};
+}});
+const TensQ=makeQuiz({id:'tens',stage:'#tnstage',rounds:8,winMsg:'Bé hiểu hàng chục và đơn vị! 🔟',gen(r){
+  const t=1+ri(r<4?4:9),u=ri(10),n=t*10+u,o=new Set([n]);if(u&&u!==t)o.add(u*10+t);
+  while(o.size<3){const m=n+pickOne([-10,10,-1,1,-11,11]);if(m>0&&m<100)o.add(m)}
+  return{html:`<div class="cbox small">${'<span class="citem">🔟</span>'.repeat(t)}${u?'<span class="cop">+</span>'+'<span class="citem">🟡</span>'.repeat(u):''}</div>`,
+    prompt:'🔊 Có tất cả bao nhiêu?',speech:'Mỗi thẻ là mười, mỗi chấm vàng là một. Có tất cả bao nhiêu?',
+    options:shuffle([...o]).map(m=>({html:m,correct:m===n,say:'Bé đếm số chục trước, rồi đếm số đơn vị nhé!'})),
+    onCorrect(){say(`Đúng rồi! ${cap(viNum(t))} chục và ${viNum(u)} đơn vị là ${viNum(n)}!`);return 2600}};
+}});
+const MathRaceQ=makeQuiz({id:'mathrace',stage:'#mrstage',rounds:10,winMsg:'Về đích rồi! Bé tính nhanh quá! 🏁',gen(r){
+  const p=arith(r<5?10:20);
+  return{html:`<div class="track"><span class="rcar" style="left:${(r/10*84).toFixed(1)}%">🏎️</span><span class="flag">🏁</span></div><div class="qtext">${p.a} ${p.sym} ${p.b} = <span class="ans" style="color:#ff4757">?</span></div>`,
+    prompt:`🔊 Đua toán: ${r}/10`,speech:`${cap(viNum(p.a))} ${p.op} ${viNum(p.b)} bằng mấy?`,
+    options:numOpts(p.ans,3,2).map(m=>({html:m,correct:m===p.ans,say:'Chưa đúng, bé tính lại nhé!'})),
+    onCorrect(st){st.querySelector('.ans').textContent=p.ans;st.querySelector('.rcar').style.left=((r+1)/10*84).toFixed(1)+'%';audio();tone(500,.3,'sawtooth',.06,0,1.6);say('Brừm! Đúng rồi!');return 1500}};
+}});
+const LeftRightQ=makeQuiz({id:'leftright',stage:'#lrstage',rounds:8,winMsg:'Bé biết trái phải trên dưới rồi! 👈',gen(r){
+  const [A,B,X]=pickN(SOUNDS,3),vert=r>=4&&Math.random()<.5;let html,q,ans,sp;
+  if(!vert){const left=Math.random()<.5;ans=left?A:B;q=`${left?'👈 Bên TRÁI':'Bên PHẢI 👉'} cái cây`;sp=`Con gì ở bên ${left?'trái':'phải'} cái cây?`;
+    html=`<div class="lrrow"><span>${A[0]}</span><span>🌳</span><span>${B[0]}</span></div>`}
+  else{const top=Math.random()<.5;ans=top?A:B;q=`${top?'⬆️ Ở TRÊN':'⬇️ Ở DƯỚI'} cái hộp`;sp=`Con gì ở ${top?'trên':'dưới'} cái hộp?`;
+    html=`<div class="vcol"><span>${A[0]}</span><span>📦</span><span>${B[0]}</span></div>`}
+  return{html,prompt:'🔊 '+q,speech:sp,options:shuffle([A,B,X]).map(x=>({white:true,html:x[0],correct:x===ans,say:'Chưa đúng. Bé nhìn kỹ nhé!'})),
+    onCorrect(){say(`Đúng rồi! ${ans[1]}!`);return 1700}};
+}});
+const Sudoku=(()=>{
+  const stage=$('#sdstage'),SETS=[['🍎','🍌','🍇','🍊'],['🐶','🐱','🐰','🐼'],['🔴','🔵','🟡','🟢'],['🚗','✈️','🚲','🚀']],ROUNDS=3;
+  let round=0,sol=null,grid=null,sym=null,sel=-1,tmr=0,cs=60;
+  function make(){
+    let g=[[0,1,2,3],[2,3,0,1],[1,0,3,2],[3,2,1,0]];
+    const perm=shuffle([0,1,2,3]);g=g.map(r=>r.map(v=>perm[v]));
+    if(Math.random()<.5)g=[g[1],g[0],g[2],g[3]];if(Math.random()<.5)g=[g[0],g[1],g[3],g[2]];if(Math.random()<.5)g=[g[2],g[3],g[0],g[1]];
+    if(Math.random()<.5)g=g.map(r=>[r[1],r[0],r[2],r[3]]);if(Math.random()<.5)g=g[0].map((_,c)=>g.map(r=>r[c]));
+    return g.flat();
+  }
+  function start(){round=0;next()}
+  function next(){
+    clearTimeout(tmr);sol=make();sym=pickOne(SETS);const holes=new Set(pickN([...Array(16).keys()],4+round*2));grid=sol.map((v,i)=>holes.has(i)?-1:v);sel=-1;
+    const st=stage.getBoundingClientRect(),land=st.width>st.height;cs=Math.floor(Math.min(land?st.height*.85/4.4:st.width*.88/4.4,land?st.width*.6/4.4:st.height*.62/4.4,110));
+    const boxes=[0,1,2,3].map(b=>[0,1,2,3].map(k=>((b>>1)*2+(k>>1))*4+(b&1)*2+(k&1)));
+    stage.innerHTML=`<div class="sdwrap" style="--c:${cs}px"><div class="sgrid">${boxes.map(bx=>`<div class="sbox4">${bx.map(i=>`<div class="scell${grid[i]>=0?' given':''}" data-i="${i}">${grid[i]>=0?sym[grid[i]]:''}</div>`).join('')}</div>`).join('')}</div>
+      <div class="spal">${sym.map((e,k)=>`<button class="spb" data-k="${k}">${e}</button>`).join('')}</div></div>`;
+    stage.querySelectorAll('.scell').forEach(c=>c.addEventListener('pointerdown',e=>{e.preventDefault();const i=+c.dataset.i;if(grid[i]>=0)return;select(i)}));
+    stage.querySelectorAll('.spb').forEach(b=>b.addEventListener('pointerdown',e=>{e.preventDefault();fill(+b.dataset.k)}));
+    select(grid.indexOf(-1));
+    setPrompt('sudoku',`🔊 Sudoku: mỗi hàng, cột, ô vuông có đủ 4 hình`,'Mỗi hàng, mỗi cột và mỗi ô vuông lớn phải có đủ bốn hình khác nhau. Bé chọn ô trống rồi chọn hình nhé!');
+  }
+  const cell=i=>stage.querySelector(`.scell[data-i="${i}"]`);
+  function select(i){if(i<0)return;sel=i;stage.querySelectorAll('.scell').forEach(c=>c.classList.toggle('sel',+c.dataset.i===i));sfx('tap')}
+  function fill(k){
+    if(sel<0)return;const c=cell(sel);
+    if(sol[sel]===k){grid[sel]=k;c.textContent=sym[k];c.classList.add('given','ok');c.classList.remove('sel');sfx('snap');
+      const nx=grid.indexOf(-1);
+      if(nx<0){addStar(3);round++;sfx('ding');say('Hoàn thành! Giỏi quá!');sel=-1;tmr=setTimeout(()=>round>=ROUNDS?win('Bé giải Sudoku siêu giỏi! 🔲',start):next(),1600)}
+      else select(nx);
+    }else{c.textContent=sym[k];c.classList.remove('no');void c.offsetWidth;c.classList.add('no');sfx('boing');
+      say('Hình này đã có trong hàng, cột hoặc ô vuông rồi. Thử hình khác nhé!');setTimeout(()=>{if(grid[sel]<0&&cell(sel)===c)c.textContent=''},600)}
+  }
+  return{start,stop:()=>clearTimeout(tmr)};
+})();
+
+/* ================= 1–2 TUỔI: 10 more ================= */
+const Walk=(()=>{
+  const stage=$('#wlstage');let W=0,H=0,x=0,y=0,tx=0,ty=0,raf=0,run=false,last=0,bones=[],lastPaw=[0,0],idleT=0,face=1;
+  function placeBone(b){b.x=rand(W*.1,W*.9);b.y=rand(H*.38,H*.9);b.el.style.left=b.x+'px';b.el.style.top=b.y+'px'}
+  function start(){
+    stop();stage.innerHTML='<div class="meadow"><div class="pup"><span>🐕</span></div></div>';const m=stage.firstChild,r=stage.getBoundingClientRect();W=r.width;H=r.height;
+    x=tx=W/2;y=ty=H*.62;bones=[];
+    ['🦴','🦴','⚽','🦴'].forEach(e=>{const el=document.createElement('div');el.className='bone';el.textContent=e;m.appendChild(el);const b={el,e};placeBone(b);bones.push(b)});
+    const pt=ev=>{const b=m.getBoundingClientRect();tx=ev.clientX-b.left;ty=Math.max(H*.32,ev.clientY-b.top);idleT=0};
+    m.addEventListener('pointerdown',e=>{e.preventDefault();pt(e);audio();tone(pickOne(PENTA),.2,'triangle',.12)});
+    m.addEventListener('pointermove',e=>{if(e.buttons||e.pointerType==='touch')pt(e)});
+    run=true;last=performance.now();raf=requestAnimationFrame(loop);
+    setPrompt('walk','🐕 Kéo ngón tay để dắt cún đi!','Bé kéo ngón tay để dắt cún đi nhặt xương nhé!');
+  }
+  function loop(t){
+    if(!run)return;const dt=Math.min(.05,(t-last)/1000);last=t;idleT+=dt;
+    if(idleT>3){tx=rand(W*.15,W*.85);ty=rand(H*.4,H*.85);idleT=0}
+    const dx=tx-x,dy=ty-y;x+=dx*Math.min(1,dt*3);y+=dy*Math.min(1,dt*3);if(Math.abs(dx)>4)face=dx>0?-1:1;
+    const pup=stage.querySelector('.pup');const sz=pup.offsetWidth;
+    pup.style.transform=`translate3d(${x-sz/2}px,${y-sz}px,0) scaleX(${face})`;
+    if(Math.hypot(x-lastPaw[0],y-lastPaw[1])>55){lastPaw=[x,y];const p=document.createElement('div');p.className='paw';p.textContent='🐾';p.style.left=x+'px';p.style.top=(y-6)+'px';stage.firstChild.appendChild(p);setTimeout(()=>p.remove(),2300)}
+    for(const b of bones){if(Math.hypot(b.x-x,b.y-(y-sz*.3))<sz*.55){
+      pup.classList.remove('happy');void pup.offsetWidth;pup.classList.add('happy');audio();tone(880,.12,'sine',.2);tone(1320,.2,'sine',.15,.1);addStar();
+      say(b.e==='⚽'?'Cún tìm được quả bóng! Gâu gâu!':'Cún nhặt được xương! Gâu gâu!');placeBone(b)}}
+    raf=requestAnimationFrame(loop);
+  }
+  function stop(){run=false;cancelAnimationFrame(raf)}
+  return{start,stop};
+})();
+const Wipe=(()=>{
+  const stage=$('#wpstage'),PICS2=[['🐶','Con chó'],['🐱','Con mèo'],['🦁','Sư tử'],['🐘','Con voi'],['🐼','Gấu trúc'],['🦄','Kỳ lân'],['🐸','Con ếch'],['🐰','Con thỏ'],['🐯','Con hổ'],['🐵','Con khỉ']];
+  let cv,ctx,W=0,H=0,done=false,chk=0,lastSq=0,cur=null,tmr=0,down=false;
+  function fog(){
+    const g=ctx.createLinearGradient(0,0,W,H);g.addColorStop(0,'#b8a5d9');g.addColorStop(1,'#8fb5d9');
+    ctx.globalCompositeOperation='source-over';ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='rgba(255,255,255,.35)';for(let i=0;i<40;i++){ctx.beginPath();ctx.arc(rand(0,W),rand(0,H),rand(10,40),0,7);ctx.fill()}
+    ctx.font=Math.min(W,H)*.09+'px serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle='rgba(255,255,255,.85)';ctx.fillText('🧽',W/2,H/2);
+  }
+  function start(){
+    clearTimeout(tmr);done=false;cur=pickOne(PICS2.filter(p=>p!==cur));
+    stage.innerHTML=`<div class="wipewrap"><div class="wipepic">${cur[0]}</div><canvas class="wipecv"></canvas></div>`;
+    cv=stage.querySelector('canvas');ctx=cv.getContext('2d',{willReadFrequently:true});const r=stage.getBoundingClientRect();W=Math.round(r.width);H=Math.round(r.height);
+    cv.width=W;cv.height=H;cv.style.width=W+'px';cv.style.height=H+'px';fog();
+    const rub=e=>{if(done)return;const b=cv.getBoundingClientRect(),px=e.clientX-b.left,py=e.clientY-b.top;
+      ctx.globalCompositeOperation='destination-out';ctx.beginPath();ctx.arc(px,py,Math.max(40,Math.min(W,H)*.09),0,7);ctx.fill();
+      const n=performance.now();if(n-lastSq>110){lastSq=n;audio();tone(rand(900,1400),.06,'sine',.05)}if(n-chk>250){chk=n;check()}};
+    cv.addEventListener('pointerdown',e=>{e.preventDefault();down=true;rub(e)});
+    cv.addEventListener('pointermove',e=>{if(down||e.pointerType==='touch')rub(e)});
+    ['pointerup','pointercancel','pointerleave'].forEach(ev=>cv.addEventListener(ev,()=>{down=false}));
+    setPrompt('wipe','🧽 Lau kính xem ai ở sau!','Bé lấy ngón tay lau tấm kính xem ai đang trốn nhé!');
+  }
+  function check(){
+    const d=ctx.getImageData(0,0,W,H).data;let clear=0,tot=0;
+    for(let yy=10;yy<H;yy+=24)for(let xx=10;xx<W;xx+=24){tot++;if(d[(yy*W+xx)*4+3]<40)clear++}
+    if(clear/tot>.6){done=true;cv.style.transition='opacity .5s';cv.style.opacity=0;stage.querySelector('.wipepic').classList.add('show');
+      audio();[523,659,784].forEach((f,i)=>tone(f,.25,'triangle',.18,i*.12));addStar();say(`Ú òa! ${cur[1]}!`);tmr=setTimeout(start,3200)}
+  }
+  return{start,stop:()=>clearTimeout(tmr)};
+})();
+const Pump=(()=>{
+  const stage=$('#pmstage'),RIDE=[['🐻','Gấu'],['🐱','Mèo'],['🐶','Cún'],['🐰','Thỏ'],['🐼','Gấu trúc'],['🐸','Ếch']];
+  let size=0,busy=false,tmr=[],ci=0;
+  function newBalloon(){
+    busy=false;size=0;ci=(ci+1)%COLS_B.length;const [c,c2]=COLS_B[ci],rd=pickOne(RIDE);
+    const w=stage.querySelector('.pumpwrap');const old=w.querySelector('.pballoon');if(old)old.remove();
+    const b=document.createElement('div');b.className='pballoon';b.dataset.r=rd[1];
+    b.innerHTML=`<div class="bb" style="--c:${c};--c2:${c2}"><div class="string" style="height:40%"></div></div><div class="rider">${rd[0]}</div>`;
+    b.style.transform='translateX(-50%) scale(.25)';w.insertBefore(b,w.firstChild);
+  }
+  function start(){
+    tmr.forEach(clearTimeout);tmr=[];stage.innerHTML='<div class="pumpwrap"><button class="pumpbtn">💨 Bơm!</button></div>';
+    newBalloon();
+    stage.querySelector('.pumpbtn').addEventListener('pointerdown',e=>{
+      e.preventDefault();if(busy)return;size++;const b=stage.querySelector('.pballoon');
+      b.style.transform=`translateX(-50%) scale(${.25+size*.15})`;audio();tone(300+size*60,.25,'sawtooth',.05,0,1.5);
+      if(size>=6){busy=true;b.style.bottom=getComputedStyle(b).bottom;void b.offsetWidth;b.classList.add('fly');addStar();
+        say(`${b.dataset.r} bay lên trời rồi!`);[523,659,784,1046].forEach((f,i)=>tone(f,.3,'triangle',.15,i*.15));tmr.push(setTimeout(newBalloon,2600))}
+      else if(size===3)say('To hơn nữa!');
+    });
+    setPrompt('pump','💨 Bấm để bơm bóng!','Bé bấm nút để bơm bóng bay nhé!');
+  }
+  return{start,stop:()=>{tmr.forEach(clearTimeout);tmr=[]}};
+})();
+const COLS_B=[['#ff4757','#d92c3c'],['#ffd23f','#f0b400'],['#3ddc84','#1fb866'],['#3d8bff','#1f66d9'],['#b57bff','#8a4fe0'],['#ff9a4d','#f07020']];
+const Garden=(()=>{
+  const stage=$('#gdstage'),FL=[['🌷','Hoa tulip'],['🌻','Hoa hướng dương'],['🌼','Hoa cúc'],['🌸','Hoa anh đào'],['🌹','Hoa hồng'],['🌺','Hoa dâm bụt']];
+  let n=0,lastSay=0;
+  function start(){
+    n=0;stage.innerHTML='<div class="gardenw"><div class="sun2">🌞</div></div>';const g=stage.firstChild;
+    g.addEventListener('pointerdown',e=>{
+      e.preventDefault();const r=g.getBoundingClientRect(),x=e.clientX-r.left,y=Math.max(r.height*.42,e.clientY-r.top),f=pickOne(FL);
+      const el=document.createElement('div');el.className='flw';el.textContent=f[0];el.style.left=x+'px';el.style.top=y+'px';el.style.zIndex=Math.round(y);g.appendChild(el);
+      const all=g.querySelectorAll('.flw');if(all.length>30)all[0].remove();
+      audio();tone(pickOne(PENTA),.4,'sine',.18);n++;
+      const now=Date.now();if(now-lastSay>1400){lastSay=now;say(f[1]+'!')}
+      if(n%5===0){const b=document.createElement('div');b.className='bfly';b.textContent='🦋';b.style.top=rand(10,40)+'%';b.style.left=0;g.appendChild(b);setTimeout(()=>b.remove(),5100);addStar();setTimeout(()=>say('Bạn bướm đến chơi!'),500)}
+    });
+    setPrompt('garden','🌷 Chạm vào cỏ để trồng hoa!','Bé chạm vào bãi cỏ để trồng hoa nhé!');
+  }
+  return{start,stop(){}};
+})();
+const Train=(()=>{
+  const stage=$('#trstage'),RID=[['🐶','Cún','Gâu gâu!'],['🐱','Mèo','Meo meo!'],['🐷','Heo','Ụt ịt!'],['🐮','Bò','Ụm bò!'],['🐔','Gà','Cục tác!'],['🐸','Ếch','Ộp ộp!']];
+  let x=0,v=90,boost=0,raf=0,run=false,last=0,W=0,smokeT=0;
+  function start(){
+    stop();const r3=pickN(RID,3);
+    stage.innerHTML=`<div class="trainw"><div class="sun2">☁️</div><div class="rail"></div><div class="trainc"><span class="car2 eng">🚂</span>${r3.map(a=>`<span class="car2" data-n="${a[1]}" data-s="${a[2]}">🚃<span class="rid">${a[0]}</span></span>`).join('')}</div></div>`;
+    W=stage.getBoundingClientRect().width;x=W;
+    stage.querySelector('.eng').addEventListener('pointerdown',e=>{e.preventDefault();boost=2.2;go(e.currentTarget);audio();tone(587,.3,'square',.07);tone(587,.45,'square',.07,.35);say('Tu tu! Xình xịch xình xịch!')});
+    stage.querySelectorAll('.car2[data-n]').forEach(c=>c.addEventListener('pointerdown',e=>{e.preventDefault();go(c);SND.note();say(c.dataset.n+'! '+c.dataset.s)}));
+    run=true;last=performance.now();raf=requestAnimationFrame(loop);
+    setPrompt('train','🚂 Chạm vào tàu hỏa nhé!','Bé chạm vào đầu tàu để tàu kêu, chạm vào các bạn trên tàu nhé!');
+  }
+  function go(el){el.classList.remove('go');void el.offsetWidth;el.classList.add('go')}
+  function loop(t){
+    if(!run)return;const dt=Math.min(.05,(t-last)/1000);last=t;boost=Math.max(0,boost-dt);
+    const tc=stage.querySelector('.trainc');x-=v*(1+boost)*dt;if(x<-tc.offsetWidth)x=W;tc.style.transform=`translate3d(${x}px,0,0)`;
+    smokeT-=dt;if(smokeT<=0){smokeT=boost?.25:.7;const e=tc.querySelector('.eng').getBoundingClientRect(),b=stage.getBoundingClientRect(),s=document.createElement('div');
+      s.className='smoke';s.textContent='☁️';s.style.left=(e.left-b.left+e.width*.25)+'px';s.style.top=(e.top-b.top-e.height*.3)+'px';stage.firstChild.appendChild(s);setTimeout(()=>s.remove(),1650)}
+    raf=requestAnimationFrame(loop);
+  }
+  function stop(){run=false;cancelAnimationFrame(raf)}
+  return{start,stop};
+})();
+const Dance=(()=>{
+  const stage=$('#dcstage'),D=[['🐻','Gấu','Gừ gừ!'],['🐰','Thỏ','Nhảy nhảy!'],['🐧','Cánh cụt','Lạch bạch!'],['🐸','Ếch','Ộp ộp!']];
+  let on=false,beat=0,iv=0;const MEL=[523,659,784,659,587,698,880,698,523,659,784,1046,784,659,587,523];
+  function tick(){audio();tone(MEL[beat%MEL.length],.22,'triangle',.16);if(beat%2===0)tone(110,.15,'sine',.35,0,.4);if(beat%4===2)tone(2200,.04,'square',.03);beat++}
+  function setOn(v){on=v;clearInterval(iv);const w=stage.querySelector('.dancew'),b=stage.querySelector('.playbtn');if(!w)return;
+    w.classList.toggle('on',on);b.classList.toggle('on',on);b.textContent=on?'⏹ Dừng':'▶ Bật nhạc';if(on){beat=0;iv=setInterval(tick,260)}}
+  function start(){
+    stage.innerHTML=`<div class="dancew"><div class="drow">${D.map(d=>`<span class="dan">${d[0]}</span>`).join('')}</div><button class="playbtn">▶ Bật nhạc</button></div>`;
+    stage.querySelector('.playbtn').addEventListener('click',()=>{setOn(!on);say(on?'Cùng nhảy nào!':'Nghỉ một chút nhé!')});
+    stage.querySelectorAll('.dan').forEach((el,i)=>el.addEventListener('pointerdown',e=>{e.preventDefault();el.classList.remove('spin');void el.offsetWidth;el.classList.add('spin');
+      setTimeout(()=>el.classList.remove('spin'),720);SND.note();say(D[i][1]+'! '+D[i][2])}));
+    setOn(false);setPrompt('dance','🎵 Bật nhạc cho các bạn nhảy!','Bé bấm nút bật nhạc để các bạn nhảy múa nhé!');
+  }
+  return{start,stop:()=>setOn(false)};
+})();
+const IceCream=(()=>{
+  const stage=$('#icstage'),F=[['🍓','#ff9ec4','Kem dâu'],['🍫','#8b5a3c','Kem sô-cô-la'],['🍌','#ffe27a','Kem chuối'],['🍈','#9be8a8','Kem dưa'],['🫐','#a99bff','Kem việt quất'],['🥥','#fff6e8','Kem dừa']];
+  let n=0,busy=false,tmr=[];
+  function start(){
+    tmr.forEach(clearTimeout);tmr=[];n=0;busy=false;
+    stage.innerHTML=`<div class="icew"><div class="cone"><svg viewBox="0 0 100 110"><polygon points="4,4 96,4 50,108" fill="#f3b562" stroke="#c98a33" stroke-width="4" stroke-linejoin="round"/><path d="M20 4 L56 80 M44 4 L68 52 M68 4 L78 30 M80 4 L44 80 M56 4 L32 52 M32 4 L22 30" stroke="#c98a33" stroke-width="3"/></svg></div>
+      <div class="flv">${F.map((f,i)=>`<button class="flb" data-i="${i}" style="background:${f[1]}">${f[0]}</button>`).join('')}</div></div>`;
+    stage.querySelectorAll('.flb').forEach(b=>b.addEventListener('pointerdown',e=>{e.preventDefault();add(+b.dataset.i)}));
+    setPrompt('icecream','🍦 Chọn vị kem nào!','Bé chọn vị kem để làm cây kem thật to nhé!');
+  }
+  function add(i){
+    if(busy)return;const c=stage.querySelector('.cone'),s=document.createElement('div');s.className='scoop';s.style.background=F[i][1];c.appendChild(s);n++;
+    audio();tone(pickOne(PENTA),.3,'sine',.2,0,.7);say(F[i][2]+'!');
+    if(n>=5){busy=true;tmr.push(setTimeout(()=>{c.insertAdjacentHTML('beforeend','<div class="cherry">🍒</div>');say('Cây kem to quá! Măm măm!');addStar(2)},700));
+      tmr.push(setTimeout(()=>{[...c.querySelectorAll('.scoop,.cherry')].reverse().forEach((el,k)=>tmr.push(setTimeout(()=>{el.classList.add('eat');audio();tone(200,.1,'square',.06)},k*350)))},2200));
+      tmr.push(setTimeout(start,4800))}
+  }
+  return{start,stop:()=>{tmr.forEach(clearTimeout);tmr=[]}};
+})();
+const Blocks=(()=>{
+  const stage=$('#blstage'),C=['#ff4757','#ff8a3d','#ffd23f','#3ddc84','#3d8bff','#9b5de5','#ff5fa2'];let n=0,busy=false,tmr=[],W=0,H=0,bs=80;
+  function start(){
+    tmr.forEach(clearTimeout);tmr=[];n=0;busy=false;stage.innerHTML='<div class="blockw"><div class="tapdeco">🧱<br>Chạm để xếp khối!</div></div>';
+    const w=stage.firstChild,r=stage.getBoundingClientRect();W=r.width;H=r.height;bs=Math.min(H*.12,W*.2,110);
+    w.addEventListener('pointerdown',e=>{
+      e.preventDefault();if(busy)return;const d=w.querySelector('.tapdeco');if(d)d.remove();
+      const b=document.createElement('div');b.className='blk';b.style.width=b.style.height=bs+'px';b.style.background=C[n%C.length];b.style.fontSize=bs*.5+'px';
+      b.textContent=n+1;b.style.left=(W/2-bs/2+rand(-bs*.12,bs*.12))+'px';b.style.top=-bs+'px';w.appendChild(b);
+      const top=H*.88-bs*(n+1);requestAnimationFrame(()=>requestAnimationFrame(()=>{b.style.top=top+'px'}));n++;
+      tmr.push(setTimeout(()=>{audio();tone(180+n*40,.15,'sine',.3)},380));say(cap(NUMW[n])+'!');
+      if(n>=7||H*.88-bs*(n+1)<0){busy=true;addStar(2);
+        tmr.push(setTimeout(()=>{say('Ối! Đổ rồi! Hi hi!');audio();for(let i=0;i<6;i++)tone(rand(100,260),.25,'square',.06,i*.07);
+          w.querySelectorAll('.blk').forEach(k=>{k.classList.add('fall');k.style.top=(H+bs)+'px';k.style.transform=`translateX(${rand(-W*.4,W*.4)}px) rotate(${rand(-200,200)}deg)`})},1100));
+        tmr.push(setTimeout(start,2600))}
+    });
+    setPrompt('blocks','🧱 Chạm để xếp tháp thật cao!','Bé chạm vào màn hình để xếp khối thành tháp nhé!');
+  }
+  return{start,stop:()=>{tmr.forEach(clearTimeout);tmr=[]}};
+})();
+const Flashlight=(()=>{
+  const stage=$('#flstage'),A=[['🐱','con mèo'],['🐶','con chó'],['🦉','cú mèo'],['🐰','con thỏ'],['🦊','con cáo'],['🐻','con gấu'],['🐭','con chuột'],['🦔','con nhím']];
+  let hid=[],tmr=0,R=90;
+  function start(){
+    clearTimeout(tmr);stage.innerHTML='<div class="flw2"><div class="dark"></div></div>';const w=stage.firstChild,r=stage.getBoundingClientRect(),dk=w.querySelector('.dark');
+    R=Math.max(70,Math.min(r.width,r.height)*.16);hid=[];
+    pickN(A,5).forEach((a,i)=>{const el=document.createElement('div');el.className='hid';el.textContent=a[0];const x=(i+.5)/5*r.width+rand(-r.width*.05,r.width*.05),y=rand(r.height*.2,r.height*.85);
+      el.style.left=x+'px';el.style.top=y+'px';w.insertBefore(el,dk);hid.push({el,a,x,y,f:false})});
+    const mv=(x,y)=>{dk.style.setProperty('--x',x+'px');dk.style.setProperty('--y',y+'px');
+      for(const h of hid){if(!h.f&&Math.hypot(h.x-x,h.y-y)<R*.75){h.f=true;h.el.classList.add('found');audio();tone(pickOne(PENTA),.35,'triangle',.2);addStar();say(`Tìm thấy ${h.a[1]}!`);
+        if(hid.every(q=>q.f)){tmr=setTimeout(()=>{say('Bé tìm được hết rồi! Giỏi quá!');sfx('win');tmr=setTimeout(start,2500)},1300)}}}};
+    dk.style.setProperty('--r',R+'px');mv(r.width/2,r.height/2);
+    w.addEventListener('pointerdown',e=>{e.preventDefault();const b=w.getBoundingClientRect();mv(e.clientX-b.left,e.clientY-b.top)});
+    w.addEventListener('pointermove',e=>{const b=w.getBoundingClientRect();mv(e.clientX-b.left,e.clientY-b.top)});
+    setPrompt('flashlight','🔦 Soi đèn tìm các bạn!','Trời tối quá! Bé di ngón tay để soi đèn tìm các bạn nhé!');
+  }
+  return{start,stop:()=>clearTimeout(tmr)};
+})();
+const Phone=(()=>{
+  const stage=$('#phstage'),WHO=[['🐶','A lô! Gâu gâu! Cún đây!'],['🐱','A lô! Meo meo! Mèo đây!'],['🐮','A lô! Ụm bò! Bò đây!'],['🐵','A lô! Khỉ đây! Bé khỏe không?'],['🐼','A lô! Gấu trúc đây! Chào bé!'],['👵','A lô! Bà đây! Bà yêu bé lắm!']];
+  const DT={1:[697,1209],2:[697,1336],3:[697,1477],4:[770,1209],5:[770,1336],6:[770,1477],7:[852,1209],8:[852,1336],9:[852,1477],0:[941,1336]};
+  let num='',tmr=[];
+  function start(){
+    tmr.forEach(clearTimeout);tmr=[];num='';
+    stage.innerHTML=`<div class="phonew"><div class="phone"><div class="pscreen">📱</div><div class="keys2">${[1,2,3,4,5,6,7,8,9].map((k,i)=>`<button class="k2" data-k="${k}" style="background:${QC[i%QC.length]}">${k}</button>`).join('')}
+      <button class="k2" data-x="end" style="background:#ff4757">📵</button><button class="k2" data-k="0" style="background:#3d8bff">0</button><button class="k2" data-x="call" style="background:#20b97a">📞</button></div></div></div>`;
+    const scr=stage.querySelector('.pscreen');
+    stage.querySelectorAll('.k2').forEach(b=>b.addEventListener('pointerdown',e=>{
+      e.preventDefault();audio();
+      if(b.dataset.k!==undefined){const k=b.dataset.k;tone(DT[k][0],.18,'sine',.12);tone(DT[k][1],.18,'sine',.1);num=(num+k).slice(-8);scr.textContent=num;say(viNum(+k))}
+      else if(b.dataset.x==='call'){tmr.forEach(clearTimeout);tmr=[];scr.textContent='📞 . . .';
+        [0,1.2].forEach(w=>{tone(440,.8,'sine',.1,w);tone(480,.8,'sine',.1,w)});const p=pickOne(WHO);
+        tmr.push(setTimeout(()=>{scr.innerHTML=`<span class="who">${p[0]}</span>`;say(p[1]);addStar()},2300))}
+      else{tmr.forEach(clearTimeout);tmr=[];num='';scr.textContent='📱';tone(400,.3,'square',.06,0,.5);say('Tạm biệt!')}
+    }));
+    setPrompt('phone','📞 Gọi điện cho các bạn!','Bé bấm số rồi bấm nút xanh để gọi điện nhé!');
+  }
+  return{start,stop:()=>{tmr.forEach(clearTimeout);tmr=[]}};
+})();
+
 /* ---------- Home: age groups ---------- */
 const CARDS={race:['🏎️','Đua xe','Nhận biết số','#ff6b6b','#ff4757'],build:['🔧','Lắp ráp','Hình khối','#ffb84d','#ff8a3d'],
   memory:['🐼','Lật thẻ','Trí nhớ · English','#b57bff','#9b5de5'],balloon:['🎈','Bóng bay','Màu sắc','#4cd9a0','#20b97a'],
@@ -1824,16 +2816,66 @@ const CARDS={race:['🏎️','Đua xe','Nhận biết số','#ff6b6b','#ff4757']
   count:['🔢','Đếm số','Đếm 1–10','#5fd38d','#2fb36a'],pattern:['🧠','Quy luật','Tư duy logic','#c38bff','#8f4fe0'],
   math:['➕','Cộng trừ','Toán trong 10','#ff8a5c','#ff5e3a'],spell:['🔡','Đánh vần','Từ tiếng Anh','#4fc3f7','#1e9be0'],
   maze:['🌀','Mê cung','Định hướng','#7ed957','#45b026'],
+  fruitsB:['🍎','Trái cây','Tên trái cây','#ff8a8a','#ff5757'],
+  colorsB:['🌈','Màu sắc','Tên các màu','#ffb86b','#ff8f3d'],
+  bodyB:['👀','Cơ thể bé','Mắt, mũi, miệng','#ffd966','#f0a800'],
+  instr:['🥁','Nhạc cụ','Âm thanh vui','#8ee07a','#45b026'],
+  family:['👨‍👩‍👧','Gia đình','Bố mẹ ông bà','#5fd3c8','#13a89e'],
+  aqua:['🐠','Bể cá','Chạm bạn cá','#7fc4ff','#3d8bff'],
+  daynight:['🌙','Ngày & đêm','Sáng – tối','#a99bff','#6c5cff'],
+  fireworks:['🎆','Pháo hoa','Chạm & ngắm','#d49bff','#9b5de5'],
+  eggs:['🥚','Trứng nở','Ai chui ra?','#ff9cc6','#ff5fa2'],
+  shapesB:['⭐','Các hình','Tên hình','#9aa5c8','#5a6290'],
+  fruitQ:['🍌','Tìm trái cây','Nhận biết','#ff8a8a','#ff5757'],
+  colorQ:['🎨','Tìm màu','Nhận biết màu','#ffb86b','#ff8f3d'],
+  sizeQ:['🐘','To – nhỏ','So sánh','#ffd966','#f0a800'],
+  bodyQ:['👃','Mũi đâu?','Cơ thể','#8ee07a','#45b026'],
+  sameQ:['👯','Tìm giống nhau','Quan sát','#5fd3c8','#13a89e'],
+  eatQ:['🥕','Ai ăn gì?','Con vật','#7fc4ff','#3d8bff'],
+  homeQ:['🏡','Nhà của ai?','Nơi sống','#a99bff','#6c5cff'],
+  count3:['3️⃣','Đếm 1-2-3','Tập đếm','#d49bff','#9b5de5'],
+  shapeQ:['🔷','Tìm hình','Hình khối','#ff9cc6','#ff5fa2'],
+  csort:['🧺','Xếp theo màu','Kéo thả','#9aa5c8','#5a6290'],
+  bigger:['🔢','Số nào lớn?','So sánh số','#ff8a8a','#ff5757'],
+  vnletter:['🅰️','Chữ tiếng Việt','Chữ cái đầu','#ffb86b','#ff8f3d'],
+  moreless:['🍬','Nhiều – ít','So sánh','#ffd966','#f0a800'],
+  oddone:['🧐','Cái nào khác?','Phân loại','#8ee07a','#45b026'],
+  opposite:['🔥','Trái nghĩa','Nóng – lạnh','#5fd3c8','#13a89e'],
+  emotion:['😊','Cảm xúc','Vui – buồn','#7fc4ff','#3d8bff'],
+  nextnum:['➡️','Số tiếp theo','Dãy số','#a99bff','#6c5cff'],
+  whack:['🐹','Đập chuột số','Phản xạ','#d49bff','#9b5de5'],
+  simon:['🎵','Nhớ thứ tự','Trí nhớ','#ff9cc6','#ff5fa2'],
+  vehq:['🚢','Xe đi đâu?','Phân loại','#9aa5c8','#5a6290'],
+  math20:['🧮','Toán đến 20','Cộng trừ','#ff8a8a','#ff5757'],
+  compare:['⚖️','So sánh > <','Dấu so sánh','#ffb86b','#ff8f3d'],
+  readvn:['📖','Tập đọc','Đọc từ','#ffd966','#f0a800'],
+  listen:['🎧','Nghe tiếng Anh','Listening','#8ee07a','#45b026'],
+  days:['📅','Thứ trong tuần','Thời gian','#5fd3c8','#13a89e'],
+  evenodd:['🎲','Chẵn – lẻ','Số học','#7fc4ff','#3d8bff'],
+  tens:['🔟','Chục & đơn vị','Giá trị số','#a99bff','#6c5cff'],
+  sudoku:['🔲','Sudoku mini','Logic','#d49bff','#9b5de5'],
+  mathrace:['🏁','Đua toán','Tính nhanh','#ff9cc6','#ff5fa2'],
+  leftright:['👈','Trái – phải','Phương hướng','#9aa5c8','#5a6290'],
+  walk:['🐕','Dắt cún','Kéo ngón tay','#ffa3a3','#ff6b6b'],
+  wipe:['🧽','Lau kính','Ai trốn sau?','#9fd8ff','#4fb3f0'],
+  pump:['🎈','Bơm bóng','Bấm & bay','#ffc88a','#ff9a3d'],
+  garden:['🌷','Vườn hoa','Trồng hoa','#a8e890','#5cc93b'],
+  train:['🚂','Tàu hỏa','Tu tu!','#c7b3ff','#8f6bff'],
+  dance:['💃','Nhảy múa','Âm nhạc','#ffb3dc','#ff6fb5'],
+  icecream:['🍦','Làm kem','Màu & vị','#ffe08a','#f5b400'],
+  blocks:['🧱','Xếp khối','Đếm & đổ','#8fe0d6','#20b9b0'],
+  flashlight:['🔦','Soi đèn','Tìm bạn','#a8b3d6','#5a6aa0'],
+  phone:['📞','Điện thoại','Gọi bạn','#ff9fb0','#ff5e7e'],
   tap:['👆','Chạm là vui','Chạm & khám phá','#ff9cc6','#ff6aa8'],peek:['🙈','Ú òa!','Bất ngờ thú vị','#ffd166','#f5a623'],
   bubbles:['🫧','Bong bóng','Vận động tay','#8fd8ff','#3fa9ec'],animals:['🐶','Con vật','Tên & tiếng kêu','#9fe07c','#55c234'],
   vehicles:['🚒','Xe cộ','Tên & âm thanh','#ff9f80','#ff6a3d'],draw:['🖍️','Vẽ ngón tay','Sáng tạo','#c8a2ff','#9466ff'],clock:['🕐','Xem giờ','Đồng hồ','#ffb347','#ff8a00']};
-const AGES=[{icon:'👶',label:'1–2 tuổi',say:'một đến hai',games:['tap','peek','bubbles','animals','vehicles','draw','piano']},
-  {icon:'🐣',label:'2–3 tuổi',say:'hai đến ba',games:['balloon','sound','sorter','feed','piano','paint']},
-  {icon:'🐥',label:'4–5 tuổi',say:'bốn đến năm',games:['race','count','pattern','shadow','build','puzzle','memory','abc']},
-  {icon:'🦉',label:'6–7 tuổi',say:'sáu đến bảy',games:['math','spell','clock','maze','puzzle','memory','abc','piano']}];
+const AGES=[{icon:'👶',label:'1–2 tuổi',say:'một đến hai',games:['tap','peek','bubbles','animals','vehicles','draw','piano','fruitsB','colorsB','bodyB','instr','family','aqua','daynight','fireworks','eggs','shapesB','walk','wipe','pump','garden','train','dance','icecream','blocks','flashlight','phone']},
+  {icon:'🐣',label:'2–3 tuổi',say:'hai đến ba',games:['balloon','sound','sorter','feed','piano','paint','fruitQ','colorQ','sizeQ','bodyQ','sameQ','eatQ','homeQ','count3','shapeQ','csort']},
+  {icon:'🐥',label:'4–5 tuổi',say:'bốn đến năm',games:['race','count','pattern','shadow','build','puzzle','memory','abc','bigger','vnletter','moreless','oddone','opposite','emotion','nextnum','whack','simon','vehq']},
+  {icon:'🦉',label:'6–7 tuổi',say:'sáu đến bảy',games:['math','spell','clock','maze','puzzle','memory','abc','piano','math20','compare','readvn','listen','days','evenodd','tens','sudoku','mathrace','leftright']}];
 function renderHome(){
   $('#agetabs').innerHTML=AGES.map((a,i)=>`<button class="agetab${i===AGE?' on':''}" data-a="${i}">${a.icon} ${a.label}</button>`).join('');
-  $('#grid').innerHTML=AGES[AGE].games.map((g,i)=>{const c=CARDS[g];return`<button class="card" data-game="${g}" style="background:linear-gradient(160deg,${c[3]},${c[4]});animation-delay:${i*.05}s"><span class="ico" style="animation-delay:${(i*.27)%1.2}s">${c[0]}</span>${c[1]}<small>${c[2]}</small></button>`}).join('');
+  $('#grid').innerHTML=AGES[AGE].games.map((g,i)=>{const c=CARDS[g];return`<button class="card" data-game="${g}" style="background:linear-gradient(160deg,${c[3]},${c[4]});animation-delay:${Math.min(i,8)*.04}s"><span class="ico" style="animation-delay:${(i*.27)%1.2}s">${c[0]}</span>${c[1]}<small>${c[2]}</small></button>`}).join('');
   document.querySelectorAll('.agetab').forEach(b=>b.addEventListener('click',()=>{
     AGE=+b.dataset.a;try{localStorage.setItem('bevui_age2',AGE)}catch(e){}
     sfx('tap');say('Trò chơi cho bé '+AGES[AGE].say+' tuổi');renderHome();
@@ -1842,7 +2884,7 @@ function renderHome(){
 }
 
 /* ---------- Navigation ---------- */
-const GAMES={tap:TapFun,peek:Peek,bubbles:Bubbles,animals:AnimalBoard,vehicles:VehicleBoard,draw:Draw,race:Race,build:Build,memory:Memory,balloon:Balloon,paint:Paint,puzzle:Puzzle,abc:ABC,feed:Feed,piano:Piano,sound:SoundQ,sorter:Sorter,shadow:ShadowQ,count:CountQ,pattern:PatternQ,math:MathQ,spell:Spell,maze:Maze,clock:ClockQ};
+const GAMES={walk:Walk,wipe:Wipe,pump:Pump,garden:Garden,train:Train,dance:Dance,icecream:IceCream,blocks:Blocks,flashlight:Flashlight,phone:Phone,fruitsB:FruitBoard,colorsB:ColorBoard,bodyB:BodyBoard,instr:InstrBoard,family:FamilyBoard,aqua:Aqua,daynight:DayNight,fireworks:Fireworks,eggs:Eggs,shapesB:ShapeBoard,fruitQ:FruitQ,colorQ:ColorQ,sizeQ:SizeQ,bodyQ:BodyQ,sameQ:SameQ,eatQ:EatQ,homeQ:HomeQ,count3:Count3Q,shapeQ:ShapeQ,csort:CSort,bigger:BiggerQ,vnletter:VNLetterQ,moreless:MoreLessQ,oddone:OddQ,opposite:OppQ,emotion:EmotionQ,nextnum:NextNumQ,whack:Whack,simon:Simon,vehq:VehQ,math20:Math20Q,compare:CompareQ,readvn:ReadVNQ,listen:ListenQ,days:DaysQ,evenodd:EvenOddQ,tens:TensQ,sudoku:Sudoku,mathrace:MathRaceQ,leftright:LeftRightQ,tap:TapFun,peek:Peek,bubbles:Bubbles,animals:AnimalBoard,vehicles:VehicleBoard,draw:Draw,race:Race,build:Build,memory:Memory,balloon:Balloon,paint:Paint,puzzle:Puzzle,abc:ABC,feed:Feed,piano:Piano,sound:SoundQ,sorter:Sorter,shadow:ShadowQ,count:CountQ,pattern:PatternQ,math:MathQ,spell:Spell,maze:Maze,clock:ClockQ};
 const NAMES={race:'Đua xe!',build:'Lắp ráp!',memory:'Lật thẻ!',balloon:'Bóng bay!',paint:'Tô màu!',puzzle:'Ghép hình!',abc:'Chữ cái!',feed:'Cho thú ăn!',piano:'Đàn piano!'};
 let current=null;
 function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===id))}
