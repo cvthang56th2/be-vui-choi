@@ -1,6 +1,6 @@
 // Bé Vui Chơi — service worker: chơi offline + tự cập nhật ngầm
-const CACHE = 'bevui-v1';
-const ASSETS = ['./', './index.html', './apple-touch-icon.png', './icon-512.png', './manifest.webmanifest'];
+const CACHE = 'bevui-v2';
+const ASSETS = ['./', './index.html', './manifest.webmanifest', './apple-touch-icon.png', './apple-touch-icon-180.png', './icon-192.png', './icon-512.png', './favicon-32.png', './favicon.ico'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
