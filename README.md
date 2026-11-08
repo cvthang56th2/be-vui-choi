@@ -19,6 +19,13 @@ Bóng bay · Con gì kêu? · Hộp hình khối · Cho thú ăn · Đàn piano 
 ### 🦉 6–7 tuổi (18 game)
 Cộng trừ · Đánh vần tiếng Anh · Xem giờ · Mê cung · Ghép hình 3×3 · Lật thẻ · Chữ cái · Đàn piano · Toán đến 20 · So sánh > < = · Tập đọc · Nghe tiếng Anh · Thứ trong tuần · Chẵn – lẻ · Chục & đơn vị · Sudoku mini · Đua toán · Trái – phải
 
+## Song ngữ Việt / English
+
+Nút **🇻🇳 VI / 🇬🇧 EN** ở góc trên màn hình chính (hoặc ⚙️ → Ngôn ngữ) đổi toàn bộ chữ và giọng đọc sang tiếng Anh; lựa chọn được lưu lại.
+- Mọi chuỗi trong code dùng `T('tiếng Việt', 'English')`; số đếm, giờ, số nhiều/mạo từ tiếng Anh xử lý bằng `enNum`, `pl`, `art`.
+- `say(text)` đọc theo ngôn ngữ đang chọn; `say(text,'vi-VN!')` luôn đọc tiếng Việt (dùng cho phần song ngữ: Lật thẻ, ABC, Đánh vần, Nghe tiếng Anh vẫn đọc nghĩa tiếng Việt).
+- Game "Chữ tiếng Việt" chỉ hiện ở chế độ tiếng Việt; "Tập đọc" ở chế độ tiếng Anh thành tập đọc từ tiếng Anh.
+
 ## Chạy thử
 
 Một file HTML duy nhất, không cần build, không phụ thuộc thư viện:
