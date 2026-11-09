@@ -259,8 +259,6 @@ button{font-family:inherit;cursor:pointer}
 .pad button:active{transform:translateY(4px);box-shadow:0 2px 0 rgba(0,0,0,.15)}
 
 /* ---------- TODDLER (1–2) ---------- */
-.home-btn.holding{animation:holdring 1s linear forwards}
-@keyframes holdring{from{box-shadow:0 6px 0 rgba(0,0,0,.15),0 0 0 0 var(--pink)}to{box-shadow:0 6px 0 rgba(0,0,0,.15),0 0 0 14px var(--pink)}}
 #toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom) + 4vmin);transform:translate(-50%,30px);background:var(--ink);color:#fff;border-radius:999px;padding:1.2vmin 3.5vmin;font-size:clamp(16px,2.6vmin,26px);font-weight:700;opacity:0;transition:all .3s;z-index:80;pointer-events:none;white-space:nowrap}
 #toast.show{opacity:1;transform:translate(-50%,0)}
 #tstage{background:radial-gradient(circle at 50% 40%,#ffe3f1,#ffc3de);transition:background .6s;touch-action:none}
@@ -2934,11 +2932,7 @@ function openGame(name){
 function goHome(){if(current)current.stop();current=null;hideWin();hush();show('home')}
 renderHome();
 document.querySelectorAll('.home-btn').forEach(b=>{
-  let t=0,fired=false;
-  b.addEventListener('pointerdown',()=>{if(AGE!==0)return;fired=false;b.classList.add('holding');t=setTimeout(()=>{fired=true;b.classList.remove('holding');sfx('tap');goHome()},1000)});
-  const cancel=()=>{clearTimeout(t);b.classList.remove('holding')};
-  ['pointerup','pointerleave','pointercancel'].forEach(ev=>b.addEventListener(ev,cancel));
-  b.addEventListener('click',()=>{if(AGE===0){if(!fired)toast(T('Bố mẹ giữ nút 🏠 khoảng 1 giây để thoát',"Grown-ups: hold 🏠 for 1 second to exit"));return}sfx('tap');goHome()});
+  b.addEventListener('click',()=>{sfx('tap');goHome()});
 });
 let toastT=0;
 function toast(msg){const el=$('#toast');el.textContent=msg;el.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>el.classList.remove('show'),2200)}
