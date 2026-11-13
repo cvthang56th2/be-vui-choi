@@ -987,7 +987,7 @@ function say(text,lang,queue,force){
   try{
     if(!queue)speechSynthesis.cancel();
     const v=pickVoice(lang),pre=lang.slice(0,2),rate=pre==='vi'?VS.rate:Math.max(.5,VS.rate-.07);
-    text.split(/(?<=[.!?…])\s+/).filter(c=>c).forEach(c=>{
+    text.replace(/([.!?…])\s+/g,'$1\n').split('\n').filter(c=>c.trim()).forEach(c=>{
       const u=new SpeechSynthesisUtterance(c);
       u.lang=lang;if(v)u.voice=v;
       u.rate=rate;u.pitch=1.0;u.volume=1;
