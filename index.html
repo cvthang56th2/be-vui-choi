@@ -283,6 +283,7 @@ button{font-family:inherit;cursor:pointer}
 @media (orientation:portrait){.board6{grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(3,1fr)}}
 .btile{border:none;border-radius:36px;box-shadow:0 10px 0 rgba(0,0,0,.1);display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:inherit;color:var(--ink);font-size:clamp(20px,3.4vmin,34px);font-weight:800;gap:.5vmin;touch-action:none;overflow:hidden}
 .btile .be{font-size:clamp(80px,15vmin,160px);line-height:1.05}
+.btile .btimg{width:55%;height:55%;object-fit:cover;border-radius:24px}
 .btile:active{transform:translateY(5px);box-shadow:0 5px 0 rgba(0,0,0,.1)}
 .btile.go .be{animation:jump .6s ease}
 .btile.drive .be{animation:drive2 1.3s ease-in-out}
@@ -2178,7 +2179,7 @@ const SND={
 function makeBoard(id,stageSel,items,promptHtml,speech,anim){
   const stage=$(stageSel),TINT=['#fff0f0','#fff6dc','#e9ffef','#e8f3ff','#f3ebff','#ffedf6'];
   function start(){
-    stage.innerHTML=`<div class="board6">${items.map((it,i)=>`<button class="btile" style="background:${TINT[i%TINT.length]}"><span class="be">${it[0]}</span>${it[1]}</button>`).join('')}</div>`;
+    stage.innerHTML=`<div class="board6">${items.map((it,i)=>`<button class="btile" style="background:${TINT[i%TINT.length]}">${it[4]?`<img class="btimg" src="${it[4]}" alt="${it[0]}" onerror="this.outerHTML='<span class=&quot;be&quot;>${it[0]}</span>'">`:`<span class="be">${it[0]}</span>`}${it[1]}</button>`).join('')}</div>`;
     stage.querySelectorAll('.btile').forEach((b,i)=>b.addEventListener('pointerdown',e=>{
       e.preventDefault();const it=items[i];b.classList.remove(anim);void b.offsetWidth;b.classList.add(anim);
       if(it[3])SND[it[3]]();else sfx('boing');
@@ -2188,10 +2189,10 @@ function makeBoard(id,stageSel,items,promptHtml,speech,anim){
   }
   return{start,stop(){}};
 }
-const AnimalBoard=makeBoard('animals','#anstage',[['🐶',T('Con chó',"Dog"),T('Gâu gâu!',"Woof woof!")],['🐱',T('Con mèo',"Cat"),T('Meo meo!',"Meow meow!")],['🐮',T('Con bò',"Cow"),T('Ụm bò!',"Moo!")],
-  ['🐔',T('Con gà',"Chicken"),T('Cục ta cục tác!',"Cluck cluck!")],['🦆',T('Con vịt',"Duck"),T('Cạp cạp!',"Quack quack!")],['🐷',T('Con heo',"Pig"),T('Ụt ịt!',"Oink oink!")]],T('🐶 Chạm vào con vật nhé!',"🐶 Tap the animals!"),T('Bé chạm vào các con vật nhé!',"Tap the animals!"),'go');
-const VehicleBoard=makeBoard('vehicles','#vhstage',[['🚗',T('Ô tô',"Car"),T('Bim bim!',"Beep beep!"),'horn'],['🚂',T('Tàu hỏa',"Train"),T('Xình xịch, tu tu!',"Choo choo!"),'train'],['✈️',T('Máy bay',"Airplane"),T('Ù ù ù!',"Zoom zoom!"),'plane'],
-  ['🚒',T('Xe cứu hỏa',"Fire truck"),T('Í o, í o!',"Nee-naw, nee-naw!"),'siren'],['🚌',T('Xe buýt',"Bus"),T('Bim bim!',"Beep beep!"),'horn'],['🚲',T('Xe đạp',"Bicycle"),T('Kính coong!',"Ring ring!"),'bell']],T('🚒 Chạm vào xe nhé!',"🚒 Tap the vehicles!"),T('Bé chạm vào các loại xe nhé!',"Tap the vehicles!"),'drive');
+const AnimalBoard=makeBoard('animals','#anstage',[['🐶',T('Con chó',"Dog"),T('Gâu gâu!',"Woof woof!"),undefined,'img/animals/dog.jpg'],['🐱',T('Con mèo',"Cat"),T('Meo meo!',"Meow meow!"),undefined,'img/animals/cat.jpg'],['🐮',T('Con bò',"Cow"),T('Ụm bò!',"Moo!"),undefined,'img/animals/cow.jpg'],
+  ['🐔',T('Con gà',"Chicken"),T('Cục ta cục tác!',"Cluck cluck!"),undefined,'img/animals/chicken.jpg'],['🦆',T('Con vịt',"Duck"),T('Cạp cạp!',"Quack quack!"),undefined,'img/animals/duck.jpg'],['🐷',T('Con heo',"Pig"),T('Ụt ịt!',"Oink oink!"),undefined,'img/animals/pig.jpg']],T('🐶 Chạm vào con vật nhé!',"🐶 Tap the animals!"),T('Bé chạm vào các con vật nhé!',"Tap the animals!"),'go');
+const VehicleBoard=makeBoard('vehicles','#vhstage',[['🚗',T('Ô tô',"Car"),T('Bim bim!',"Beep beep!"),'horn','img/vehicles/car.jpg'],['🚂',T('Tàu hỏa',"Train"),T('Xình xịch, tu tu!',"Choo choo!"),'train','img/vehicles/train.jpg'],['✈️',T('Máy bay',"Airplane"),T('Ù ù ù!',"Zoom zoom!"),'plane','img/vehicles/airplane.jpg'],
+  ['🚒',T('Xe cứu hỏa',"Fire truck"),T('Í o, í o!',"Nee-naw, nee-naw!"),'siren','img/vehicles/firetruck.jpg'],['🚌',T('Xe buýt',"Bus"),T('Bim bim!',"Beep beep!"),'horn','img/vehicles/bus.jpg'],['🚲',T('Xe đạp',"Bicycle"),T('Kính coong!',"Ring ring!"),'bell','img/vehicles/bicycle.jpg']],T('🚒 Chạm vào xe nhé!',"🚒 Tap the vehicles!"),T('Bé chạm vào các loại xe nhé!',"Tap the vehicles!"),'drive');
 
 const Draw=(()=>{
   const stage=$('#drstage');let cv=null,ctx=null,W=0,H=0,pts={},hue=0,lastNote=0,lw=20;
