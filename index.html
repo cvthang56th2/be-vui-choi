@@ -951,6 +951,18 @@ const SFX={
 };
 function sfx(n){audio();try{SFX[n]&&SFX[n]()}catch(e){}}
 
+/* ---------- Background music ---------- */
+let bgEl=null;
+const music={
+  ensure(){
+    if(!bgEl){try{bgEl=document.createElement('audio');bgEl.loop=true;bgEl.src='audio/bgmusic.mp3';bgEl.volume=MS.vol;document.body.appendChild(bgEl)}catch(e){return}}
+    if(MS.on&&bgEl.paused){try{bgEl.play().catch(()=>{})}catch(e){}}
+  },
+  stop(){if(bgEl)try{bgEl.pause()}catch(e){}},
+  setEnabled(on){if(!on)this.stop();else this.ensure()},
+  setVolume(v){if(bgEl)try{bgEl.volume=v}catch(e){}}
+};
+
 /* ---------- Voice (speech synthesis) ---------- */
 let voices=[];
 const hasTTS='speechSynthesis' in window;
@@ -2937,11 +2949,11 @@ const NAMES={race:T('Đua xe!',"Racing!"),build:T('Lắp ráp!',"Build it!"),mem
 let current=null;
 function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===id))}
 function openGame(name){
-  sfx('tap');if(current)current.stop();hideWin();
+  sfx('tap');music.ensure();if(current)current.stop();hideWin();
   show(name);current=GAMES[name];
   requestAnimationFrame(()=>current.start());
 }
-function goHome(){if(current)current.stop();current=null;hideWin();hush();show('home')}
+function goHome(){if(current)current.stop();current=null;hideWin();hush();music.stop();show('home')}
 renderHome();
 document.querySelectorAll('.home-btn').forEach(b=>{
   b.addEventListener('click',()=>{sfx('tap');goHome()});
