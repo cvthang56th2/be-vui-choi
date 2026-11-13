@@ -285,8 +285,8 @@ button{font-family:inherit;cursor:pointer}
 .btile .be{font-size:clamp(80px,15vmin,160px);line-height:1.05}
 .btile .btimg{width:55%;height:55%;object-fit:cover;border-radius:24px}
 .btile:active{transform:translateY(5px);box-shadow:0 5px 0 rgba(0,0,0,.1)}
-.btile.go .be{animation:jump .6s ease}
-.btile.drive .be{animation:drive2 1.3s ease-in-out}
+.btile.go .be,.btile.go .btimg{animation:jump .6s ease}
+.btile.drive .be,.btile.drive .btimg{animation:drive2 1.3s ease-in-out}
 @keyframes drive2{0%{transform:translateX(0)}35%{transform:translateX(-28%)}45%{transform:translateX(-28%) rotate(4deg)}100%{transform:translateX(0)}}
 .drcv{position:absolute;inset:0;touch-action:none}
 .clearbtn{position:absolute;right:3vmin;bottom:3vmin;width:clamp(72px,11vmin,100px);aspect-ratio:1;border:none;border-radius:50%;background:#fff;font-size:clamp(36px,6vmin,56px);box-shadow:0 6px 0 rgba(0,0,0,.15);z-index:2}
