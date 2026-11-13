@@ -20,4 +20,6 @@ for (const f of FILES) {
 }
 cpSync('audio', 'www/audio', { recursive: true });
 console.log('✓ www/audio/ (folder)');
+cpSync('img', 'www/img', { recursive: true });
+console.log('✓ www/img/ (folder)');
 console.log('Build done → www/');
