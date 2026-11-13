@@ -876,6 +876,9 @@ button{font-family:inherit;cursor:pointer}
     <div class="vcol"><span data-en="🌐 Language">🌐 Ngôn ngữ / Language</span>
       <div class="langrow"><button class="langbtn" data-lang="vi">🇻🇳 Tiếng Việt</button><button class="langbtn" data-lang="en">🇬🇧 English</button></div></div>
     <div class="vsep"></div>
+    <label class="vrow"><span data-en="Background music">Nhạc nền</span><input type="checkbox" id="mOn"></label>
+    <label class="vcol"><span data-en="Music volume: <b id=&quot;mVolL&quot;></b>">Âm lượng nhạc: <b id="mVolL"></b></span><input type="range" id="mVol" min="0" max="0.5" step="0.02"></label>
+    <div class="vsep"></div>
     <label class="vrow"><span data-en="Voice on">Bật giọng đọc</span><input type="checkbox" id="vOn"></label>
     <label class="vcol"><span data-en="Vietnamese voice">Giọng tiếng Việt</span><select id="vVi"></select></label>
     <button class="vtest" data-t="vi" data-en="▶ Test Vietnamese">▶ Nghe thử tiếng Việt</button>
@@ -956,6 +959,9 @@ const BAD=/(albert|bad news|bahh|bells|boing|bubbles|cellos|deranged|good news|h
 const VS={on:true,rate:0.85,vi:'',en:''};
 try{Object.assign(VS,JSON.parse(localStorage.getItem('bevui_voice')||'{}'))}catch(e){}
 function saveVS(){try{localStorage.setItem('bevui_voice',JSON.stringify(VS))}catch(e){}}
+const MS={on:true,vol:0.18};
+try{Object.assign(MS,JSON.parse(localStorage.getItem('bevui_music')||'{}'))}catch(e){}
+function saveMS(){try{localStorage.setItem('bevui_music',JSON.stringify(MS))}catch(e){}}
 const langOf=v=>(v.lang||'').toLowerCase().replace('_','-');
 function vscore(v,lang){
   const n=v.name||'';let s=0;
@@ -1786,6 +1792,7 @@ const Piano=(()=>{
 /* ---------- Voice settings UI ---------- */
 (function(){
   const box=$('#vset'),selVi=$('#vVi'),selEn=$('#vEn'),rate=$('#vRate'),rl=$('#vRateL'),on=$('#vOn'),tip=$('#vTip');
+  const mOn=$('#mOn'),mVol=$('#mVol'),mVolL=$('#mVolL');
   const label=v=>{const n=v.name||'';const q=/premium|cao cấp/i.test(n)?' ⭐⭐':/enhanced|nâng cao|siri|natural|neural/i.test(n)?' ⭐':'';return n+q};
   function fill(sel,lang){
     const list=voicesFor(lang),cur=pickVoice(lang);
@@ -1795,6 +1802,7 @@ const Piano=(()=>{
   window.renderVoiceUI=function(){
     const vi=fill(selVi,'vi-VN');fill(selEn,'en-US');
     on.checked=VS.on;rate.value=VS.rate;rl.textContent=Math.round(VS.rate*100)+'%';
+    mOn.checked=MS.on;mVol.value=MS.vol;mVolL.textContent=Math.round(MS.vol*100)+'%';
     const good=vi.some(v=>/premium|enhanced|nâng cao|cao cấp|siri/i.test(v.name));
     tip.innerHTML=(!hasTTS?T('<b>Trình duyệt này không hỗ trợ giọng đọc.</b><br>',"<b>This browser does not support speech.</b><br>"):'')+
       (good?T('✅ iPad đã có giọng tiếng Việt chất lượng cao.',"✅ This device has a high-quality voice."):T('💡 <b>Để giọng rõ và tự nhiên hơn</b>, hãy tải giọng chất lượng cao trên iPad:',"💡 <b>For a clearer, more natural voice</b>, download a high-quality voice on your iPhone/iPad:"))+
@@ -1808,6 +1816,8 @@ const Piano=(()=>{
   rate.addEventListener('input',()=>{VS.rate=+rate.value;rl.textContent=Math.round(VS.rate*100)+'%';saveVS()});
   rate.addEventListener('change',()=>say(T('Một, hai, ba, bốn, năm.',"One, two, three, four, five."),'vi-VN',false,true));
   on.addEventListener('change',()=>{VS.on=on.checked;saveVS();if(!VS.on)hush()});
+  mOn.addEventListener('change',()=>{MS.on=mOn.checked;saveMS();music.setEnabled(MS.on)});
+  mVol.addEventListener('input',()=>{MS.vol=+mVol.value;mVolL.textContent=Math.round(MS.vol*100)+'%';saveMS();music.setVolume(MS.vol)});
   box.querySelectorAll('.vtest').forEach(b=>b.addEventListener('click',()=>{
     b.dataset.t==='vi'?say(T('Chào bé! Mình là Mít. Bé hãy chạm vào bóng màu đỏ nhé!',"Hi! I'm Mit. Tap the red balloon!"),'vi-VN',false,true):say('Hello! A for Apple. B for Ball.','en-US',false,true);
   }));
