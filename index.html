@@ -952,16 +952,21 @@ const SFX={
 function sfx(n){audio();try{SFX[n]&&SFX[n]()}catch(e){}}
 
 /* ---------- Background music ---------- */
-let bgEl=null;
+let bgEl=null,bgGain=null;
 const music={
   ensure(){
-    if(!bgEl){try{bgEl=document.createElement('audio');bgEl.loop=true;bgEl.src='audio/bgmusic.mp3';bgEl.volume=MS.vol;document.body.appendChild(bgEl)}catch(e){return}}
+    if(!bgEl){try{
+      bgEl=document.createElement('audio');bgEl.loop=true;bgEl.src='audio/bgmusic.mp3';document.body.appendChild(bgEl);
+      const a=audio();
+      if(a){bgGain=a.createGain();bgGain.gain.value=MS.vol;a.createMediaElementSource(bgEl).connect(bgGain).connect(a.destination)}
+    }catch(e){return}}
     if(MS.on&&bgEl.paused){try{bgEl.play().catch(()=>{})}catch(e){}}
   },
   stop(){if(bgEl)try{bgEl.pause()}catch(e){}},
-  setEnabled(on){if(!on)this.stop();else this.ensure()},
-  setVolume(v){if(bgEl)try{bgEl.volume=v}catch(e){}}
+  setEnabled(on){if(!on)this.stop();else if(current)this.ensure()},
+  setVolume(v){if(bgGain)try{bgGain.gain.value=v}catch(e){}else if(bgEl)try{bgEl.volume=v}catch(e){}}
 };
+document.addEventListener('visibilitychange',()=>{document.hidden?music.stop():(current&&music.ensure())});
 
 /* ---------- Voice (speech synthesis) ---------- */
 let voices=[];

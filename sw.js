@@ -1,6 +1,6 @@
 // Bé Vui Chơi — service worker: chơi offline + tự cập nhật ngầm
-const CACHE = 'bevui-v2';
-const ASSETS = ['./', './index.html', './manifest.webmanifest', './apple-touch-icon.png', './apple-touch-icon-180.png', './icon-192.png', './icon-512.png', './favicon-32.png', './favicon.ico'];
+const CACHE = 'bevui-v3';
+const ASSETS = ['./', './index.html', './manifest.webmanifest', './apple-touch-icon.png', './apple-touch-icon-180.png', './icon-192.png', './icon-512.png', './favicon-32.png', './favicon.ico', './audio/bgmusic.mp3'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
@@ -20,7 +20,7 @@ self.addEventListener('fetch', e => {
   e.respondWith(caches.open(CACHE).then(async cache => {
     const cached = await cache.match(e.request, { ignoreSearch: true });
     const network = fetch(e.request).then(res => {
-      if (res && (res.ok || res.type === 'opaque')) cache.put(e.request, res.clone());
+      if (res && (res.ok || res.type === 'opaque') && res.status !== 206) cache.put(e.request, res.clone()).catch(() => {});
       return res;
     }).catch(() => cached);
     return cached || network;
