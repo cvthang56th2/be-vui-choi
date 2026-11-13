@@ -955,9 +955,9 @@ function sfx(n){audio();try{SFX[n]&&SFX[n]()}catch(e){}}
 let bgEl=null,bgGain=null;
 const music={
   ensure(){
+    const a=audio();
     if(!bgEl){try{
       bgEl=document.createElement('audio');bgEl.loop=true;bgEl.src='audio/bgmusic.mp3';document.body.appendChild(bgEl);
-      const a=audio();
       if(a){bgGain=a.createGain();bgGain.gain.value=MS.vol;a.createMediaElementSource(bgEl).connect(bgGain).connect(a.destination)}
     }catch(e){return}}
     if(MS.on&&bgEl.paused){try{bgEl.play().catch(()=>{})}catch(e){}}
