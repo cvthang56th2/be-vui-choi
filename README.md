@@ -82,3 +82,7 @@ Trong Xcode:
 Với Apple ID miễn phí, app hết hạn sau **7 ngày** — cắm cáp và bấm ▶ lại để gia hạn. Tài khoản Apple Developer (99 USD/năm) cho 1 năm và cài qua TestFlight được.
 
 Mỗi khi sửa `index.html`: chạy `npm run ios` rồi ▶ lại.
+
+## Âm thanh
+
+"Monkeys Spinning Monkeys" Kevin MacLeod (incompetech.com) Licensed under Creative Commons: By Attribution 4.0 License (http://creativecommons.org/licenses/by/4.0/)

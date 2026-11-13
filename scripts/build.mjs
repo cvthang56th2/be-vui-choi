@@ -1,5 +1,5 @@
 // Copy the static web app into www/ (used by Vercel and by Capacitor for the iOS app).
-import { rmSync, mkdirSync, copyFileSync, existsSync, statSync } from 'node:fs';
+import { rmSync, mkdirSync, copyFileSync, cpSync, existsSync, statSync } from 'node:fs';
 
 const FILES = [
   'index.html', 'sw.js', 'manifest.webmanifest', 'favicon.ico', 'favicon-16.png', 'favicon-32.png',
@@ -18,4 +18,6 @@ for (const f of FILES) {
   copyFileSync(f, `www/${f}`);
   console.log(`✓ www/${f} (${(statSync(f).size / 1024).toFixed(1)} KB)`);
 }
+cpSync('audio', 'www/audio', { recursive: true });
+console.log('✓ www/audio/ (folder)');
 console.log('Build done → www/');
