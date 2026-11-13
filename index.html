@@ -986,12 +986,13 @@ function say(text,lang,queue,force){
   if(lang==='vi-VN!')lang='vi-VN';else if(!lang||lang==='vi-VN')lang=LANG==='en'?'en-US':'vi-VN';
   try{
     if(!queue)speechSynthesis.cancel();
-    const u=new SpeechSynthesisUtterance(text);
-    u.lang=lang;const v=pickVoice(lang);if(v)u.voice=v;
-    const pre=lang.slice(0,2);
-    u.rate=pre==='vi'?VS.rate:Math.max(.5,VS.rate-.07);
-    u.pitch=1.0;u.volume=1;
-    speechSynthesis.speak(u);
+    const v=pickVoice(lang),pre=lang.slice(0,2),rate=pre==='vi'?VS.rate:Math.max(.5,VS.rate-.07);
+    text.split(/(?<=[.!?…])\s+/).forEach(c=>{
+      const u=new SpeechSynthesisUtterance(c);
+      u.lang=lang;if(v)u.voice=v;
+      u.rate=rate;u.pitch=1.0;u.volume=1;
+      speechSynthesis.speak(u);
+    });
   }catch(e){}
 }
 function hush(){if(hasTTS){try{speechSynthesis.cancel()}catch(e){}}}
