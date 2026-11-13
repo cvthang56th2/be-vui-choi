@@ -2176,10 +2176,14 @@ const SND={
   train(){audio();tone(392,.45,'triangle',.16);tone(330,.7,'triangle',.16,.42)},
   plane(){audio();tone(160,1.2,'sawtooth',.05,0,2)}
 };
+function emojiOrImg(emoji,path,imgClass,wrapClass){
+  const fb=wrapClass?`<span class="${wrapClass}">${emoji}</span>`:emoji;
+  return path?`<img class="${imgClass}" src="${path}" alt="${emoji}" onerror="this.outerHTML='${fb.replace(/"/g,'&quot;')}'">`:fb;
+}
 function makeBoard(id,stageSel,items,promptHtml,speech,anim){
   const stage=$(stageSel),TINT=['#fff0f0','#fff6dc','#e9ffef','#e8f3ff','#f3ebff','#ffedf6'];
   function start(){
-    stage.innerHTML=`<div class="board6">${items.map((it,i)=>`<button class="btile" style="background:${TINT[i%TINT.length]}">${it[4]?`<img class="btimg" src="${it[4]}" alt="${it[0]}" onerror="this.outerHTML='<span class=&quot;be&quot;>${it[0]}</span>'">`:`<span class="be">${it[0]}</span>`}${it[1]}</button>`).join('')}</div>`;
+    stage.innerHTML=`<div class="board6">${items.map((it,i)=>`<button class="btile" style="background:${TINT[i%TINT.length]}">${emojiOrImg(it[0],it[4],'btimg','be')}${it[1]}</button>`).join('')}</div>`;
     stage.querySelectorAll('.btile').forEach((b,i)=>b.addEventListener('pointerdown',e=>{
       e.preventDefault();const it=items[i];b.classList.remove(anim);void b.offsetWidth;b.classList.add(anim);
       if(it[3])SND[it[3]]();else sfx('boing');
