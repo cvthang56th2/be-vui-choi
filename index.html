@@ -952,7 +952,7 @@ function sfx(n){audio();try{SFX[n]&&SFX[n]()}catch(e){}}
 let voices=[];
 const hasTTS='speechSynthesis' in window;
 // Novelty / robotic system voices that sound bad for kids
-const BAD=/(albert|bad news|bahh|bells|boing|bubbles|cellos|deranged|good news|hysterical|jester|junior|organ|superstar|trinoids|whisper|wobble|zarvox|fred|kathy|ralph|eddy|flo|grandma|grandpa|reed|rocko|sandy|shelley|eloquence)/i;
+const BAD=/(albert|bad news|bahh|bells|boing|bubbles|cellos|deranged|good news|hysterical|jester|junior|organ|superstar|trinoids|whisper|wobble|zarvox|fred|kathy|ralph|eddy|flo|grandma|grandpa|reed|rocko|sandy|shelley|eloquence|compact|espeak|pico)/i;
 const VS={on:true,rate:0.85,vi:'',en:''};
 try{Object.assign(VS,JSON.parse(localStorage.getItem('bevui_voice')||'{}'))}catch(e){}
 function saveVS(){try{localStorage.setItem('bevui_voice',JSON.stringify(VS))}catch(e){}}
@@ -962,6 +962,7 @@ function vscore(v,lang){
   if(langOf(v)===lang.toLowerCase())s+=5;
   if(/premium|cao cấp/i.test(n))s+=40;
   if(/enhanced|nâng cao|natural|neural/i.test(n))s+=30;
+  if(/natural|wavenet|neural|chirp/i.test(n))s+=30;
   if(/siri/i.test(n))s+=25;
   if(/google/i.test(n))s+=15;
   if(/linh|samantha|ava|allison|susan|nicky|zoe|karen|moira/i.test(n))s+=8;
