@@ -846,6 +846,10 @@ button{font-family:inherit;cursor:pointer}
   <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
   <div class="stage" id="gdstage"></div>
 </section>
+<section class="screen" id="float">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="flstage"></div>
+</section>
 <section class="screen" id="train">
   <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
   <div class="stage" id="trstage"></div>
@@ -2170,6 +2174,43 @@ const Bubbles=(()=>{
   return{start,stop};
 })();
 
+const Float=(()=>{
+  const stage=$('#flstage'),CAP=12;
+  let list=[],raf=0,run=false,last=0,W=0,H=0;
+  function spawn(tx,ty){
+    if(list.length>=CAP)return;
+    const bw=rand(70,100),[c,c2]=pickOne(COLS_B);
+    const d=document.createElement('div');d.className='balloon';d.style.width=bw+'px';
+    d.innerHTML=`<div class="bb" style="--c:${c};--c2:${c2}"></div><div class="string"></div>`;
+    const x=Math.min(Math.max(4,tx-bw/2),Math.max(4,W-bw-4)),y=Math.min(Math.max(4,ty-bw/2),Math.max(4,H-bw-4));
+    d.style.transform=`translate3d(${x}px,${y}px,0)`;stage.appendChild(d);
+    list.push({el:d,x,y,bw,c,v:rand(55,90),ph:rand(0,6),done:false});
+  }
+  function pop(b){
+    b.done=true;sparks(stage,b.x+b.bw/2,b.y+b.bw*.5,b.c,12);b.el.remove();
+    audio();tone(pickOne(PENTA),.35,'triangle',.25,0,1.6);addStar();
+  }
+  function loop(t){
+    if(!run)return;const dt=Math.min(.05,(t-last)/1000);last=t;
+    for(const b of list){if(!b.done){b.y-=b.v*dt;b.el.style.transform=`translate3d(${b.x+Math.sin(t/700+b.ph)*10}px,${b.y}px,0)`;if(b.y<=0)pop(b)}}
+    list=list.filter(b=>!b.done);
+    raf=requestAnimationFrame(loop);
+  }
+  function onDown(e){
+    if(current!==Float)return;e.preventDefault();
+    const r=stage.getBoundingClientRect();spawn(e.clientX-r.left,e.clientY-r.top);
+    audio();tone(pickOne(PENTA)/1.5,.15,'sine',.1);
+  }
+  stage.addEventListener('pointerdown',onDown);
+  function start(){
+    stop();stage.innerHTML='';list=[];const r=stage.getBoundingClientRect();W=r.width;H=r.height;
+    run=true;last=performance.now();raf=requestAnimationFrame(loop);
+    setPrompt('float',T('🎈 Chạm vào đây để thả bóng bay lên trời nhé!',"🎈 Tap here to send balloons flying!"),T('Bé chạm vào màn hình để thả bóng bay lên trời nhé!',"Tap the screen to send balloons flying!"));
+  }
+  function stop(){run=false;cancelAnimationFrame(raf);list.forEach(b=>b.el.remove());list=[]}
+  return{start,stop};
+})();
+
 const SND={
   horn(){audio();tone(440,.14,'square',.09);tone(440,.24,'square',.09,.2)},
   siren(){audio();[0,.38,.76].forEach((w,i)=>tone(i%2?880:660,.36,'sine',.16,w))},
@@ -2923,6 +2964,7 @@ const CARDS={race:['🏎️',T('Đua xe',"Racing"),T('Nhận biết số',"Numbe
   wipe:['🧽',T('Lau kính',"Wipe the glass"),T('Ai trốn sau?',"Who's behind?"),'#9fd8ff','#4fb3f0'],
   pump:['🎈',T('Bơm bóng',"Pump the balloon"),T('Bấm & bay',"Tap & fly"),'#ffc88a','#ff9a3d'],
   garden:['🌷',T('Vườn hoa',"Flower garden"),T('Trồng hoa',"Plant flowers"),'#a8e890','#5cc93b'],
+  float:['🎈',T('Thả bóng bay',"Balloon release"),T('Chạm để thả bóng',"Tap to release balloons"),'#ffafc7','#ff6fa0'],
   train:['🚂',T('Tàu hỏa',"Train"),T('Tu tu!',"Choo choo!"),'#c7b3ff','#8f6bff'],
   dance:['💃',T('Nhảy múa',"Dance party"),T('Âm nhạc',"Music"),'#ffb3dc','#ff6fb5'],
   icecream:['🍦',T('Làm kem',"Ice cream"),T('Màu & vị',"Colors & flavors"),'#ffe08a','#f5b400'],
@@ -2932,7 +2974,7 @@ const CARDS={race:['🏎️',T('Đua xe',"Racing"),T('Nhận biết số',"Numbe
   tap:['👆',T('Chạm là vui',"Tap fun"),T('Chạm & khám phá',"Tap & explore"),'#ff9cc6','#ff6aa8'],peek:['🙈',T('Ú òa!',"Peekaboo!"),T('Bất ngờ thú vị',"Surprise!"),'#ffd166','#f5a623'],
   bubbles:['🫧',T('Bong bóng',"Bubbles"),T('Vận động tay',"Hand skills"),'#8fd8ff','#3fa9ec'],animals:['🐶',T('Con vật',"Animals"),T('Tên & tiếng kêu',"Names & sounds"),'#9fe07c','#55c234','img/animals/dog.jpg'],
   vehicles:['🚒',T('Xe cộ',"Vehicles"),T('Tên & âm thanh',"Names & sounds"),'#ff9f80','#ff6a3d','img/vehicles/car.jpg'],draw:['🖍️',T('Vẽ ngón tay',"Finger painting"),T('Sáng tạo',"Creative"),'#c8a2ff','#9466ff'],clock:['🕐',T('Xem giờ',"Tell time"),T('Đồng hồ',"Clock"),'#ffb347','#ff8a00']};
-const AGES=[{icon:'👶',label:T('1–2 tuổi',"Age 1–2"),say:T('một đến hai',"one to two"),games:['tap','peek','bubbles','animals','vehicles','draw','piano','fruitsB','colorsB','bodyB','instr','family','aqua','daynight','fireworks','eggs','shapesB','walk','wipe','pump','garden','train','dance','icecream','blocks','flashlight','phone']},
+const AGES=[{icon:'👶',label:T('1–2 tuổi',"Age 1–2"),say:T('một đến hai',"one to two"),games:['tap','peek','bubbles','animals','vehicles','draw','piano','fruitsB','colorsB','bodyB','instr','family','aqua','daynight','fireworks','eggs','shapesB','walk','wipe','pump','garden','float','train','dance','icecream','blocks','flashlight','phone']},
   {icon:'🐣',label:T('2–3 tuổi',"Age 2–3"),say:T('hai đến ba',"two to three"),games:['balloon','sound','sorter','feed','piano','paint','fruitQ','colorQ','sizeQ','bodyQ','sameQ','eatQ','homeQ','count3','shapeQ','csort']},
   {icon:'🐥',label:T('4–5 tuổi',"Age 4–5"),say:T('bốn đến năm',"four to five"),games:['race','count','pattern','shadow','build','puzzle','memory','abc','bigger','vnletter','moreless','oddone','opposite','emotion','nextnum','whack','simon','vehq']},
   {icon:'🦉',label:T('6–7 tuổi',"Age 6–7"),say:T('sáu đến bảy',"six to seven"),games:['math','spell','clock','maze','puzzle','memory','abc','piano','math20','compare','readvn','listen','days','evenodd','tens','sudoku','mathrace','leftright']}];
@@ -2956,7 +2998,7 @@ $('#langToggle').addEventListener('click',()=>{sfx('tap');setLang(LANG==='en'?'v
 document.querySelectorAll('.langbtn').forEach(b=>{b.classList.toggle('on',b.dataset.lang===LANG);b.addEventListener('click',()=>{sfx('tap');setLang(b.dataset.lang)})});
 
 /* ---------- Navigation ---------- */
-const GAMES={walk:Walk,wipe:Wipe,pump:Pump,garden:Garden,train:Train,dance:Dance,icecream:IceCream,blocks:Blocks,flashlight:Flashlight,phone:Phone,fruitsB:FruitBoard,colorsB:ColorBoard,bodyB:BodyBoard,instr:InstrBoard,family:FamilyBoard,aqua:Aqua,daynight:DayNight,fireworks:Fireworks,eggs:Eggs,shapesB:ShapeBoard,fruitQ:FruitQ,colorQ:ColorQ,sizeQ:SizeQ,bodyQ:BodyQ,sameQ:SameQ,eatQ:EatQ,homeQ:HomeQ,count3:Count3Q,shapeQ:ShapeQ,csort:CSort,bigger:BiggerQ,vnletter:VNLetterQ,moreless:MoreLessQ,oddone:OddQ,opposite:OppQ,emotion:EmotionQ,nextnum:NextNumQ,whack:Whack,simon:Simon,vehq:VehQ,math20:Math20Q,compare:CompareQ,readvn:ReadVNQ,listen:ListenQ,days:DaysQ,evenodd:EvenOddQ,tens:TensQ,sudoku:Sudoku,mathrace:MathRaceQ,leftright:LeftRightQ,tap:TapFun,peek:Peek,bubbles:Bubbles,animals:AnimalBoard,vehicles:VehicleBoard,draw:Draw,race:Race,build:Build,memory:Memory,balloon:Balloon,paint:Paint,puzzle:Puzzle,abc:ABC,feed:Feed,piano:Piano,sound:SoundQ,sorter:Sorter,shadow:ShadowQ,count:CountQ,pattern:PatternQ,math:MathQ,spell:Spell,maze:Maze,clock:ClockQ};
+const GAMES={walk:Walk,wipe:Wipe,pump:Pump,garden:Garden,float:Float,train:Train,dance:Dance,icecream:IceCream,blocks:Blocks,flashlight:Flashlight,phone:Phone,fruitsB:FruitBoard,colorsB:ColorBoard,bodyB:BodyBoard,instr:InstrBoard,family:FamilyBoard,aqua:Aqua,daynight:DayNight,fireworks:Fireworks,eggs:Eggs,shapesB:ShapeBoard,fruitQ:FruitQ,colorQ:ColorQ,sizeQ:SizeQ,bodyQ:BodyQ,sameQ:SameQ,eatQ:EatQ,homeQ:HomeQ,count3:Count3Q,shapeQ:ShapeQ,csort:CSort,bigger:BiggerQ,vnletter:VNLetterQ,moreless:MoreLessQ,oddone:OddQ,opposite:OppQ,emotion:EmotionQ,nextnum:NextNumQ,whack:Whack,simon:Simon,vehq:VehQ,math20:Math20Q,compare:CompareQ,readvn:ReadVNQ,listen:ListenQ,days:DaysQ,evenodd:EvenOddQ,tens:TensQ,sudoku:Sudoku,mathrace:MathRaceQ,leftright:LeftRightQ,tap:TapFun,peek:Peek,bubbles:Bubbles,animals:AnimalBoard,vehicles:VehicleBoard,draw:Draw,race:Race,build:Build,memory:Memory,balloon:Balloon,paint:Paint,puzzle:Puzzle,abc:ABC,feed:Feed,piano:Piano,sound:SoundQ,sorter:Sorter,shadow:ShadowQ,count:CountQ,pattern:PatternQ,math:MathQ,spell:Spell,maze:Maze,clock:ClockQ};
 const NAMES={race:T('Đua xe!',"Racing!"),build:T('Lắp ráp!',"Build it!"),memory:T('Lật thẻ!',"Memory!"),balloon:T('Bóng bay!',"Balloons!"),paint:T('Tô màu!',"Coloring!"),puzzle:T('Ghép hình!',"Puzzle!"),abc:T('Chữ cái!',"Letters!"),feed:T('Cho thú ăn!',"Feed the animals!"),piano:T('Đàn piano!',"Piano!")};
 let current=null;
 function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===id))}
