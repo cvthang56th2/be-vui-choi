@@ -848,7 +848,7 @@ button{font-family:inherit;cursor:pointer}
 </section>
 <section class="screen" id="float">
   <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
-  <div class="stage" id="flstage"></div>
+  <div class="stage" id="flostage"></div>
 </section>
 <section class="screen" id="train">
   <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
@@ -2175,7 +2175,7 @@ const Bubbles=(()=>{
 })();
 
 const Float=(()=>{
-  const stage=$('#flstage'),CAP=12;
+  const stage=$('#flostage'),CAP=12;
   let list=[],raf=0,run=false,last=0,W=0,H=0;
   function spawn(tx,ty){
     if(list.length>=CAP)return;
