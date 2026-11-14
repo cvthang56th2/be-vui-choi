@@ -226,6 +226,7 @@ button{font-family:inherit;cursor:pointer}
 .citem b{position:absolute;right:-10px;top:-10px;background:#ff4757;color:#fff;border-radius:50%;width:1.7em;height:1.7em;font-size:clamp(14px,2.4vmin,24px);display:flex;align-items:center;justify-content:center;animation:pop .3s;font-style:normal}
 .citem.gone{opacity:.35}
 .citem.gone::after{content:"✖";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#ff4757;font-size:.8em;font-weight:800}
+.cblbox{row-gap:4.5vmin}
 .cblbox .cbitem{position:relative;width:clamp(40px,7vmin,64px);transition:opacity .3s,transform .3s}
 .cblbox .cbitem .string{height:30%}
 .cblbox .cbitem.popped{opacity:0;transform:scale(.3) translateY(14px)}
@@ -497,7 +498,7 @@ button{font-family:inherit;cursor:pointer}
   .qarea{gap:6px}
   .qbig,.abchint{font-size:min(26vh,96px)}
   .clock{width:min(40vh,160px)}
-  .cbox{padding:6px 12px}.citem{font-size:min(12vh,48px)}.cbox.small .citem{font-size:min(8vh,32px)}.cblbox .cbitem{width:min(10vh,40px)}
+  .cbox{padding:6px 12px}.citem{font-size:min(12vh,48px)}.cbox.small .citem{font-size:min(8vh,32px)}.cblbox{row-gap:6vh}.cblbox .cbitem{width:min(10vh,40px)}
   .seq{font-size:min(12vh,48px);padding:8px 14px}
   .qopt{height:min(22vh,78px);min-width:min(22vh,78px);font-size:min(12vh,42px)}
   .abct{width:min(24vh,90px);font-size:min(14vh,54px)}
@@ -2182,13 +2183,13 @@ const Bubbles=(()=>{
 })();
 
 const Float=(()=>{
-  const stage=$('#flostage'),CAP=12;
+  const stage=$('#flostage'),CAP=12,FACES=['◕‿◕','•ᴗ•','^‿^','◠‿◠'];
   let list=[],raf=0,run=false,last=0,W=0,H=0;
   function spawn(tx,ty){
     if(list.length>=CAP)return;
     const bw=rand(70,100),[c,c2]=pickOne(COLS_B);
-    const d=document.createElement('div');d.className='balloon';d.style.width=bw+'px';
-    d.innerHTML=`<div class="bb" style="--c:${c};--c2:${c2}"></div><div class="string"></div>`;
+    const d=document.createElement('div');d.className='balloon';d.style.width=bw+'px';d.style.setProperty('--fs',Math.round(bw*.24)+'px');
+    d.innerHTML=`<div class="bb" style="--c:${c};--c2:${c2}"><div class="bface">${pickOne(FACES)}</div></div><div class="string"></div>`;
     const x=Math.min(Math.max(4,tx-bw/2),Math.max(4,W-bw-4)),y=Math.min(Math.max(4,ty-bw/2),Math.max(4,H-bw-4));
     d.style.transform=`translate3d(${x}px,${y}px,0)`;stage.appendChild(d);
     list.push({el:d,x,y,bw,c,v:rand(55,90),ph:rand(0,6),done:false});
@@ -2461,21 +2462,31 @@ const Count3Q=makeQuiz({id:'count3',stage:'#c3stage',rounds:6,winMsg:T('Bé đ�
     options:[1,2,3].map(m=>({html:m,correct:m===n,say:T('Bé chỉ tay đếm lại nhé!',"Point and count again!")})),
     onCorrect(st){st.querySelectorAll('.citem').forEach((e,i)=>setTimeout(()=>e.insertAdjacentHTML('beforeend',`<b>${i+1}</b>`),i*500));say(NUMW.slice(1,n+1).map(cap).join(', ')+'!');return n*500+1500}};
 }});
-const CountBalloonQ=makeQuiz({id:'countballoon',stage:'#cblstage',rounds:8,winMsg:T('Bé đếm bóng bay giỏi quá! 🎈',"Great balloon counting! 🎈"),gen(){
-  const n=1+ri(10),opts=new Set([n]);
-  while(opts.size<3){const m=n+ri(5)-2;if(m>=1&&m<=Math.max(10,n+2))opts.add(m)}
-  return{html:`<div class="cbox cblbox">${[...Array(n)].map(()=>{const[c,c2]=pickOne(COLS_B);return `<div class="cbitem" data-c="${c}"><div class="bb" style="--c:${c};--c2:${c2}"></div><div class="string"></div></div>`}).join('')}</div>`,
-    prompt:T('🔊 Có bao nhiêu quả bóng bay?',"🔊 How many balloons?"),speech:T('Có bao nhiêu quả bóng bay nhỉ?',"How many balloons are there?"),
-    options:shuffle([...opts]).map(m=>({html:m,correct:m===n,say:T('Chưa đúng. Bé chỉ tay đếm lại nhé!',"Not quite. Point and count again!")})),
-    onCorrect(st){
-      const items=[...st.querySelectorAll('.cbitem')],sr=st.getBoundingClientRect();
-      items.forEach((e,i)=>setTimeout(()=>{
-        const r=e.getBoundingClientRect();sparks(st,r.left-sr.left+r.width/2,r.top-sr.top+r.height*.4,e.dataset.c,10);sfx('pop');e.classList.add('popped');
-      },i*140));
-      say(NUMW.slice(1,n+1).map(cap).join(', ')+T('. Có '+NUMW[n]+' quả bóng bay!','. There '+(n===1?'is':'are')+' '+NUMW[n]+' '+pl('balloon',n)+'!'));
-      return items.length*140+1700;
-    }};
-}});
+const CountBalloonQ=(()=>{
+  let popTmrs=[];
+  function clearPops(){popTmrs.forEach(clearTimeout);popTmrs=[]}
+  const q=makeQuiz({id:'countballoon',stage:'#cblstage',rounds:8,winMsg:T('Bé đếm bóng bay giỏi quá! 🎈',"Great balloon counting! 🎈"),gen(){
+    const n=1+ri(10),opts=new Set([n]);
+    while(opts.size<3){const m=n+ri(5)-2;if(m>=1&&m<=Math.max(10,n+2))opts.add(m)}
+    return{html:`<div class="cbox cblbox">${[...Array(n)].map(()=>{const[c,c2]=pickOne(COLS_B);return `<div class="cbitem" data-c="${c}"><div class="bb" style="--c:${c};--c2:${c2}"></div><div class="string"></div></div>`}).join('')}</div>`,
+      prompt:T('🔊 Có bao nhiêu quả bóng bay?',"🔊 How many balloons?"),speech:T('Có bao nhiêu quả bóng bay nhỉ?',"How many balloons are there?"),
+      options:shuffle([...opts]).map(m=>({html:m,correct:m===n,say:T('Chưa đúng. Bé chỉ tay đếm lại nhé!',"Not quite. Point and count again!")})),
+      onCorrect(st){
+        clearPops();
+        const items=[...st.querySelectorAll('.cbitem')],sr=st.getBoundingClientRect();
+        items.forEach((e,i)=>{
+          popTmrs.push(setTimeout(()=>{
+            if(current!==CountBalloonQ)return;
+            const r=e.getBoundingClientRect();sparks(st,r.left-sr.left+r.width/2,r.top-sr.top+r.height*.4,e.dataset.c,10);sfx('pop');e.classList.add('popped');
+          },i*140));
+        });
+        say(NUMW.slice(1,n+1).map(cap).join(', ')+T('. Có '+NUMW[n]+' quả bóng bay!','. There '+(n===1?'is':'are')+' '+NUMW[n]+' '+pl('balloon',n)+'!'));
+        return items.length*140+1700;
+      }};
+  }});
+  const stop0=q.stop;q.stop=()=>{clearPops();stop0()};
+  return q;
+})();
 const ShapeQ=makeQuiz({id:'shapeQ',stage:'#sqstage',rounds:6,winMsg:T('Bé biết nhiều hình quá! 🔷',"You know so many shapes! 🔷"),gen(){
   const ks=pickN(['circle','square','tri','star','heart'],3),a=pickOne(ks),cols=pickN(QC,3);
   return{html:`<button class="qtext" data-replay>🔊 ${cap(SHP[a][0])}</button>`,prompt:T(`🔊 ${cap(SHP[a][0])} đâu?`,`🔊 Where is the ${SHP[a][0]}?`),speech:T(`${cap(SHP[a][0])} đâu nhỉ?`,`Where is the ${SHP[a][0]}?`),
@@ -2988,7 +2999,7 @@ const CARDS={race:['🏎️',T('Đua xe',"Racing"),T('Nhận biết số',"Numbe
   wipe:['🧽',T('Lau kính',"Wipe the glass"),T('Ai trốn sau?',"Who's behind?"),'#9fd8ff','#4fb3f0'],
   pump:['🎈',T('Bơm bóng',"Pump the balloon"),T('Bấm & bay',"Tap & fly"),'#ffc88a','#ff9a3d'],
   garden:['🌷',T('Vườn hoa',"Flower garden"),T('Trồng hoa',"Plant flowers"),'#a8e890','#5cc93b'],
-  float:['🎈',T('Thả bóng bay',"Balloon release"),T('Chạm để thả bóng',"Tap to release balloons"),'#ffafc7','#ff6fa0'],
+  float:['🪁',T('Thả bóng bay',"Balloon release"),T('Chạm để thả bóng',"Tap to release balloons"),'#ffafc7','#ff6fa0'],
   train:['🚂',T('Tàu hỏa',"Train"),T('Tu tu!',"Choo choo!"),'#c7b3ff','#8f6bff'],
   dance:['💃',T('Nhảy múa',"Dance party"),T('Âm nhạc',"Music"),'#ffb3dc','#ff6fb5'],
   icecream:['🍦',T('Làm kem',"Ice cream"),T('Màu & vị',"Colors & flavors"),'#ffe08a','#f5b400'],
