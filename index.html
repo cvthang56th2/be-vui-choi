@@ -56,6 +56,7 @@ button{font-family:inherit;cursor:pointer}
   box-shadow:0 10px 0 rgba(0,0,0,.2),inset 0 -8px 0 rgba(0,0,0,.08);display:flex;flex-direction:column;align-items:center;gap:.5vmin;transition:transform .12s;text-shadow:0 3px 0 rgba(0,0,0,.18)}
 .card:active{transform:translateY(7px) scale(.97);box-shadow:0 3px 0 rgba(0,0,0,.2)}
 .card .ico{font-size:clamp(44px,8vmin,90px);line-height:1.1;animation:bob 2s ease-in-out infinite;text-shadow:none}
+.card .icoimg{width:clamp(44px,8vmin,90px);height:clamp(44px,8vmin,90px);object-fit:cover;border-radius:18px;animation:bob 2s ease-in-out infinite}
 .card small{font-size:.55em;font-weight:600;opacity:.95}
 .card:nth-child(2) .ico{animation-delay:.3s}.card:nth-child(3) .ico{animation-delay:.6s}.card:nth-child(4) .ico{animation-delay:.9s}
 .c-race{background:linear-gradient(160deg,#ff6b6b,#ff4757)}
@@ -2176,9 +2177,10 @@ const SND={
   train(){audio();tone(392,.45,'triangle',.16);tone(330,.7,'triangle',.16,.42)},
   plane(){audio();tone(160,1.2,'sawtooth',.05,0,2)}
 };
-function emojiOrImg(emoji,path,imgClass,wrapClass){
-  const fb=wrapClass?`<span class="${wrapClass}">${emoji}</span>`:emoji;
-  return path?`<img class="${imgClass}" src="${path}" alt="${emoji}" onerror="this.outerHTML='${fb.replace(/"/g,'&quot;')}'">`:fb;
+function emojiOrImg(emoji,path,imgClass,wrapClass,style){
+  const st=style?` style="${style}"`:'';
+  const fb=wrapClass?`<span class="${wrapClass}"${st}>${emoji}</span>`:emoji;
+  return path?`<img class="${imgClass}"${st} src="${path}" alt="${emoji}" onerror="this.outerHTML='${fb.replace(/"/g,'&quot;')}'">`:fb;
 }
 function makeBoard(id,stageSel,items,promptHtml,speech,anim){
   const stage=$(stageSel),TINT=['#fff0f0','#fff6dc','#e9ffef','#e8f3ff','#f3ebff','#ffedf6'];
@@ -2936,7 +2938,7 @@ const AGES=[{icon:'👶',label:T('1–2 tuổi',"Age 1–2"),say:T('một đến
   {icon:'🦉',label:T('6–7 tuổi',"Age 6–7"),say:T('sáu đến bảy',"six to seven"),games:['math','spell','clock','maze','puzzle','memory','abc','piano','math20','compare','readvn','listen','days','evenodd','tens','sudoku','mathrace','leftright']}];
 function renderHome(){
   $('#agetabs').innerHTML=AGES.map((a,i)=>`<button class="agetab${i===AGE?' on':''}" data-a="${i}">${a.icon} ${a.label}</button>`).join('');
-  $('#grid').innerHTML=AGES[AGE].games.filter(g=>!(LANG==='en'&&g==='vnletter')).map((g,i)=>{const c=CARDS[g];return`<button class="card" data-game="${g}" style="background:linear-gradient(160deg,${c[3]},${c[4]});animation-delay:${Math.min(i,8)*.04}s"><span class="ico" style="animation-delay:${(i*.27)%1.2}s">${c[0]}</span>${c[1]}<small>${c[2]}</small></button>`}).join('');
+  $('#grid').innerHTML=AGES[AGE].games.filter(g=>!(LANG==='en'&&g==='vnletter')).map((g,i)=>{const c=CARDS[g];return`<button class="card" data-game="${g}" style="background:linear-gradient(160deg,${c[3]},${c[4]});animation-delay:${Math.min(i,8)*.04}s">${emojiOrImg(c[0],c[5],'icoimg','ico',`animation-delay:${(i*.27)%1.2}s`)}${c[1]}<small>${c[2]}</small></button>`}).join('');
   document.querySelectorAll('.agetab').forEach(b=>b.addEventListener('click',()=>{
     AGE=+b.dataset.a;try{localStorage.setItem('bevui_age2',AGE)}catch(e){}
     sfx('tap');say(T('Trò chơi cho bé '+AGES[AGE].say+' tuổi','Games for ages '+AGES[AGE].say));renderHome();
