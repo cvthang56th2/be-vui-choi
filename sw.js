@@ -1,6 +1,6 @@
 // Bé Vui Chơi — service worker: chơi offline + tự cập nhật ngầm
-const CACHE = 'bevui-v4';
-const ASSETS = ['./', './index.html', './manifest.webmanifest', './apple-touch-icon.png', './apple-touch-icon-180.png', './icon-192.png', './icon-512.png', './favicon-32.png', './favicon.ico', './audio/bgmusic.mp3', './img/animals/dog.jpg', './img/animals/cat.jpg', './img/animals/cow.jpg', './img/animals/chicken.jpg', './img/animals/duck.jpg', './img/animals/pig.jpg', './img/vehicles/car.jpg', './img/vehicles/train.jpg', './img/vehicles/airplane.jpg', './img/vehicles/firetruck.jpg', './img/vehicles/bus.jpg', './img/vehicles/bicycle.jpg'];
+const CACHE = 'bevui-v5';
+const ASSETS = ['./', './index.html', './manifest.webmanifest', './apple-touch-icon.png', './apple-touch-icon-180.png', './icon-192.png', './icon-512.png', './favicon-32.png', './favicon.ico', './audio/bgmusic.mp3', './img/animals/dog.jpg', './img/animals/cat.jpg', './img/animals/cow.jpg', './img/animals/chicken.jpg', './img/animals/duck.jpg', './img/animals/pig.jpg', './img/vehicles/car.jpg', './img/vehicles/train.jpg', './img/vehicles/airplane.jpg', './img/vehicles/firetruck.jpg', './img/vehicles/bus.jpg', './img/vehicles/bicycle.jpg', './img/fruits/apple.jpg', './img/fruits/banana.jpg', './img/fruits/grapes.jpg', './img/fruits/orange.jpg', './img/fruits/watermelon.jpg', './img/fruits/strawberry.jpg'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));

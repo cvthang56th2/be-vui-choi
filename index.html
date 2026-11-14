@@ -2242,7 +2242,7 @@ const SHP=(()=>{const st=[...Array(10)].map((_,i)=>{const r=i%2?20:46,a=Math.PI/
     heart:[T('trái tim',"heart"),'<path d="M50 90 C20 68 4 50 4 31 C4 15 16 5 30 5 C40 5 47 11 50 19 C53 11 60 5 70 5 C84 5 96 15 96 31 C96 50 80 68 50 90Z"/>',T('Bé yêu bố mẹ!',"I love Mom and Dad!")],
     rect:[T('hình chữ nhật',"rectangle"),'<rect x="4" y="22" width="92" height="56" rx="10"/>',T('Dài như cái cửa!',"Long like a door!")]}})();
 const shpSvg=(k,c)=>`<svg class="shp" viewBox="0 0 100 100"><g fill="${c}" stroke="#fff" stroke-width="5">${SHP[k][1]}</g></svg>`;
-const FRUITS=[['🍎',T('Quả táo',"Apple"),T('đỏ',"red")],['🍌',T('Quả chuối',"Banana"),T('vàng',"yellow")],['🍇',T('Chùm nho',"Grapes"),T('tím',"purple")],['🍊',T('Quả cam',"Orange"),T('cam','orange')],['🍉',T('Dưa hấu',"Watermelon"),T('xanh và đỏ',"green and red")],['🍓',T('Quả dâu',"Strawberry"),T('đỏ',"red")],
+const FRUITS=[['🍎',T('Quả táo',"Apple"),T('đỏ',"red"),'img/fruits/apple.jpg'],['🍌',T('Quả chuối',"Banana"),T('vàng',"yellow"),'img/fruits/banana.jpg'],['🍇',T('Chùm nho',"Grapes"),T('tím',"purple"),'img/fruits/grapes.jpg'],['🍊',T('Quả cam',"Orange"),T('cam','orange'),'img/fruits/orange.jpg'],['🍉',T('Dưa hấu',"Watermelon"),T('xanh và đỏ',"green and red"),'img/fruits/watermelon.jpg'],['🍓',T('Quả dâu',"Strawberry"),T('đỏ',"red"),'img/fruits/strawberry.jpg'],
   ['🍍',T('Quả dứa',"Pineapple"),T('vàng',"yellow")],['🥭',T('Quả xoài',"Mango"),T('vàng',"yellow")],['🍐',T('Quả lê',"Pear"),T('xanh','green')],['🥥',T('Quả dừa',"Coconut"),T('nâu',"brown")],['🍒',T('Quả anh đào',"Cherry"),T('đỏ',"red")],['🥝',T('Quả kiwi',"Kiwi"),T('xanh','green')]];
 const COLORS=[['#ff4757',T('đỏ',"red"),T('Đỏ như quả táo!',"Red like an apple!")],['#ffd23f',T('vàng',"yellow"),T('Vàng như quả chuối!',"Yellow like a banana!")],['#3ddc84',T('xanh lá',"green"),T('Xanh như chiếc lá!',"Green like a leaf!")],['#3d8bff',T('xanh dương',"blue"),T('Xanh như bầu trời!',"Blue like the sky!")],
   ['#9b5de5',T('tím',"purple"),T('Tím như chùm nho!',"Purple like grapes!")],['#ff8a3d',T('cam','orange'),T('Cam như quả cam!',"Orange like an orange!")],['#ff5fa2',T('hồng',"pink"),T('Hồng như bông hoa!',"Pink like a flower!")]];
@@ -2258,7 +2258,7 @@ SND.chime=()=>{audio();[784,988,1175].forEach((f,i)=>tone(f,.5,'sine',.12,i*.12)
 SND.note=()=>{audio();tone(pickOne(PENTA),.4,'triangle',.18)};
 
 /* ================= 1–2 TUỔI ================= */
-const FruitBoard=makeBoard('fruitsB','#fbstage',FRUITS.slice(0,6).map(f=>[f[0],f[1],T('Màu ',"")+f[2]+'!','note']),T('🍎 Chạm vào trái cây nhé!',"🍎 Tap the fruits!"),T('Bé chạm vào các loại trái cây nhé!',"Tap the fruits!"),'go');
+const FruitBoard=makeBoard('fruitsB','#fbstage',FRUITS.slice(0,6).map(f=>[f[0],f[1],T('Màu ',"")+f[2]+'!','note',f[3]]),T('🍎 Chạm vào trái cây nhé!',"🍎 Tap the fruits!"),T('Bé chạm vào các loại trái cây nhé!',"Tap the fruits!"),'go');
 const ColorBoard=makeBoard('colorsB','#cbstage',COLORS.slice(0,6).map(c=>[dot(c[0]),T('Màu ',"")+c[1],c[2],'note']),T('🌈 Chạm vào các màu nhé!',"🌈 Tap the colors!"),T('Bé chạm vào các màu nhé!',"Tap the colors!"),'go');
 const BodyBoard=makeBoard('bodyB','#bdstage',BODY.slice(0,6).map(b=>[b[0],b[1],b[2],'note']),T('👀 Cơ thể của bé',"👀 My body"),T('Bé chạm vào xem đây là gì nhé!',"Tap to see what this is!"),'go');
 const InstrBoard=makeBoard('instr','#instage',[['🥁',T('Cái trống',"Drum"),T('Tùng tùng tùng!',"Boom boom boom!"),'drum'],['🎺',T('Kèn trumpet',"Trumpet"),T('Toe toe toe!',"Toot toot toot!"),'trumpet'],['🎸',T('Đàn ghi-ta',"Guitar"),T('Tưng tưng!',"Strum strum!"),'guitar'],
@@ -2879,7 +2879,7 @@ const CARDS={race:['🏎️',T('Đua xe',"Racing"),T('Nhận biết số',"Numbe
   count:['🔢',T('Đếm số',"Counting"),T('Đếm 1–10',"Count 1–10"),'#5fd38d','#2fb36a'],pattern:['🧠',T('Quy luật',"Patterns"),T('Tư duy logic',"Logic"),'#c38bff','#8f4fe0'],
   math:['➕',T('Cộng trừ',"Add & subtract"),T('Toán trong 10',"Math to 10"),'#ff8a5c','#ff5e3a'],spell:['🔡',T('Đánh vần',"Spelling"),T('Từ tiếng Anh',"English words"),'#4fc3f7','#1e9be0'],
   maze:['🌀',T('Mê cung',"Maze"),T('Định hướng',"Directions"),'#7ed957','#45b026'],
-  fruitsB:['🍎',T('Trái cây',"Fruits"),T('Tên trái cây',"Fruit names"),'#ff8a8a','#ff5757'],
+  fruitsB:['🍎',T('Trái cây',"Fruits"),T('Tên trái cây',"Fruit names"),'#ff8a8a','#ff5757','img/fruits/apple.jpg'],
   colorsB:['🌈',T('Màu sắc',"Colors"),T('Tên các màu',"Color names"),'#ffb86b','#ff8f3d'],
   bodyB:['👀',T('Cơ thể bé',"My body"),T('Mắt, mũi, miệng',"Eyes, nose, mouth"),'#ffd966','#f0a800'],
   instr:['🥁',T('Nhạc cụ',"Instruments"),T('Âm thanh vui',"Fun sounds"),'#8ee07a','#45b026'],
@@ -2930,8 +2930,8 @@ const CARDS={race:['🏎️',T('Đua xe',"Racing"),T('Nhận biết số',"Numbe
   flashlight:['🔦',T('Soi đèn',"Flashlight"),T('Tìm bạn',"Find friends"),'#a8b3d6','#5a6aa0'],
   phone:['📞',T('Điện thoại',"Toy phone"),T('Gọi bạn',"Call a friend"),'#ff9fb0','#ff5e7e'],
   tap:['👆',T('Chạm là vui',"Tap fun"),T('Chạm & khám phá',"Tap & explore"),'#ff9cc6','#ff6aa8'],peek:['🙈',T('Ú òa!',"Peekaboo!"),T('Bất ngờ thú vị',"Surprise!"),'#ffd166','#f5a623'],
-  bubbles:['🫧',T('Bong bóng',"Bubbles"),T('Vận động tay',"Hand skills"),'#8fd8ff','#3fa9ec'],animals:['🐶',T('Con vật',"Animals"),T('Tên & tiếng kêu',"Names & sounds"),'#9fe07c','#55c234'],
-  vehicles:['🚒',T('Xe cộ',"Vehicles"),T('Tên & âm thanh',"Names & sounds"),'#ff9f80','#ff6a3d'],draw:['🖍️',T('Vẽ ngón tay',"Finger painting"),T('Sáng tạo',"Creative"),'#c8a2ff','#9466ff'],clock:['🕐',T('Xem giờ',"Tell time"),T('Đồng hồ',"Clock"),'#ffb347','#ff8a00']};
+  bubbles:['🫧',T('Bong bóng',"Bubbles"),T('Vận động tay',"Hand skills"),'#8fd8ff','#3fa9ec'],animals:['🐶',T('Con vật',"Animals"),T('Tên & tiếng kêu',"Names & sounds"),'#9fe07c','#55c234','img/animals/dog.jpg'],
+  vehicles:['🚒',T('Xe cộ',"Vehicles"),T('Tên & âm thanh',"Names & sounds"),'#ff9f80','#ff6a3d','img/vehicles/car.jpg'],draw:['🖍️',T('Vẽ ngón tay',"Finger painting"),T('Sáng tạo',"Creative"),'#c8a2ff','#9466ff'],clock:['🕐',T('Xem giờ',"Tell time"),T('Đồng hồ',"Clock"),'#ffb347','#ff8a00']};
 const AGES=[{icon:'👶',label:T('1–2 tuổi',"Age 1–2"),say:T('một đến hai',"one to two"),games:['tap','peek','bubbles','animals','vehicles','draw','piano','fruitsB','colorsB','bodyB','instr','family','aqua','daynight','fireworks','eggs','shapesB','walk','wipe','pump','garden','train','dance','icecream','blocks','flashlight','phone']},
   {icon:'🐣',label:T('2–3 tuổi',"Age 2–3"),say:T('hai đến ba',"two to three"),games:['balloon','sound','sorter','feed','piano','paint','fruitQ','colorQ','sizeQ','bodyQ','sameQ','eatQ','homeQ','count3','shapeQ','csort']},
   {icon:'🐥',label:T('4–5 tuổi',"Age 4–5"),say:T('bốn đến năm',"four to five"),games:['race','count','pattern','shadow','build','puzzle','memory','abc','bigger','vnletter','moreless','oddone','opposite','emotion','nextnum','whack','simon','vehq']},
