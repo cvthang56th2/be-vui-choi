@@ -1612,83 +1612,21 @@ function pickVoice(lang){
 }
 function loadVoices(){try{voices=speechSynthesis.getVoices()||[]}catch(e){}if(window.renderVoiceUI)renderVoiceUI()}
 if(hasTTS){loadVoices();try{speechSynthesis.onvoiceschanged=loadVoices}catch(e){}setTimeout(loadVoices,800)}
-/* Recorded voice: phrases pre-generated with Edge neural TTS (scripts/gen-voice.py) → audio/voice/.
-   A sentence is stitched from recorded phrases when every word is covered; otherwise that sentence
-   falls back to the device voice, so one sentence never mixes two voices. */
-const vnorm=s=>s.normalize('NFC').toLowerCase().replace(/’/g,"'").replace(/[–—-]/g,' ').replace(/[^\p{L}\p{N}\p{M}\s'_]/gu,' ').replace(/\s+/g,' ').trim();
-const REC={map:null,bufs:new Map(),src:new Set(),tok:0,chain:Promise.resolve(),gain:null};
-try{fetch('audio/voice/manifest.json').then(r=>r.ok?r.json():null).then(m=>{REC.map=m}).catch(()=>{})}catch(e){}
-function recSegments(lang,chunk){
-  const m=REC.map&&REC.map[lang];if(!m)return null;
-  const w=vnorm(chunk).split(' ').filter(Boolean);if(!w.length)return null;
-  const best=[[]];  // best[i] = fewest phrases covering w[0..i)
-  for(let i=1;i<=w.length;i++){
-    for(let j=Math.max(0,i-14);j<i;j++){
-      if(!best[j])continue;const f=m[w.slice(j,i).join(' ')];
-      if(f&&(!best[i]||best[j].length+1<best[i].length))best[i]=best[j].concat(f);
-    }
-  }
-  const r=best[w.length];return r&&r.length<=5?r:null;
-}
-function recBuf(f){
-  if(REC.bufs.has(f))return REC.bufs.get(f);
-  const a=actx;if(!a)return Promise.resolve(null);
-  const p=fetch('audio/voice/'+f).then(r=>r.ok?r.arrayBuffer():null)
-    .then(ab=>ab?new Promise((ok,no)=>a.decodeAudioData(ab,ok,no)):null).catch(()=>null);
-  p.then(b=>{if(!b)REC.bufs.delete(f)});
-  REC.bufs.set(f,p);if(REC.bufs.size>400)REC.bufs.delete(REC.bufs.keys().next().value);
-  return p;
-}
-function recPlay(bufs,tok){
-  const a=actx;
-  if(!REC.gain){REC.gain=a.createGain();REC.gain.gain.value=1;REC.gain.connect(a.destination)}
-  let t=a.currentTime+.03;
-  return new Promise(done=>{
-    let last=null;
-    bufs.forEach((b,i)=>{
-      const s=a.createBufferSource();s.buffer=b;s.connect(REC.gain);s.start(t);REC.src.add(s);
-      s.onended=()=>{REC.src.delete(s);if(s===last)done()};
-      last=s;t+=b.duration+(i<bufs.length-1?.06:0);
-    });
-    setTimeout(done,(t-a.currentTime)*1000+400);  // safety net
-  }).then(()=>{if(tok===REC.tok)return new Promise(r=>setTimeout(r,140))});
-}
-function ttsSpeak(chunk,lang,voice,rate){
-  return new Promise(done=>{
-    if(!hasTTS)return done();
-    try{
-      const u=new SpeechSynthesisUtterance(chunk);
-      u.lang=lang;if(voice)u.voice=voice;u.rate=rate;u.pitch=1;u.volume=1;
-      u.onend=u.onerror=()=>done();
-      speechSynthesis.speak(u);
-      setTimeout(done,Math.max(2500,chunk.length*160));
-    }catch(e){done()}
-  });
-}
 function say(text,lang,queue,force){
-  if(!text||(!VS.on&&!force))return;
+  if(!hasTTS||!text||(!VS.on&&!force))return;
   if(lang==='vi-VN!')lang='vi-VN';else if(!lang||lang==='vi-VN')lang=LANG==='en'?'en-US':'vi-VN';
-  if(!queue)hush();
-  const tok=REC.tok,pre=lang.slice(0,2),v=hasTTS?pickVoice(lang):null,rate=pre==='vi'?VS.rate:Math.max(.5,VS.rate-.07);
-  const chunks=text.replace(/([.!?…])\s+/g,'$1\n').split('\n').filter(c=>c.trim());
-  // start fetching every recorded piece right away so playback is gapless
-  const plan=chunks.map(c=>{const segs=(!force&&audio())?recSegments(pre,c):null;  // force = voice test in settings → device voice
-   return{c,segs,bufs:segs?Promise.all(segs.map(recBuf)):null}});
-  REC.chain=REC.chain.then(async()=>{
-    for(const p of plan){
-      if(tok!==REC.tok)return;
-      const bufs=p.bufs?await p.bufs:null;
-      if(tok!==REC.tok)return;
-      if(bufs&&bufs.every(Boolean))await recPlay(bufs,tok);
-      else await ttsSpeak(p.c,lang,v,rate);
-    }
-  }).catch(()=>{});
+  try{
+    if(!queue)speechSynthesis.cancel();
+    const v=pickVoice(lang),pre=lang.slice(0,2),rate=pre==='vi'?VS.rate:Math.max(.5,VS.rate-.07);
+    text.replace(/([.!?…])\s+/g,'$1\n').split('\n').filter(c=>c.trim()).forEach(c=>{
+      const u=new SpeechSynthesisUtterance(c);
+      u.lang=lang;if(v)u.voice=v;
+      u.rate=rate;u.pitch=1.0;u.volume=1;
+      speechSynthesis.speak(u);
+    });
+  }catch(e){}
 }
-function hush(){
-  REC.tok++;REC.chain=Promise.resolve();
-  REC.src.forEach(s=>{try{s.stop()}catch(e){}});REC.src.clear();
-  if(hasTTS){try{speechSynthesis.cancel()}catch(e){}}
-}
+function hush(){if(hasTTS){try{speechSynthesis.cancel()}catch(e){}}}
 
 /* ---------- Age group ---------- */
 let AGE=2;try{const a=parseInt(localStorage.getItem('bevui_age2'),10);if(a>=0&&a<=3)AGE=a}catch(e){}
