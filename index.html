@@ -1422,7 +1422,7 @@ let actx=null;
 function audio(){
   try{if(navigator.audioSession&&navigator.audioSession.type!=='playback')navigator.audioSession.type='playback'}catch(e){}
   if(!actx){try{actx=new (window.AudioContext||window.webkitAudioContext)()}catch(e){}}
-  if(actx&&actx.state==='suspended'){try{actx.resume()}catch(e){}}
+  if(actx&&actx.state!=='running'&&actx.state!=='closed'){try{actx.resume()}catch(e){}}
   return actx;
 }
 function tone(freq,dur,type,vol,when,slide){
@@ -1458,7 +1458,13 @@ function noise(dur,vol,freq,q,when){
 
 /* ---------- Background music: home = recorded track, every game = its own generated tune ---------- */
 let bgEl=null,bgGain=null,musicTrack=null;
-const SYN_K=3;
+const SYN_K=2.5,HOME_K=2.2;
+let synOut=null; // shared compressor so the sparse synth tune sits at an even, audible level
+function synDest(a){
+  if(!synOut){const c=a.createDynamicsCompressor();c.threshold.value=-30;c.knee.value=12;c.ratio.value=6;c.attack.value=.004;c.release.value=.25;
+    const g=a.createGain();g.gain.value=1;c.connect(g);g.connect(a.destination);synOut=c}
+  return synOut;
+}
 const hashStr=s=>{let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0};
 const rngFrom=seed=>{let a=seed|0;return()=>{a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}};
 const mtof=m=>440*Math.pow(2,(m-69)/12);
@@ -1471,7 +1477,7 @@ function makeSong(name){
   const prog=pick([[0,7,9,5],[0,5,7,0],[0,9,5,7],[0,5,9,7],[0,4,5,7],[0,9,2,7]]);
   const triad=d=>(d===9||d===2||d===4)?[d,d+3,d+7]:[d,d+4,d+7];
   const PENT=[0,2,4,7,9,12,14,16,19,21];
-  const lead=pick([{type:'triangle',vol:.15,dec:.9},{type:'square',vol:.045,dec:.7},{type:'sine',vol:.17,dec:1},{type:'bell',vol:.12,dec:.6}]);
+  const lead=pick([{type:'triangle',vol:.15,dec:.9},{type:'square',vol:.07,dec:.8},{type:'sine',vol:.17,dec:1},{type:'bell',vol:.14,dec:.7}]);
   const drums=r()<.75,shaker=r()<.6,swingBass=r()<.5;
   const isChordTone=(m,deg)=>triad(deg).some(c=>((m-c)%12+12)%12===0);
   // build a 2-bar motif (16 eighth steps) over two chords
@@ -1493,10 +1499,10 @@ function makeSong(name){
   const leadAt=new Array(64).fill(null),bassAt=new Array(64).fill(null),padAt=new Array(64).fill(null);
   [[A,0],[B,16],[A,32],[C,48]].forEach(([m,off])=>m.forEach(n=>{leadAt[off+n.s]={m:root+PENT[n.i],d:n.d}}));
   for(let bar=0;bar<8;bar++){
-    const deg=prog[bar%4],b=root-24+deg+(deg>7?-12:0);
+    const deg=prog[bar%4],b=root-12+deg+(deg>7?-12:0);
     bassAt[bar*8]={m:b,d:3};bassAt[bar*8+4]={m:swingBass?b+7:b,d:3};
     if(swingBass)bassAt[bar*8+6]={m:b+12,d:1};
-    padAt[bar*8]=triad(deg).map(c=>root-12+c);
+    padAt[bar*8]=triad(deg).map(c=>root+c);
   }
   return songCache[name]={name,bpm,len:64,leadAt,bassAt,padAt,lead,drums,shaker};
 }
@@ -1521,12 +1527,12 @@ function synHit(bus,t,kind){
 function synTick(){
   const a=actx;if(!a||!syn)return;
   const s=syn.song,st=60/s.bpm/2;
-  if(syn.next<a.currentTime-.1)syn.next=a.currentTime+.05;
-  while(syn.next<a.currentTime+.3){
+  if(syn.next<a.currentTime-.25)syn.next=a.currentTime+.05;
+  while(syn.next<a.currentTime+.6){
     const i=syn.step%s.len,t=syn.next,L=s.leadAt[i],Bs=s.bassAt[i],P=s.padAt[i];
     if(L)synVoice(syn.bus,t,mtof(L.m),L.d*st,s.lead.type,s.lead.vol,s.lead.dec);
-    if(Bs)synVoice(syn.bus,t,mtof(Bs.m),Bs.d*st,'triangle',.13,.9);
-    if(P)P.forEach(m=>synVoice(syn.bus,t,mtof(m),st*7,'sine',.035,1));
+    if(Bs)synVoice(syn.bus,t,mtof(Bs.m),Bs.d*st,'triangle',.11,.9);
+    if(P)P.forEach(m=>synVoice(syn.bus,t,mtof(m),st*7,'sine',.028,1));
     if(s.drums&&i%4===0)synHit(syn.bus,t,'kick');
     if(s.drums&&i%8===4)synHit(syn.bus,t,'snap');
     if(s.shaker&&i%2===1)synHit(syn.bus,t,'hat');
@@ -1541,7 +1547,7 @@ function synStart(name){
   const a=audio();if(!a)return;
   if(syn&&syn.song.name===name)return;
   synFadeOut();
-  const bus=a.createGain();bus.gain.setValueAtTime(.0001,a.currentTime);bus.gain.setTargetAtTime(Math.max(.0001,MS.vol*SYN_K),a.currentTime+.05,.25);bus.connect(a.destination);
+  const bus=a.createGain();bus.gain.setValueAtTime(.0001,a.currentTime);bus.gain.setTargetAtTime(Math.max(.0001,MS.vol*SYN_K),a.currentTime+.05,.25);bus.connect(synDest(a));
   syn={song:makeSong(name),bus,step:0,next:a.currentTime+.12,timer:0};
   syn.timer=setInterval(synTick,50);synTick();
 }
@@ -1549,7 +1555,7 @@ function homeEl(){
   const a=audio();
   if(!bgEl){try{
     bgEl=document.createElement('audio');bgEl.loop=true;bgEl.src='audio/bgmusic.mp3';document.body.appendChild(bgEl);
-    if(a){bgGain=a.createGain();bgGain.gain.value=MS.vol;a.createMediaElementSource(bgEl).connect(bgGain).connect(a.destination)}
+    if(a){bgGain=a.createGain();bgGain.gain.value=MS.vol*HOME_K;a.createMediaElementSource(bgEl).connect(bgGain).connect(a.destination)}
   }catch(e){}}
   return bgEl;
 }
@@ -1564,7 +1570,7 @@ const music={
   stop(){musicTrack=null;this.pause()},
   setEnabled(on){on?this.resume():this.pause()},
   setVolume(v){
-    if(bgGain)try{bgGain.gain.value=v}catch(e){}else if(bgEl)try{bgEl.volume=v}catch(e){}
+    if(bgGain)try{bgGain.gain.value=v*HOME_K}catch(e){}else if(bgEl)try{bgEl.volume=Math.min(1,v*HOME_K)}catch(e){}
     if(syn&&actx)try{syn.bus.gain.setTargetAtTime(Math.max(.0001,v*SYN_K),actx.currentTime,.05)}catch(e){}
   }
 };
@@ -1606,21 +1612,83 @@ function pickVoice(lang){
 }
 function loadVoices(){try{voices=speechSynthesis.getVoices()||[]}catch(e){}if(window.renderVoiceUI)renderVoiceUI()}
 if(hasTTS){loadVoices();try{speechSynthesis.onvoiceschanged=loadVoices}catch(e){}setTimeout(loadVoices,800)}
-function say(text,lang,queue,force){
-  if(!hasTTS||!text||(!VS.on&&!force))return;
-  if(lang==='vi-VN!')lang='vi-VN';else if(!lang||lang==='vi-VN')lang=LANG==='en'?'en-US':'vi-VN';
-  try{
-    if(!queue)speechSynthesis.cancel();
-    const v=pickVoice(lang),pre=lang.slice(0,2),rate=pre==='vi'?VS.rate:Math.max(.5,VS.rate-.07);
-    text.replace(/([.!?…])\s+/g,'$1\n').split('\n').filter(c=>c.trim()).forEach(c=>{
-      const u=new SpeechSynthesisUtterance(c);
-      u.lang=lang;if(v)u.voice=v;
-      u.rate=rate;u.pitch=1.0;u.volume=1;
-      speechSynthesis.speak(u);
-    });
-  }catch(e){}
+/* Recorded voice: phrases pre-generated with Edge neural TTS (scripts/gen-voice.py) → audio/voice/.
+   A sentence is stitched from recorded phrases when every word is covered; otherwise that sentence
+   falls back to the device voice, so one sentence never mixes two voices. */
+const vnorm=s=>s.normalize('NFC').toLowerCase().replace(/’/g,"'").replace(/[–—-]/g,' ').replace(/[^\p{L}\p{N}\p{M}\s'_]/gu,' ').replace(/\s+/g,' ').trim();
+const REC={map:null,bufs:new Map(),src:new Set(),tok:0,chain:Promise.resolve(),gain:null};
+try{fetch('audio/voice/manifest.json').then(r=>r.ok?r.json():null).then(m=>{REC.map=m}).catch(()=>{})}catch(e){}
+function recSegments(lang,chunk){
+  const m=REC.map&&REC.map[lang];if(!m)return null;
+  const w=vnorm(chunk).split(' ').filter(Boolean);if(!w.length)return null;
+  const best=[[]];  // best[i] = fewest phrases covering w[0..i)
+  for(let i=1;i<=w.length;i++){
+    for(let j=Math.max(0,i-14);j<i;j++){
+      if(!best[j])continue;const f=m[w.slice(j,i).join(' ')];
+      if(f&&(!best[i]||best[j].length+1<best[i].length))best[i]=best[j].concat(f);
+    }
+  }
+  const r=best[w.length];return r&&r.length<=5?r:null;
 }
-function hush(){if(hasTTS){try{speechSynthesis.cancel()}catch(e){}}}
+function recBuf(f){
+  if(REC.bufs.has(f))return REC.bufs.get(f);
+  const a=actx;if(!a)return Promise.resolve(null);
+  const p=fetch('audio/voice/'+f).then(r=>r.ok?r.arrayBuffer():null)
+    .then(ab=>ab?new Promise((ok,no)=>a.decodeAudioData(ab,ok,no)):null).catch(()=>null);
+  p.then(b=>{if(!b)REC.bufs.delete(f)});
+  REC.bufs.set(f,p);if(REC.bufs.size>400)REC.bufs.delete(REC.bufs.keys().next().value);
+  return p;
+}
+function recPlay(bufs,tok){
+  const a=actx;
+  if(!REC.gain){REC.gain=a.createGain();REC.gain.gain.value=1;REC.gain.connect(a.destination)}
+  let t=a.currentTime+.03;
+  return new Promise(done=>{
+    let last=null;
+    bufs.forEach((b,i)=>{
+      const s=a.createBufferSource();s.buffer=b;s.connect(REC.gain);s.start(t);REC.src.add(s);
+      s.onended=()=>{REC.src.delete(s);if(s===last)done()};
+      last=s;t+=b.duration+(i<bufs.length-1?.06:0);
+    });
+    setTimeout(done,(t-a.currentTime)*1000+400);  // safety net
+  }).then(()=>{if(tok===REC.tok)return new Promise(r=>setTimeout(r,140))});
+}
+function ttsSpeak(chunk,lang,voice,rate){
+  return new Promise(done=>{
+    if(!hasTTS)return done();
+    try{
+      const u=new SpeechSynthesisUtterance(chunk);
+      u.lang=lang;if(voice)u.voice=voice;u.rate=rate;u.pitch=1;u.volume=1;
+      u.onend=u.onerror=()=>done();
+      speechSynthesis.speak(u);
+      setTimeout(done,Math.max(2500,chunk.length*160));
+    }catch(e){done()}
+  });
+}
+function say(text,lang,queue,force){
+  if(!text||(!VS.on&&!force))return;
+  if(lang==='vi-VN!')lang='vi-VN';else if(!lang||lang==='vi-VN')lang=LANG==='en'?'en-US':'vi-VN';
+  if(!queue)hush();
+  const tok=REC.tok,pre=lang.slice(0,2),v=hasTTS?pickVoice(lang):null,rate=pre==='vi'?VS.rate:Math.max(.5,VS.rate-.07);
+  const chunks=text.replace(/([.!?…])\s+/g,'$1\n').split('\n').filter(c=>c.trim());
+  // start fetching every recorded piece right away so playback is gapless
+  const plan=chunks.map(c=>{const segs=(!force&&audio())?recSegments(pre,c):null;  // force = voice test in settings → device voice
+   return{c,segs,bufs:segs?Promise.all(segs.map(recBuf)):null}});
+  REC.chain=REC.chain.then(async()=>{
+    for(const p of plan){
+      if(tok!==REC.tok)return;
+      const bufs=p.bufs?await p.bufs:null;
+      if(tok!==REC.tok)return;
+      if(bufs&&bufs.every(Boolean))await recPlay(bufs,tok);
+      else await ttsSpeak(p.c,lang,v,rate);
+    }
+  }).catch(()=>{});
+}
+function hush(){
+  REC.tok++;REC.chain=Promise.resolve();
+  REC.src.forEach(s=>{try{s.stop()}catch(e){}});REC.src.clear();
+  if(hasTTS){try{speechSynthesis.cancel()}catch(e){}}
+}
 
 /* ---------- Age group ---------- */
 let AGE=2;try{const a=parseInt(localStorage.getItem('bevui_age2'),10);if(a>=0&&a<=3)AGE=a}catch(e){}
@@ -4448,6 +4516,8 @@ $('#mascot').addEventListener('click',()=>{
 window.addEventListener('resize',()=>{if(current&&current.resize)current.resize()});
 // unlock audio on first touch (iOS requirement)
 window.addEventListener('pointerdown',()=>{audio();if(!current)music.play('home')},{once:true});
+// iOS can leave the AudioContext "interrupted" (speech, calls, other apps): every tap revives the music
+window.addEventListener('pointerdown',()=>{if(actx&&actx.state!=='running')audio();music.resume()},{passive:true});
 // Offline + auto-update when hosted (GitHub Pages). Skipped inside the iOS app and sandboxed previews.
 if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost')){
   window.addEventListener('load',()=>{try{navigator.serviceWorker.register('sw.js').catch(()=>{})}catch(e){}});
