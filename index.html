@@ -7,7 +7,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Bé Vui Chơi">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#6fcbff">
+<meta name="theme-color" content="#F3F8EE">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon-180.png">
 <link rel="apple-touch-icon" sizes="167x167" href="apple-touch-icon-167.png">
@@ -18,7 +18,7 @@
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="manifest" href="manifest.webmanifest">
 <title>Bé Vui Chơi</title>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Be+Vietnam+Pro:wght@500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{--ink:#2b2350;--pink:#ff5fa2;--yellow:#ffd23f;--green:#3ddc84;--blue:#3d8bff;--purple:#9b5de5;--orange:#ff8a3d;--red:#ff4757}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
@@ -567,35 +567,120 @@ button{font-family:inherit;cursor:pointer}
 .bookgrid span{aspect-ratio:1;border-radius:24px;background:#fff6dc;display:flex;align-items:center;justify-content:center;font-size:clamp(36px,7vmin,70px);box-shadow:0 5px 0 rgba(0,0,0,.08)}
 .bookgrid span.no{background:#eeeaf6;color:#c9c2df;font-size:clamp(24px,4vmin,40px);font-weight:800}
 .bookgrid span.new{animation:hop .3s ease-in-out 4 alternate;box-shadow:0 0 0 4px var(--yellow)}
+
+/* =====================================================
+   REDESIGN 2026 — "sticker book": flat natural colors,
+   Bricolage Grotesque + Be Vietnam Pro, no gradients
+   ===================================================== */
+:root{--ink:#1B1B2F;--ink2:#4A4A66;--paper:#F3F8EE;--dot:#D9E6CF;
+  --pink:#FF8FBF;--yellow:#FFD447;--green:#5CCB7E;--blue:#5AB6F2;--purple:#A98CFF;--orange:#FF9A5C;--red:#FF7A6B;
+  --hf:'Bricolage Grotesque','Be Vietnam Pro',system-ui,sans-serif;--edge:inset 0 -5px 0 rgba(27,27,47,.14)}
+html,body{font-family:'Be Vietnam Pro',system-ui,sans-serif;color:var(--ink);background-color:var(--paper);
+  background-image:radial-gradient(var(--dot) 1.5px,transparent 1.6px);background-size:24px 24px}
+button{color:var(--ink)}
+
+/* home */
+#home{align-items:center;justify-content:flex-start;gap:2.2vmin;padding:calc(env(safe-area-inset-top) + 2.4vmin) calc(env(safe-area-inset-right) + 3vmin) calc(env(safe-area-inset-bottom) + 4vmin) calc(env(safe-area-inset-left) + 3vmin);overflow-y:auto;-webkit-overflow-scrolling:touch}
+#home::before,#home::after{display:none}
+.hhead,.hero,.agetabs,.grid{width:min(100%,1180px);flex:none}
+.hhead{display:flex;align-items:center;justify-content:space-between;gap:16px;z-index:2}
+.brand{display:flex;align-items:center;gap:10px}
+.hmark{width:clamp(40px,6vmin,56px);height:auto}
+.wordmark{font-family:var(--hf);font-weight:800;font-size:clamp(22px,3.6vmin,32px);letter-spacing:-.03em}
+.hactions{display:flex;align-items:center;gap:10px}
+.hbtn{border:none;height:clamp(46px,6.4vmin,56px);min-width:clamp(46px,6.4vmin,56px);padding:0 14px;border-radius:999px;background:#fff;font-family:var(--hf);font-weight:800;font-size:clamp(16px,2.4vmin,20px);display:flex;align-items:center;justify-content:center;box-shadow:inset 0 -3px 0 rgba(27,27,47,.08)}
+.hbtn svg{width:24px;height:24px}
+.hero{display:flex;align-items:flex-end;gap:18px;z-index:1}
+.mascot{width:clamp(72px,11vmin,110px);animation:none}
+.mascot.jump{animation:jump .6s ease}
+.herotext{display:flex;flex-direction:column;gap:4px;padding-bottom:.6vmin}
+.hello{font-size:clamp(15px,2.2vmin,19px);font-weight:600;color:var(--ink2)}
+.title{font-family:var(--hf);font-size:clamp(32px,6.4vmin,56px);font-weight:800;line-height:1;letter-spacing:-.035em;color:var(--ink);text-shadow:none;margin:0}
+.agetabs{display:flex;gap:4px;padding:6px;background:#fff;border-radius:999px;width:auto;max-width:100%;box-shadow:0 8px 24px rgba(27,27,47,.06);flex-wrap:nowrap;overflow-x:auto;align-self:center}
+.agetab{flex:none;border:none;height:clamp(44px,6.2vmin,54px);padding:0 clamp(14px,2.6vmin,26px);border-radius:999px;background:transparent;color:var(--ink);box-shadow:none;font-family:var(--hf);font-weight:700;font-size:clamp(15px,2.4vmin,20px);transform:none}
+.agetab.on{background:var(--ink);color:#fff;box-shadow:none;transform:none}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(12px,2vmin,20px);margin-top:.6vmin}
+@media (orientation:landscape){.grid{grid-template-columns:repeat(6,minmax(0,1fr))}.grid .card{width:auto}}
+.grid .card{width:auto}
+.card{position:relative;border:none;border-radius:28px;min-height:clamp(140px,20vmin,184px);padding:clamp(12px,1.8vmin,18px);background:var(--tc);color:var(--ink);text-shadow:none;
+  display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;text-align:left;gap:10px;box-shadow:var(--edge);font-family:var(--hf);font-weight:700;font-size:clamp(17px,2.5vmin,22px);line-height:1.1;transition:transform .12s,box-shadow .12s}
+.card:active{transform:translateY(3px) scale(.97);box-shadow:inset 0 -1px 0 rgba(27,27,47,.14)}
+.card .clabel{display:flex;flex-direction:column;gap:3px}
+.card small{font-family:'Be Vietnam Pro',system-ui,sans-serif;font-size:clamp(11px,1.6vmin,14px);font-weight:500;opacity:1}
+.card .cicon{width:clamp(48px,7.6vmin,68px);height:clamp(48px,7.6vmin,68px);animation:none;flex:none}
+.card .icoimg{width:clamp(60px,9vmin,84px);height:clamp(60px,9vmin,84px);border-radius:22px;border:4px solid #fff;box-shadow:0 6px 14px rgba(27,27,47,.18);transform:rotate(var(--rot,-4deg));animation:none;object-fit:cover}
+.card .ico{font-size:clamp(40px,7vmin,60px);animation:none}
+
+/* shared game chrome */
+.topbar{gap:clamp(10px,1.8vmin,18px);padding:clamp(10px,2vmin,20px) clamp(12px,3vmin,32px)}
+.btn-round{background:#fff;box-shadow:inset 0 -4px 0 rgba(27,27,47,.08);display:flex;align-items:center;justify-content:center}
+.btn-round:active{transform:translateY(2px);box-shadow:none}
+.btn-round svg{width:46%;height:46%}
+.prompt{font-family:var(--hf);font-weight:800;letter-spacing:-.02em;box-shadow:inset 0 -4px 0 rgba(27,27,47,.08)}
+.stars{display:flex;align-items:center;gap:.3em;background:var(--yellow);box-shadow:none;font-family:var(--hf);font-weight:800}
+.stars svg{width:1em;height:1em;flex:none}
+.stars.hstars{border:none;height:clamp(46px,6.4vmin,56px);padding:0 16px 0 12px;font-size:clamp(18px,2.8vmin,24px);cursor:pointer}
+.stars.hstars .bkic{width:1.05em;height:1.05em;margin-left:.2em}
+.dots i{background:rgba(27,27,47,.14)}
+.dots i.on{background:var(--ink);box-shadow:none}
+.qopt{color:var(--ink);text-shadow:none;border-radius:32px;box-shadow:var(--edge);font-family:var(--hf)}
+.qopt.white{box-shadow:inset 0 -6px 0 rgba(27,27,47,.08),0 10px 24px rgba(27,27,47,.08)}
+.qopt.ok{background:var(--green)!important;box-shadow:0 0 0 6px #fff,0 0 0 10px var(--green)}
+.qtext,.cbox{box-shadow:inset 0 -4px 0 rgba(27,27,47,.06)}
+.pick{box-shadow:inset 0 -6px 0 rgba(27,27,47,.08),0 10px 24px rgba(27,27,47,.08);border-radius:36px}
+.pick span{font-family:var(--hf)}
+.btile{box-shadow:inset 0 -5px 0 rgba(27,27,47,.08);font-family:var(--hf)}
+.goldtag{font-family:var(--hf);box-shadow:none}
+.combo{font-family:var(--hf);text-shadow:0 4px 0 var(--ink),0 8px 18px rgba(0,0,0,.2)}
+#buddy .bsay{background:var(--ink);color:#fff;font-family:var(--hf);box-shadow:none}
+
+/* overlays */
+#win,#book{background:rgba(27,27,47,.45)}
+.winbox,.bookbox{border-radius:40px;box-shadow:0 24px 60px rgba(27,27,47,.25)}
+.winbox h2,.bookbox h2{font-family:var(--hf);color:var(--ink);letter-spacing:-.03em}
+.winbox p{font-weight:600}
+.wbtn{font-family:var(--hf);color:var(--ink);box-shadow:var(--edge)}
+.winearn{font-family:var(--hf);box-shadow:none}
+.wingot{color:var(--ink2)}
+.bookgrid span{background:#FFF4CC;box-shadow:none}
+.bookgrid span.no{background:#EEF2E8;color:#B7C2AE}
+
+/* phones */
+@media (max-width:540px) and (orientation:portrait){
+  #home{padding-top:calc(env(safe-area-inset-top) + 12px);gap:14px}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;width:100%}.grid .card{width:auto;border-radius:24px;min-height:140px}
+  .hero{gap:10px;align-items:center}.mascot{width:60px}
+  .wordmark{font-size:20px;white-space:nowrap}.hmark{width:34px}.title{font-size:28px}
+  .agetabs{width:100%;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:2px;padding:4px}
+  .agetab{padding:0 4px;font-size:14px;height:44px}
+  .hactions{gap:6px}.hbtn{height:44px;min-width:44px;padding:0 10px}
+  .stars.hstars{height:44px;padding:0 12px 0 10px;font-size:17px}
+}
+@media (max-height:540px) and (orientation:landscape){
+  #home{gap:8px;padding-top:calc(env(safe-area-inset-top) + 8px)}
+  .hero{display:none}
+  .grid .card{min-height:118px;border-radius:20px;font-size:15px;padding:10px}
+  .card .cicon{width:40px;height:40px}.card .icoimg{width:48px;height:48px;border-radius:16px;border-width:3px}
+  .card small{font-size:10px}
+}
 </style>
 </head>
 <body>
 
 <!-- ================= HOME ================= -->
 <section class="screen active" id="home">
-  <div class="cloud" style="width:160px;height:50px;top:8%;animation-duration:38s"></div>
-  <div class="cloud" style="width:110px;height:36px;top:22%;animation-duration:52s;animation-delay:-20s"></div>
-  <div class="cloud" style="width:200px;height:60px;top:70%;animation-duration:60s;animation-delay:-35s;opacity:.6"></div>
-  <button class="stars homestars" id="bookBtn" aria-label="Bộ sưu tập sticker">⭐ <span class="starcount">0</span> · 📒</button>
-  <button class="btn-round gearbtn" id="gearBtn" aria-label="Cài đặt">⚙️</button>
-  <button class="btn-round langtoggle" id="langToggle" aria-label="Language"></button>
-
-  <h1 class="title"><span>B</span><span style="animation-delay:.1s">é</span> <span style="animation-delay:.2s">V</span><span style="animation-delay:.3s">u</span><span style="animation-delay:.4s">i</span> <span style="animation-delay:.5s">C</span><span style="animation-delay:.6s">h</span><span style="animation-delay:.7s">ơ</span><span style="animation-delay:.8s">i</span></h1>
+  <header class="hhead">
+    <div class="brand"><svg class="hmark" viewBox="0 0 120 120" aria-hidden="true"><path d="M22 44 L16 6 L52 28Z" fill="#FF8A3D"/><path d="M98 44 L104 6 L68 28Z" fill="#FF8A3D"/><circle cx="60" cy="68" r="46" fill="#FFA94D"/><ellipse cx="60" cy="86" rx="28" ry="21" fill="#FFE3BF"/><circle cx="44" cy="64" r="6.5" fill="#1B1B2F"/><circle cx="76" cy="64" r="6.5" fill="#1B1B2F"/><circle cx="46" cy="62" r="2" fill="#fff"/><circle cx="78" cy="62" r="2" fill="#fff"/><path d="M52 85 Q60 94 68 85" stroke="#1B1B2F" stroke-width="4.5" fill="none" stroke-linecap="round"/></svg><span class="wordmark">bé vui chơi</span></div>
+    <div class="hactions">
+      <button class="stars hstars" id="bookBtn" aria-label="Bộ sưu tập sticker"><span class="starcount">0</span></button>
+      <button class="hbtn" id="langToggle" aria-label="Language"></button>
+      <button class="hbtn" id="gearBtn" aria-label="Cài đặt"></button>
+    </div>
+  </header>
 
   <div class="hero">
-    <svg class="mascot" id="mascot" viewBox="0 0 200 200" aria-label="Mít">
-      <ellipse cx="100" cy="190" rx="55" ry="9" fill="rgba(0,0,0,.12)"/>
-      <path d="M52 62 L40 14 L86 44Z" fill="#ff8a3d"/><path d="M58 56 L50 28 L76 46Z" fill="#ffc6a0"/>
-      <path d="M148 62 L160 14 L114 44Z" fill="#ff8a3d"/><path d="M142 56 L150 28 L124 46Z" fill="#ffc6a0"/>
-      <circle cx="100" cy="108" r="76" fill="#ffb347"/>
-      <ellipse cx="100" cy="132" rx="46" ry="38" fill="#ffe2ad"/>
-      <circle cx="70" cy="98" r="17" fill="#fff"/><circle cx="130" cy="98" r="17" fill="#fff"/>
-      <circle cx="73" cy="101" r="10" fill="#2b2350"/><circle cx="133" cy="101" r="10" fill="#2b2350"/>
-      <circle cx="77" cy="96" r="3.5" fill="#fff"/><circle cx="137" cy="96" r="3.5" fill="#fff"/>
-      <circle cx="50" cy="128" r="11" fill="#ff7aa8" opacity=".55"/><circle cx="150" cy="128" r="11" fill="#ff7aa8" opacity=".55"/>
-      <path d="M86 126 Q100 144 114 126" stroke="#2b2350" stroke-width="5" fill="#ff7a8a" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-    <div class="bubble" id="bubble" data-en="Hi! I'm Mit 🧡<br>What shall we play today?">Chào bé! Mình là Mít 🧡<br>Hôm nay chơi gì nào?</div>
+    <svg class="mascot" id="mascot" viewBox="0 0 120 120" aria-label="Mít"><path d="M22 44 L16 6 L52 28Z" fill="#FF8A3D"/><path d="M98 44 L104 6 L68 28Z" fill="#FF8A3D"/><circle cx="60" cy="68" r="46" fill="#FFA94D"/><ellipse cx="60" cy="86" rx="28" ry="21" fill="#FFE3BF"/><circle cx="44" cy="64" r="6.5" fill="#1B1B2F"/><circle cx="76" cy="64" r="6.5" fill="#1B1B2F"/><circle cx="46" cy="62" r="2" fill="#fff"/><circle cx="78" cy="62" r="2" fill="#fff"/><circle cx="30" cy="82" r="7" fill="#FF7FA8" opacity=".6"/><circle cx="90" cy="82" r="7" fill="#FF7FA8" opacity=".6"/><path d="M50 84 Q60 97 70 84" stroke="#1B1B2F" stroke-width="4.5" fill="#FF6B6B" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <div class="herotext"><span class="hello" data-en="Hi! I'm Mit">Chào bé! Mình là Mít</span><h1 class="title" data-en="What shall we play today?">Hôm nay chơi gì nào?</h1></div>
   </div>
 
   <div class="agetabs" id="agetabs"></div>
@@ -948,8 +1033,8 @@ button{font-family:inherit;cursor:pointer}
     <p id="winmsg"></p>
     <div class="winearn" id="winEarn"></div>
     <div class="winbtns">
-      <button class="wbtn" id="winAgain" style="background:var(--green)" data-en="▶ Play again">▶ Chơi tiếp</button>
-      <button class="wbtn" id="winHome" style="background:var(--blue)" data-en="🏠 Home">🏠 Về nhà</button>
+      <button class="wbtn" id="winAgain" style="background:var(--green)" data-en="Play again">Chơi tiếp</button>
+      <button class="wbtn" id="winHome" style="background:#fff;box-shadow:inset 0 0 0 3px #1B1B2F" data-en="Home">Về nhà</button>
     </div>
   </div>
 </div>
@@ -1993,7 +2078,7 @@ const Piano=(()=>{
 /* =====================================================
    SHARED QUIZ ENGINE (question + big answer buttons)
    ===================================================== */
-const QC=['#ff4757','#ff8a3d','#3d8bff','#9b5de5','#20b97a','#ff5fa2'];
+const QC=['#FF8A65','#FFD447','#6CC4F7','#B49CFF','#74D68E','#FFAACB'];
 const PRAISE=[T('Giỏi quá!',"Great job!"),T('Đúng rồi!',"Correct!"),T('Tuyệt vời!',"Awesome!"),T('Bé thông minh quá!',"So smart!"),T('Hoan hô!',"Hooray!")];
 const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
 const ri=n=>Math.floor(Math.random()*n);
@@ -3097,6 +3182,101 @@ const Phone=(()=>{
   return{start,stop:()=>{tmr.forEach(clearTimeout);tmr=[]}};
 })();
 
+/* ---------- Home: card icons (flat geometric SVG, 64×64) ---------- */
+const W='#fff',K='#1B1B2F';
+const tx=(s,fs,y)=>`<text x="32" y="${y||44}" text-anchor="middle" font-family="Bricolage Grotesque,system-ui,sans-serif" font-weight="800" font-size="${fs}" fill="${K}">${s}</text>`;
+const BALLOON=(x,y,r,f)=>`<path d="M${x} ${y+r*1.25} q-3 ${r*.5} 2 ${r*1.1}" stroke="${K}" stroke-width="2.5" fill="none" stroke-linecap="round"/><ellipse cx="${x}" cy="${y}" rx="${r}" ry="${r*1.2}" fill="${f}"/><path d="M${x-3} ${y+r*1.25}h6l-3-4Z" fill="${f}"/>`;
+const SHAPES3=`<path d="M18 6 L32 30 L4 30Z" fill="${W}"/><rect x="36" y="8" width="22" height="22" rx="4" fill="${K}"/><circle cx="32" cy="48" r="12" fill="${W}"/>`;
+const FACE=(mouth)=>`<circle cx="32" cy="32" r="26" fill="${W}"/><circle cx="23" cy="27" r="4" fill="${K}"/><circle cx="41" cy="27" r="4" fill="${K}"/>${mouth}`;
+const ICONS={
+  tap:`<circle cx="32" cy="32" r="29" fill="none" stroke="${K}" stroke-width="4" opacity=".22"/><circle cx="32" cy="32" r="19" fill="none" stroke="${K}" stroke-width="4" opacity=".5"/><circle cx="32" cy="32" r="9" fill="${K}"/>`,
+  peek:`<circle cx="21" cy="30" r="10" fill="${W}"/><circle cx="43" cy="30" r="10" fill="${W}"/><circle cx="22" cy="31" r="4.5" fill="${K}"/><circle cx="44" cy="31" r="4.5" fill="${K}"/><rect x="4" y="34" width="56" height="22" rx="11" fill="${K}"/>`,
+  bubbles:`<circle cx="24" cy="38" r="15" fill="none" stroke="${W}" stroke-width="4.5"/><circle cx="46" cy="20" r="10" fill="none" stroke="${W}" stroke-width="4.5"/><circle cx="50" cy="47" r="6" fill="none" stroke="${W}" stroke-width="4"/><path d="M16 32a9 9 0 0 1 7-5" stroke="${W}" stroke-width="3.5" fill="none" stroke-linecap="round"/>`,
+  draw:`<path d="M6 46C16 12 26 58 36 26S54 34 58 14" stroke="${W}" stroke-width="7" fill="none" stroke-linecap="round"/><circle cx="58" cy="14" r="5" fill="${K}"/>`,
+  piano:`<rect x="6" y="14" width="52" height="38" rx="7" fill="${W}"/><path d="M19 14v38M32 14v38M45 14v38" stroke="${K}" stroke-width="2.5"/><rect x="15" y="14" width="8" height="21" rx="2" fill="${K}"/><rect x="28" y="14" width="8" height="21" rx="2" fill="${K}"/><rect x="41" y="14" width="8" height="21" rx="2" fill="${K}"/>`,
+  colorsB:`<circle cx="23" cy="24" r="15" fill="#FF7A6B" stroke="${W}" stroke-width="3"/><circle cx="41" cy="24" r="15" fill="#FFD447" stroke="${W}" stroke-width="3"/><circle cx="32" cy="41" r="15" fill="#5AB6F2" stroke="${W}" stroke-width="3"/>`,
+  bodyB:FACE(`<path d="M32 29v7" stroke="${K}" stroke-width="3.5" stroke-linecap="round"/><path d="M23 42Q32 50 41 42" stroke="${K}" stroke-width="4" fill="none" stroke-linecap="round"/>`),
+  instr:`<path d="M10 26v20a22 8 0 0 0 44 0V26" fill="${W}"/><path d="M10 30l11 16 11-16 11 16 11-16" stroke="${K}" stroke-width="3.5" fill="none" stroke-linejoin="round"/><ellipse cx="32" cy="26" rx="22" ry="8" fill="${K}"/><path d="M20 4l10 18M46 6L36 22" stroke="${K}" stroke-width="4" stroke-linecap="round"/>`,
+  family:`<circle cx="16" cy="20" r="9" fill="${W}"/><circle cx="48" cy="20" r="9" fill="${W}"/><circle cx="32" cy="34" r="6.5" fill="${K}"/><path d="M3 58a13 15 0 0 1 26 0Z" fill="${W}"/><path d="M35 58a13 15 0 0 1 26 0Z" fill="${W}"/><path d="M23 58a9 10 0 0 1 18 0Z" fill="${K}"/>`,
+  aqua:`<path d="M8 32C16 16 40 14 48 32 40 50 16 48 8 32Z" fill="${W}"/><path d="M46 32l14-12v24Z" fill="${W}"/><circle cx="20" cy="29" r="3.5" fill="${K}"/><path d="M30 24q5 8 0 16" stroke="${K}" stroke-width="3" fill="none" stroke-linecap="round"/>`,
+  daynight:`<circle cx="22" cy="36" r="13" fill="#FFD447" stroke="${W}" stroke-width="3"/><circle cx="44" cy="28" r="16" fill="${W}"/><circle cx="52" cy="21" r="13" fill="var(--tc)"/>`,
+  fireworks:`<g stroke="${W}" stroke-width="5" stroke-linecap="round"><path d="M32 4v12M32 48v12M4 32h12M48 32h12M12 12l8 8M44 44l8 8M12 52l8-8M44 20l8-8"/></g><circle cx="32" cy="32" r="6" fill="${K}"/>`,
+  eggs:`<path d="M32 4C46 4 54 28 54 40 54 53 44 60 32 60S10 53 10 40C10 28 18 4 32 4Z" fill="${W}"/><path d="M11 34l8-6 6 8 7-8 7 8 6-8 8 6" stroke="${K}" stroke-width="3.5" fill="none" stroke-linejoin="round" stroke-linecap="round"/>`,
+  shapesB:SHAPES3,
+  walk:`<g fill="${K}"><ellipse cx="22" cy="44" rx="9" ry="8"/><circle cx="12" cy="33" r="4"/><circle cx="19" cy="28" r="4"/><circle cx="27" cy="28" r="4"/><circle cx="33" cy="33" r="4"/></g><g fill="${W}"><ellipse cx="44" cy="22" rx="8" ry="7"/><circle cx="35" cy="12" r="3.5"/><circle cx="41" cy="7" r="3.5"/><circle cx="48" cy="7" r="3.5"/><circle cx="54" cy="12" r="3.5"/></g>`,
+  wipe:`<rect x="8" y="22" width="40" height="30" rx="8" fill="${W}"/><circle cx="18" cy="32" r="3" fill="${K}"/><circle cx="30" cy="40" r="3.5" fill="${K}"/><circle cx="38" cy="30" r="2.5" fill="${K}"/><path d="M50 8v12M44 14h12" stroke="${W}" stroke-width="4" stroke-linecap="round"/>`,
+  pump:`${BALLOON(40,22,14,W)}<rect x="8" y="34" width="12" height="24" rx="3" fill="${K}"/><path d="M6 30h16M14 30v-8" stroke="${K}" stroke-width="4" stroke-linecap="round"/><path d="M20 50q12 0 18-14" stroke="${K}" stroke-width="3" fill="none"/>`,
+  garden:`<path d="M32 36v24M32 50q-10-2-14-10M32 48q8-2 12-10" stroke="${K}" stroke-width="4" fill="none" stroke-linecap="round"/><g fill="${W}"><circle cx="32" cy="10" r="8"/><circle cx="44" cy="20" r="8"/><circle cx="40" cy="33" r="8"/><circle cx="24" cy="33" r="8"/><circle cx="20" cy="20" r="8"/></g><circle cx="32" cy="23" r="6" fill="${K}"/>`,
+  float:`${BALLOON(20,24,11,W)}${BALLOON(42,16,11,K)}${BALLOON(46,40,8,W)}`,
+  train:`<rect x="6" y="22" width="34" height="24" rx="4" fill="${W}"/><rect x="40" y="12" width="18" height="34" rx="4" fill="${W}"/><rect x="44" y="17" width="10" height="9" rx="2" fill="${K}"/><rect x="12" y="10" width="8" height="12" fill="${K}"/><circle cx="16" cy="50" r="6" fill="${K}"/><circle cx="32" cy="50" r="6" fill="${K}"/><circle cx="49" cy="50" r="6" fill="${K}"/>`,
+  dance:`<path d="M22 46V12l30-6v34" stroke="${K}" stroke-width="5" fill="none" stroke-linejoin="round"/><ellipse cx="15" cy="47" rx="9" ry="7" fill="${W}"/><ellipse cx="45" cy="41" rx="9" ry="7" fill="${W}"/>`,
+  icecream:`<path d="M18 30l14 30 14-30Z" fill="${K}"/><circle cx="24" cy="24" r="11" fill="${W}"/><circle cx="40" cy="24" r="11" fill="${W}"/><circle cx="32" cy="14" r="10" fill="${W}"/>`,
+  blocks:`<rect x="10" y="38" width="20" height="20" rx="3" fill="${W}"/><rect x="34" y="38" width="20" height="20" rx="3" fill="${K}"/><rect x="22" y="15" width="20" height="20" rx="3" fill="${W}" transform="rotate(8 32 25)"/>`,
+  flashlight:`<path d="M30 26L60 10v44L30 38Z" fill="${W}" opacity=".9"/><rect x="4" y="24" width="28" height="16" rx="4" fill="${K}"/>`,
+  phone:`<path d="M14 8c4-2 8 0 10 6l2 8c1 3-1 5-4 6 2 6 6 11 12 14 1-3 3-5 6-4l8 3c5 2 7 6 5 10-3 6-9 9-16 6C23 51 13 41 8 27 5 19 8 11 14 8Z" fill="${W}"/>`,
+  animals:'',vehicles:'',fruitsB:'',
+  balloon:`${BALLOON(22,26,14,W)}${BALLOON(44,22,12,K)}`,
+  sound:`<path d="M8 24h10l14-12v40L18 40H8Z" fill="${W}"/><path d="M40 22a14 14 0 0 1 0 20M47 14a24 24 0 0 1 0 36" stroke="${K}" stroke-width="5" fill="none" stroke-linecap="round"/>`,
+  sorter:`<rect x="6" y="30" width="52" height="28" rx="6" fill="${K}"/><path d="M14 38l6-8 6 8Z" fill="${W}"/><rect x="29" y="31" width="7" height="7" fill="${W}"/><circle cx="46" cy="35" r="4" fill="${W}"/><circle cx="32" cy="14" r="9" fill="${W}"/>`,
+  feed:`<path d="M22 22l22 22-26 14c-6 3-11-2-8-8Z" fill="#FF9A5C" stroke="${W}" stroke-width="3" stroke-linejoin="round"/><path d="M40 20l8-14M44 24l14-6M42 22l12-10" stroke="#2E9E55" stroke-width="5" stroke-linecap="round"/>`,
+  paint:`<path d="M32 6C16 6 6 18 6 32s10 26 24 26c4 0 6-3 4-7-2-5 1-9 6-9h6c9 0 12-6 12-12C58 16 46 6 32 6Z" fill="${W}"/><circle cx="20" cy="24" r="5" fill="#FF7A6B"/><circle cx="32" cy="16" r="5" fill="#FFD447"/><circle cx="44" cy="22" r="5" fill="#5AB6F2"/><circle cx="18" cy="38" r="5" fill="${K}"/>`,
+  colorQ:`<path d="M32 6S14 28 14 40a18 18 0 0 0 36 0C50 28 32 6 32 6Z" fill="${W}"/>${tx('?',26,49)}`,
+  fruitQ:'',
+  sizeQ:`<circle cx="24" cy="36" r="20" fill="${W}"/><circle cx="52" cy="48" r="9" fill="${K}"/>`,
+  bodyQ:FACE(`<ellipse cx="32" cy="38" rx="6" ry="5" fill="${K}"/><circle cx="32" cy="38" r="11" fill="none" stroke="#FF7A6B" stroke-width="3" stroke-dasharray="4 3"/>`),
+  sameQ:`<circle cx="18" cy="32" r="13" fill="${W}"/><circle cx="46" cy="32" r="13" fill="${W}"/><path d="M27 28h10M27 36h10" stroke="${K}" stroke-width="4" stroke-linecap="round"/>`,
+  eatQ:`<path d="M6 30h52a26 22 0 0 1-52 0Z" fill="${W}"/><path d="M22 22q-4-8 0-14M32 22q-4-8 0-14M42 22q-4-8 0-14" stroke="${K}" stroke-width="3.5" fill="none" stroke-linecap="round"/>`,
+  homeQ:`<path d="M6 30L32 8l26 22" fill="${K}"/><path d="M12 28v28h40V28L32 12Z" fill="${W}"/><rect x="26" y="38" width="12" height="18" rx="2" fill="${K}"/>`,
+  count3:tx('3',52,52),
+  shapeQ:`<path d="M32 4l22 28-22 28L10 32Z" fill="${W}"/><circle cx="32" cy="32" r="7" fill="${K}"/>`,
+  csort:`<circle cx="20" cy="16" r="8" fill="#FF7A6B" stroke="${W}" stroke-width="2.5"/><circle cx="34" cy="12" r="8" fill="#5AB6F2" stroke="${W}" stroke-width="2.5"/><circle cx="46" cy="20" r="8" fill="#FFD447" stroke="${W}" stroke-width="2.5"/><path d="M6 28h52l-6 30H12Z" fill="${W}"/><path d="M18 34l3 18M32 34v18M46 34l-3 18" stroke="${K}" stroke-width="3" stroke-linecap="round"/>`,
+  race:`<path d="M4 42l6-12q3-6 10-6h20q6 0 10 6l8 4q2 1 2 4v4Z" fill="${W}"/><path d="M20 28h12v6H16Z" fill="${K}"/><circle cx="18" cy="44" r="7" fill="${K}"/><circle cx="48" cy="44" r="7" fill="${K}"/><path d="M2 20h12M6 12h10" stroke="${W}" stroke-width="3.5" stroke-linecap="round"/>`,
+  build:`<circle cx="32" cy="32" r="22" fill="none" stroke="${W}" stroke-width="9" stroke-dasharray="8.6 8.7"/><circle cx="32" cy="32" r="17" fill="${W}"/><circle cx="32" cy="32" r="7" fill="${K}"/>`,
+  memory:`<rect x="6" y="14" width="26" height="36" rx="6" fill="${K}" transform="rotate(-10 19 32)"/><rect x="30" y="12" width="26" height="36" rx="6" fill="${W}" transform="rotate(8 43 30)"/>${tx('?',24,40).replace('x="32"','x="44"')}`,
+  puzzle:`<path d="M8 16h14a6 6 0 1 1 12 0h14v14a6 6 0 1 1 0 12v14H34a6 6 0 1 0-12 0H8V42a6 6 0 1 0 0-12Z" fill="${W}"/>`,
+  abc:tx('Aa',34),
+  count:tx('123',26,42),
+  countballoon:`${BALLOON(20,22,13,W)}${BALLOON(44,22,13,W)}<text x="20" y="28" text-anchor="middle" font-family="Bricolage Grotesque,system-ui" font-weight="800" font-size="16" fill="${K}">1</text><text x="44" y="28" text-anchor="middle" font-family="Bricolage Grotesque,system-ui" font-weight="800" font-size="16" fill="${K}">2</text>`,
+  pattern:`<circle cx="10" cy="32" r="7" fill="${W}"/><rect x="21" y="25" width="14" height="14" rx="3" fill="${K}"/><circle cx="46" cy="32" r="7" fill="${W}"/><rect x="51" y="25" width="10" height="14" rx="3" fill="none" stroke="${K}" stroke-width="3" stroke-dasharray="3 3"/>`,
+  shadow:`<circle cx="26" cy="36" r="16" fill="${K}" opacity=".85"/><circle cx="38" cy="26" r="16" fill="none" stroke="${W}" stroke-width="4.5"/>`,
+  math:tx('+−',38),spell:tx('ABC',24,42),
+  maze:`<path d="M8 8h48v48H8V20h36v24H20V32h12" fill="none" stroke="${W}" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/><circle cx="32" cy="32" r="4" fill="${K}"/>`,
+  clock:`<circle cx="32" cy="32" r="26" fill="${W}"/><path d="M32 16v16l10 8" stroke="${K}" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
+  bigger:tx('5&gt;2',28,43),vnletter:tx('Ă',42,50),
+  moreless:`<g fill="${W}"><circle cx="10" cy="24" r="5"/><circle cx="22" cy="20" r="5"/><circle cx="14" cy="36" r="5"/><circle cx="26" cy="32" r="5"/><circle cx="20" cy="46" r="5"/><circle cx="8" cy="48" r="5"/></g><circle cx="48" cy="38" r="6" fill="${K}"/>`,
+  oddone:`<circle cx="16" cy="18" r="9" fill="${W}"/><circle cx="46" cy="18" r="9" fill="${W}"/><circle cx="16" cy="46" r="9" fill="${W}"/><rect x="37" y="37" width="18" height="18" rx="3" fill="${K}"/>`,
+  opposite:`<path d="M32 8a24 24 0 0 0 0 48Z" fill="${W}"/><path d="M32 8a24 24 0 0 1 0 48Z" fill="${K}"/>`,
+  emotion:FACE(`<path d="M20 38q12 12 24 0" stroke="${K}" stroke-width="4" fill="none" stroke-linecap="round"/>`),
+  nextnum:tx('12?',26,42),
+  whack:`<ellipse cx="32" cy="52" rx="26" ry="8" fill="${K}"/><circle cx="20" cy="18" r="7" fill="${W}"/><circle cx="44" cy="18" r="7" fill="${W}"/><path d="M14 52a18 22 0 0 1 36 0Z" fill="${W}"/><circle cx="26" cy="32" r="3" fill="${K}"/><circle cx="38" cy="32" r="3" fill="${K}"/><circle cx="32" cy="39" r="3" fill="${K}"/>`,
+  simon:`<path d="M32 32V6a26 26 0 0 0-26 26Z" fill="#FF7A6B"/><path d="M32 32V6a26 26 0 0 1 26 26Z" fill="#5AB6F2"/><path d="M32 32h26a26 26 0 0 1-26 26Z" fill="#FFD447"/><path d="M32 32v26A26 26 0 0 1 6 32Z" fill="#5CCB7E"/><circle cx="32" cy="32" r="9" fill="${W}"/>`,
+  vehq:`<path d="M30 6v34H12Z" fill="${W}"/><path d="M34 12v28h16Z" fill="${W}"/><path d="M4 44h56l-8 12H12Z" fill="${K}"/>`,
+  math20:tx('20',38),compare:tx('&lt; &gt;',32,43),
+  readvn:`<path d="M32 16C24 10 14 10 6 12v38c8-2 18-2 26 4 8-6 18-6 26-4V12c-8-2-18-2-26 4Z" fill="${W}"/><path d="M32 16v38M12 22h14M12 30h14M38 22h14M38 30h14" stroke="${K}" stroke-width="3" stroke-linecap="round"/>`,
+  listen:`<path d="M10 40V32a22 22 0 0 1 44 0v8" stroke="${K}" stroke-width="5" fill="none"/><rect x="6" y="36" width="14" height="20" rx="6" fill="${W}"/><rect x="44" y="36" width="14" height="20" rx="6" fill="${W}"/>`,
+  days:`<rect x="8" y="12" width="48" height="44" rx="7" fill="${W}"/><path d="M8 19a7 7 0 0 1 7-7h34a7 7 0 0 1 7 7v7H8Z" fill="${K}"/><path d="M20 6v10M44 6v10" stroke="${K}" stroke-width="4" stroke-linecap="round"/><g fill="${K}"><rect x="15" y="32" width="8" height="8" rx="2"/><rect x="28" y="32" width="8" height="8" rx="2"/><rect x="41" y="32" width="8" height="8" rx="2"/><rect x="15" y="44" width="8" height="6" rx="2"/></g>`,
+  evenodd:`<rect x="8" y="8" width="48" height="48" rx="10" fill="${W}"/><g fill="${K}"><circle cx="20" cy="20" r="5"/><circle cx="44" cy="20" r="5"/><circle cx="32" cy="32" r="5"/><circle cx="20" cy="44" r="5"/><circle cx="44" cy="44" r="5"/></g>`,
+  tens:`<g fill="${W}"><rect x="6" y="6" width="10" height="52" rx="3"/><rect x="20" y="6" width="10" height="52" rx="3"/></g><g fill="${K}"><rect x="38" y="44" width="10" height="10" rx="2"/><rect x="50" y="44" width="10" height="10" rx="2"/><rect x="38" y="32" width="10" height="10" rx="2"/></g>`,
+  sudoku:`<rect x="6" y="6" width="52" height="52" rx="8" fill="${W}"/><path d="M23 6v52M41 6v52M6 23h52M6 41h52" stroke="${K}" stroke-width="3"/><text x="14.5" y="21" text-anchor="middle" font-family="Bricolage Grotesque,system-ui" font-weight="800" font-size="13" fill="${K}">1</text><text x="32" y="38" text-anchor="middle" font-family="Bricolage Grotesque,system-ui" font-weight="800" font-size="13" fill="${K}">2</text><text x="49.5" y="55" text-anchor="middle" font-family="Bricolage Grotesque,system-ui" font-weight="800" font-size="13" fill="${K}">3</text>`,
+  mathrace:`<path d="M10 6v54" stroke="${K}" stroke-width="5" stroke-linecap="round"/><rect x="12" y="8" width="44" height="30" fill="${W}"/><g fill="${K}"><rect x="12" y="8" width="11" height="10"/><rect x="34" y="8" width="11" height="10"/><rect x="23" y="18" width="11" height="10"/><rect x="45" y="18" width="11" height="10"/><rect x="12" y="28" width="11" height="10"/><rect x="34" y="28" width="11" height="10"/></g>`,
+  leftright:`<path d="M30 14L8 32l22 18V38h0V26Z" fill="${W}"/><path d="M34 14l22 18-22 18Z" fill="${K}"/>`,
+  shadowB:''
+};
+// cards that use a real photo as a sticker
+const CARD_IMG={fruitQ:'img/fruits/banana.jpg',sound:'img/animals/cow.jpg'};
+const TILE=['#FF8A65','#FFD447','#74D68E','#6CC4F7','#B49CFF','#FFAACB','#62D2C5'];
+const svgIcon=b=>`<svg class="cicon" viewBox="0 0 64 64" aria-hidden="true">${b}</svg>`;
+// UI glyphs that replace emoji chrome
+const GL={
+  home:`<svg viewBox="0 0 24 24" fill="none" stroke="${K}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11L12 3.5 21 11"/><path d="M5.5 9.5V20h13V9.5"/><path d="M10 20v-5h4v5"/></svg>`,
+  star:`<svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12,2.5 14.9,8.6 21.5,9.3 16.5,13.8 18,20.4 12,17 6,20.4 7.5,13.8 2.5,9.3 9.1,8.6" fill="${K}" stroke="${K}" stroke-width="1.5" stroke-linejoin="round"/></svg>`,
+  gear:`<svg viewBox="0 0 24 24" fill="none" stroke="${K}" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/><circle cx="9" cy="6" r="2.4" fill="#fff"/><circle cx="15" cy="12" r="2.4" fill="#fff"/><circle cx="8" cy="18" r="2.4" fill="#fff"/></svg>`,
+  book:`<svg class="bkic" viewBox="0 0 24 24" fill="none" stroke="${K}" stroke-width="2.2" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8 3v18"/><circle cx="14" cy="11" r="2.5" fill="${K}"/></svg>`
+};
+document.querySelectorAll('.home-btn').forEach(b=>{b.innerHTML=GL.home;b.setAttribute('aria-label',T('Về màn hình chính','Home'))});
+document.querySelectorAll('.stars').forEach(s=>{const c=s.querySelector('.starcount');if(!c)return;s.textContent='';s.insertAdjacentHTML('beforeend',GL.star);s.appendChild(c);if(s.id==='bookBtn')s.insertAdjacentHTML('beforeend',GL.book)});
+$('#gearBtn').innerHTML=GL.gear;
+
 /* ---------- Home: age groups ---------- */
 const CARDS={race:['🏎️',T('Đua xe',"Racing"),T('Nhận biết số',"Numbers"),'#ff6b6b','#ff4757'],build:['🔧',T('Lắp ráp',"Build it"),T('Hình khối',"Shapes"),'#ffb84d','#ff8a3d'],
   memory:['🐼',T('Lật thẻ',"Memory"),T('Trí nhớ · English',"Memory · Tiếng Việt"),'#b57bff','#9b5de5'],balloon:['🎈',T('Bóng bay',"Balloons"),T('Màu sắc',"Colors"),'#4cd9a0','#20b97a'],
@@ -3168,8 +3348,10 @@ const AGES=[{icon:'👶',label:T('1–2 tuổi',"Age 1–2"),say:T('một đến
   {icon:'🐥',label:T('4–5 tuổi',"Age 4–5"),say:T('bốn đến năm',"four to five"),games:['race','count','countballoon','pattern','shadow','build','puzzle','memory','abc','bigger','vnletter','moreless','oddone','opposite','emotion','nextnum','whack','simon','vehq']},
   {icon:'🦉',label:T('6–7 tuổi',"Age 6–7"),say:T('sáu đến bảy',"six to seven"),games:['math','spell','clock','maze','puzzle','memory','abc','piano','math20','compare','readvn','listen','days','evenodd','tens','sudoku','mathrace','leftright']}];
 function renderHome(){
-  $('#agetabs').innerHTML=AGES.map((a,i)=>`<button class="agetab${i===AGE?' on':''}" data-a="${i}">${a.icon} ${a.label}</button>`).join('');
-  $('#grid').innerHTML=AGES[AGE].games.filter(g=>!(LANG==='en'&&g==='vnletter')).map((g,i)=>{const c=CARDS[g];return`<button class="card" data-game="${g}" style="background:linear-gradient(160deg,${c[3]},${c[4]});animation-delay:${Math.min(i,8)*.04}s">${emojiOrImg(c[0],c[5],'icoimg','ico',`animation-delay:${(i*.27)%1.2}s`)}${c[1]}<small>${c[2]}</small></button>`}).join('');
+  $('#agetabs').innerHTML=AGES.map((a,i)=>`<button class="agetab${i===AGE?' on':''}" data-a="${i}">${a.label}</button>`).join('');
+  $('#grid').innerHTML=AGES[AGE].games.filter(g=>!(LANG==='en'&&g==='vnletter')).map((g,i)=>{const c=CARDS[g],img=c[5]||CARD_IMG[g];
+    const icon=img?emojiOrImg(c[0],img,'icoimg','ico',`--rot:${[-5,4,-3,5][i%4]}deg`):ICONS[g]?svgIcon(ICONS[g]):`<span class="ico">${c[0]}</span>`;
+    return`<button class="card" data-game="${g}" style="--tc:${TILE[(i*5)%TILE.length]};animation-delay:${Math.min(i,8)*.04}s">${icon}<span class="clabel">${c[1]}<small>${c[2]}</small></span></button>`}).join('');
   document.querySelectorAll('.agetab').forEach(b=>b.addEventListener('click',()=>{
     AGE=+b.dataset.a;try{localStorage.setItem('bevui_age2',AGE)}catch(e){}
     sfx('tap');say(T('Trò chơi cho bé '+AGES[AGE].say+' tuổi','Games for ages '+AGES[AGE].say));renderHome();
@@ -3182,7 +3364,7 @@ function setLang(l){
   if(l===LANG)return;try{localStorage.setItem('bevui_lang',l)}catch(e){}
   hush();location.reload();
 }
-$('#langToggle').textContent=LANG==='en'?'🇬🇧 EN':'🇻🇳 VI';
+$('#langToggle').textContent=LANG==='en'?'EN':'VI';
 $('#langToggle').addEventListener('click',()=>{sfx('tap');setLang(LANG==='en'?'vi':'en')});
 document.querySelectorAll('.langbtn').forEach(b=>{b.classList.toggle('on',b.dataset.lang===LANG);b.addEventListener('click',()=>{sfx('tap');setLang(b.dataset.lang)})});
 
