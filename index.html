@@ -532,6 +532,41 @@ button{font-family:inherit;cursor:pointer}
 .wbtn:active{transform:translateY(5px);box-shadow:0 2px 0 rgba(0,0,0,.2)}
 .confetti{position:fixed;top:-30px;width:14px;height:22px;border-radius:4px;z-index:60;pointer-events:none;animation:fall linear forwards}
 @keyframes fall{to{transform:translateY(115vh) rotate(720deg)}}
+
+/* ---------- FUN LAYER (shared juice for every game) ---------- */
+.fxs{position:fixed;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;pointer-events:none;z-index:45;animation:spark .6s ease-out forwards}
+.flystar{position:fixed;font-size:clamp(28px,5vmin,48px);line-height:1;pointer-events:none;z-index:70;will-change:transform}
+.combo{position:fixed;left:50%;top:24%;z-index:65;pointer-events:none;font-size:clamp(34px,7vmin,72px);font-weight:800;color:#fff;white-space:nowrap;
+  text-shadow:0 4px 0 #ff5fa2,0 8px 18px rgba(0,0,0,.2);animation:comboin 1.4s cubic-bezier(.2,1.5,.4,1) forwards}
+@keyframes comboin{0%{transform:translate(-50%,0) scale(.3);opacity:0}25%{transform:translate(-50%,0) scale(1.15);opacity:1}70%{transform:translate(-50%,-10px) scale(1);opacity:1}100%{transform:translate(-50%,-40px) scale(.9);opacity:0}}
+#buddy{position:fixed;left:calc(env(safe-area-inset-left) + 2vmin);bottom:calc(env(safe-area-inset-bottom) - 1vmin);width:clamp(70px,12vmin,130px);z-index:40;pointer-events:none;transform:translateY(130%);transition:transform .35s cubic-bezier(.2,1.5,.4,1)}
+#buddy.up{transform:translateY(0)}
+#buddy svg{width:100%;height:auto;display:block}
+#buddy.yay svg{animation:jump .6s ease}
+#buddy.oops svg{animation:tilt .6s ease}
+@keyframes tilt{0%,100%{transform:rotate(0)}30%{transform:rotate(-12deg)}70%{transform:rotate(8deg)}}
+#buddy .bsay{position:absolute;left:88%;bottom:62%;background:#fff;border-radius:22px 22px 22px 6px;padding:.8vmin 2.2vmin;font-weight:800;font-size:clamp(16px,2.8vmin,28px);white-space:nowrap;box-shadow:0 5px 0 rgba(0,0,0,.1)}
+.qopt.out{opacity:.3;pointer-events:none;filter:grayscale(.6);transform:scale(.92);transition:opacity .3s,transform .3s}
+.qwrap.golden .qopts{padding:2vmin;border-radius:36px;background:rgba(255,210,63,.35);box-shadow:0 0 0 5px #ffd23f,0 0 40px 8px rgba(255,210,63,.6);animation:goldglow 1s ease-in-out infinite alternate}
+@keyframes goldglow{from{box-shadow:0 0 0 5px #ffd23f,0 0 20px 4px rgba(255,210,63,.4)}to{box-shadow:0 0 0 7px #ffd23f,0 0 50px 12px rgba(255,210,63,.75)}}
+.goldtag{background:#ffd23f;color:var(--ink);border-radius:999px;padding:.6vmin 3vmin;font-size:clamp(18px,3.2vmin,32px);font-weight:800;box-shadow:0 5px 0 #d9a800;animation:pop .4s cubic-bezier(.2,1.6,.4,1)}
+#bookBtn{border:none;color:var(--ink);font-family:inherit;cursor:pointer}
+#bookBtn:active{transform:translateY(3px)}
+.winearn{display:inline-block;background:var(--yellow);border-radius:999px;padding:.4vmin 2.4vmin;font-size:clamp(20px,3.4vmin,32px);font-weight:800;box-shadow:0 5px 0 #d9a800;margin-bottom:1.6vmin}
+.winsticker{border:none;background:none;padding:0;font-size:clamp(70px,14vmin,140px);line-height:1.1;cursor:pointer;animation:gift .5s ease-in-out infinite alternate}
+.winsticker.open{animation:unwrap .7s cubic-bezier(.2,1.6,.4,1)}
+@keyframes gift{from{transform:rotate(-8deg) scale(1)}to{transform:rotate(8deg) scale(1.06)}}
+@keyframes unwrap{0%{transform:scale(.2) rotate(-200deg)}100%{transform:scale(1) rotate(0)}}
+.wingot{font-size:clamp(16px,2.8vmin,26px);font-weight:700;color:#7a6fa8;min-height:1.4em;margin:0 0 1.2vmin}
+#book{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(43,35,80,.45);z-index:55}
+#book.show{display:flex}
+.bookbox{background:#fff;border-radius:44px;padding:3vmin 4vmin;width:min(92vw,900px);max-height:88vh;display:flex;flex-direction:column;gap:2vmin;animation:pop .45s cubic-bezier(.2,1.6,.4,1)}
+.bookbox h2{margin:0;font-size:clamp(28px,5vmin,52px);text-align:center}
+.bookbox h2 small{display:block;font-size:.5em;color:#7a6fa8}
+.bookgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(clamp(64px,11vmin,110px),1fr));gap:1.6vmin;overflow-y:auto;padding:1vmin}
+.bookgrid span{aspect-ratio:1;border-radius:24px;background:#fff6dc;display:flex;align-items:center;justify-content:center;font-size:clamp(36px,7vmin,70px);box-shadow:0 5px 0 rgba(0,0,0,.08)}
+.bookgrid span.no{background:#eeeaf6;color:#c9c2df;font-size:clamp(24px,4vmin,40px);font-weight:800}
+.bookgrid span.new{animation:hop .3s ease-in-out 4 alternate;box-shadow:0 0 0 4px var(--yellow)}
 </style>
 </head>
 <body>
@@ -541,7 +576,7 @@ button{font-family:inherit;cursor:pointer}
   <div class="cloud" style="width:160px;height:50px;top:8%;animation-duration:38s"></div>
   <div class="cloud" style="width:110px;height:36px;top:22%;animation-duration:52s;animation-delay:-20s"></div>
   <div class="cloud" style="width:200px;height:60px;top:70%;animation-duration:60s;animation-delay:-35s;opacity:.6"></div>
-  <div class="stars homestars">⭐ <span class="starcount">0</span></div>
+  <button class="stars homestars" id="bookBtn" aria-label="Bộ sưu tập sticker">⭐ <span class="starcount">0</span> · 📒</button>
   <button class="btn-round gearbtn" id="gearBtn" aria-label="Cài đặt">⚙️</button>
   <button class="btn-round langtoggle" id="langToggle" aria-label="Language"></button>
 
@@ -907,15 +942,27 @@ button{font-family:inherit;cursor:pointer}
 <!-- ================= WIN ================= -->
 <div id="win">
   <div class="winbox">
-    <div class="bigstar">🌟</div>
+    <button class="winsticker" id="winSticker" aria-label="Mở quà">🎁</button>
+    <p class="wingot" id="winGot"></p>
     <h2 data-en="Great job!">Giỏi quá!</h2>
     <p id="winmsg"></p>
+    <div class="winearn" id="winEarn"></div>
     <div class="winbtns">
       <button class="wbtn" id="winAgain" style="background:var(--green)" data-en="▶ Play again">▶ Chơi tiếp</button>
       <button class="wbtn" id="winHome" style="background:var(--blue)" data-en="🏠 Home">🏠 Về nhà</button>
     </div>
   </div>
 </div>
+
+<!-- ================= STICKER BOOK ================= -->
+<div id="book">
+  <div class="bookbox">
+    <h2><span data-en="My sticker book">Bộ sưu tập của bé</span><small id="bookCount"></small></h2>
+    <div class="bookgrid" id="bookGrid"></div>
+    <button class="wbtn" id="bookClose" style="background:var(--green);align-self:center" data-en="Done">Xong</button>
+  </div>
+</div>
+<div id="buddy" aria-hidden="true"><div class="bsay"></div></div>
 
 <script>
 (function(){
@@ -1046,8 +1093,80 @@ function renderStars(bump){
     if(bump){const p=el.parentElement;p.classList.remove('bump');void p.offsetWidth;p.classList.add('bump')}
   });
 }
-function addStar(n){stars+=n||1;try{localStorage.setItem('bevui_stars',stars)}catch(e){}renderStars(true)}
+function addStar(n){n=n||1;stars+=n;try{localStorage.setItem('bevui_stars',stars)}catch(e){}
+  if(!flyStar(n))renderStars(true)}
 renderStars(false);
+
+/* ---------- Fun layer: tap sparks, flying stars, combo, Mít buddy ---------- */
+let lastPt={x:innerWidth/2,y:innerHeight/2};
+const FXC=['#ff4757','#ffd23f','#3ddc84','#3d8bff','#9b5de5','#ff8a3d','#ff5fa2'];
+function burst(x,y,n){
+  for(let i=0;i<(n||8);i++){
+    const s=document.createElement('div'),a=Math.random()*Math.PI*2,d=rand(30,80);
+    s.className='fxs';s.style.left=x+'px';s.style.top=y+'px';s.style.background=pickOne(FXC);
+    s.style.setProperty('--dx',Math.cos(a)*d+'px');s.style.setProperty('--dy',Math.sin(a)*d+'px');
+    document.body.appendChild(s);setTimeout(()=>s.remove(),650);
+  }
+}
+// Stars fly from the last touch point to the star counter of the visible screen
+function flyStar(n){
+  const scr=document.querySelector('.screen.active'),tgt=scr&&scr.querySelector('.stars');
+  if(!tgt||!document.body.animate)return false;
+  const r=tgt.getBoundingClientRect(),dx=r.left+r.width/2-lastPt.x,dy=r.top+r.height/2-lastPt.y,k=Math.min(n,5);
+  for(let i=0;i<k;i++){
+    const el=document.createElement('div');el.className='flystar';el.textContent='⭐';
+    el.style.left=lastPt.x+'px';el.style.top=lastPt.y+'px';document.body.appendChild(el);
+    const sx=rand(-60,60);
+    const an=el.animate([
+      {transform:'translate(-50%,-50%) scale(.4)',opacity:1},
+      {transform:`translate(calc(-50% + ${dx*.3+sx}px),calc(-50% + ${dy*.3-90}px)) scale(1.4)`,opacity:1,offset:.35},
+      {transform:`translate(calc(-50% + ${dx}px),calc(-50% + ${dy}px)) scale(.5)`,opacity:.9}
+    ],{duration:850,delay:i*110,easing:'cubic-bezier(.45,0,.6,1)',fill:'both'});
+    an.onfinish=()=>{el.remove();renderStars(true);tone(1100+i*140,.07,'sine',.1)};
+  }
+  return true;
+}
+function comboPop(text){
+  const el=document.createElement('div');el.className='combo';el.textContent=text;
+  document.body.appendChild(el);setTimeout(()=>el.remove(),1450);
+}
+// rising "ding" — higher with each answer in a row
+function dingUp(k){const f=880*Math.pow(2,Math.min(k,8)/12);tone(f,.15,'sine',.22);tone(f*1.5,.28,'sine',.18,.1)}
+const buddy=(()=>{
+  const el=$('#buddy'),bs=el.querySelector('.bsay'),m=$('#mascot').cloneNode(true);
+  m.removeAttribute('id');m.removeAttribute('class');el.insertBefore(m,bs);
+  let t=0;
+  return{react(kind,text){
+    if(!current)return;
+    el.classList.remove('yay','oops');void el.offsetWidth;
+    el.classList.add('up',kind);bs.textContent=text||'';bs.style.display=text?'':'none';
+    clearTimeout(t);t=setTimeout(()=>el.classList.remove('up','yay','oops'),1700);
+  },hide(){clearTimeout(t);el.classList.remove('up','yay','oops')}};
+})();
+window.addEventListener('pointerdown',e=>{
+  lastPt={x:e.clientX,y:e.clientY};
+  if(typeof current==='undefined'||!current)return;
+  const t=e.target.closest&&e.target.closest('.stage button,.stage .btile,.stage .qopt,.stage .balloon');
+  if(t)burst(e.clientX,e.clientY,8);
+},true);
+
+/* ---------- Sticker collection (reward for finishing any game) ---------- */
+const STICKERS=['🦄','🐲','🦖','🐳','🦋','🐙','🦊','🐼','🐨','🦁','🐯','🐸','🐧','🦉','🐝','🐞','🦩','🦜','🐬','🦀','🌈','🌻','🍄','🌵','🍉','🍩','🧁','🍭','🚀','🛸','🎠','🎡','⚽','🏆','👑','💎','🎸','🪐','⛄','🌟'];
+let owned=[];try{owned=JSON.parse(localStorage.getItem('bevui_stickers')||'[]').filter(s=>STICKERS.includes(s))}catch(e){}
+let newSticker='';
+function awardSticker(){
+  const left=STICKERS.filter(s=>!owned.includes(s));
+  const s=left.length?pickOne(left):pickOne(STICKERS),fresh=left.length>0;
+  if(fresh){owned.push(s);try{localStorage.setItem('bevui_stickers',JSON.stringify(owned))}catch(e){}newSticker=s}
+  return{s,fresh};
+}
+function openBook(){
+  $('#bookCount').textContent=`${owned.length} / ${STICKERS.length}`;
+  $('#bookGrid').innerHTML=STICKERS.map(s=>owned.includes(s)?`<span class="${s===newSticker?'new':''}">${s}</span>`:'<span class="no">?</span>').join('');
+  $('#book').classList.add('show');
+  say(owned.length?T(`Bé đã có ${owned.length} sticker! Chơi thêm để sưu tập nhé!`,`You have ${owned.length} stickers! Play more to collect them all!`):T('Chơi xong một trò để nhận sticker nhé!',"Finish a game to get a sticker!"));
+  newSticker='';
+}
 
 /* ---------- Prompt bar ---------- */
 const promptSpeech={};
@@ -1062,9 +1181,9 @@ document.querySelectorAll('.prompt').forEach(p=>p.addEventListener('click',()=>{
 
 /* ---------- Win overlay + confetti ---------- */
 let winAgainFn=null;
-function confetti(){
+function confetti(n){
   const cols=['#ff4757','#ffd23f','#3ddc84','#3d8bff','#9b5de5','#ff8a3d','#ff5fa2'];
-  for(let i=0;i<70;i++){
+  for(let i=0;i<(n||70);i++){
     const c=document.createElement('div');c.className='confetti';
     c.style.left=rand(0,100)+'vw';c.style.background=pickOne(cols);
     c.style.animationDuration=rand(1.8,3.2)+'s';c.style.animationDelay=rand(0,.6)+'s';
@@ -1074,8 +1193,25 @@ function confetti(){
 function win(msg,again){
   sfx('win');say(msg.replace(/[^\p{L}\p{N}\s!.,]/gu,'')+T(' Bé giỏi quá!'," Great job!"));
   confetti();$('#winmsg').textContent=msg;$('#win').classList.add('show');winAgainFn=again;
+  buddy.hide();
+  const earned=Math.max(0,stars-gameStars);gameStars=stars;
+  $('#winEarn').textContent=`+${earned} ⭐`;$('#winEarn').style.display=earned?'':'none';
+  // gift box: tap (or wait) to open and reveal a sticker
+  const g=$('#winSticker'),got=$('#winGot');g.textContent='🎁';g.classList.remove('open');got.textContent=T('Chạm để mở quà!',"Tap to open your gift!");
+  pendingGift=awardSticker();clearTimeout(giftT);giftT=setTimeout(openGift,2600);
 }
-function hideWin(){$('#win').classList.remove('show')}
+let pendingGift=null,giftT=0,gameStars=0;
+function openGift(){
+  clearTimeout(giftT);if(!pendingGift)return;const {s,fresh}=pendingGift;pendingGift=null;
+  const g=$('#winSticker');g.textContent=s;g.classList.add('open');sfx('pop');setTimeout(()=>sfx('ding'),150);
+  const r=g.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2,16);
+  $('#winGot').textContent=fresh?T(`Sticker mới! (${owned.length}/${STICKERS.length})`,`New sticker! (${owned.length}/${STICKERS.length})`):T('Bé đã có đủ bộ sticker rồi!',"You've collected them all!");
+  if(fresh)say(T('Bé nhận được một sticker mới!',"You got a new sticker!"),undefined,true);
+}
+$('#winSticker').addEventListener('click',openGift);
+function hideWin(){$('#win').classList.remove('show');clearTimeout(giftT);pendingGift=null}
+$('#bookBtn').addEventListener('click',()=>{sfx('tap');openBook()});
+$('#bookClose').addEventListener('click',()=>{sfx('tap');$('#book').classList.remove('show')});
 $('#winAgain').addEventListener('click',()=>{sfx('tap');hideWin();winAgainFn&&winAgainFn()});
 $('#winHome').addEventListener('click',()=>{sfx('tap');goHome()});
 
@@ -1862,11 +1998,13 @@ const PRAISE=[T('Giỏi quá!',"Great job!"),T('Đúng rồi!',"Correct!"),T('Tu
 const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
 const ri=n=>Math.floor(Math.random()*n);
 function makeQuiz(cfg){
-  const stage=$(cfg.stage);let round=0,lock=false,tmr=0,q=null;
-  function start(){round=0;next()}
+  const stage=$(cfg.stage);let round=0,lock=false,tmr=0,q=null,streak=0,gold=-1,miss=0;
+  // one surprise "golden question" (x3 stars) somewhere after the first round
+  function start(){round=0;streak=0;gold=cfg.rounds>=4?1+ri(cfg.rounds-1):-1;next()}
   function next(){
-    clearTimeout(tmr);lock=false;q=cfg.gen(round);
-    stage.innerHTML=`<div class="qwrap"><div class="qarea">${q.html}</div><div class="qopts ${q.cls||''}"></div><div class="dots">${[...Array(cfg.rounds)].map((_,i)=>`<i class="${i<round?'on':''}"></i>`).join('')}</div></div>`;
+    clearTimeout(tmr);lock=false;miss=0;q=cfg.gen(round);const g=round===gold;
+    stage.innerHTML=`<div class="qwrap${g?' golden':''}">${g?`<div class="goldtag">${T('⭐ Câu hỏi vàng! ×3 sao',"⭐ Golden question! ×3 stars")}</div>`:''}<div class="qarea">${q.html}</div><div class="qopts ${q.cls||''}"></div><div class="dots">${[...Array(cfg.rounds)].map((_,i)=>`<i class="${i<round?'on':''}"></i>`).join('')}</div></div>`;
+    if(g)[0,.12,.24].forEach((w,i)=>tone(1046+i*262,.18,'triangle',.12,w));
     const box=stage.querySelector('.qopts');
     q.options.forEach((o,i)=>{
       const b=document.createElement('button');b.className='qopt'+(o.white?' white':'')+(o.cls?' '+o.cls:'');
@@ -1880,12 +2018,18 @@ function makeQuiz(cfg){
   function tap(b,o){
     if(lock)return;
     if(o.correct){
-      lock=true;b.classList.add('ok');sfx('ding');addStar();
+      lock=true;b.classList.add('ok');audio();
+      if(!miss)streak++;else streak=0;dingUp(streak);
+      const g=round===gold;addStar(g?3:1);
+      if(streak>=3&&streak%2===1){setTimeout(()=>{comboPop(T(`🔥 ${streak} câu liên tiếp!`,`🔥 ${streak} in a row!`));addStar(1)},350)}
+      buddy.react('yay',g?T('Câu vàng! ×3','Gold! ×3'):pickOne(PRAISE));
       let d=1600;if(q.onCorrect)d=q.onCorrect(stage)||1800;else say(pickOne(PRAISE));
       round++;const dd=stage.querySelectorAll('.dots i');if(dd[round-1])dd[round-1].classList.add('on');
       tmr=setTimeout(()=>round>=cfg.rounds?win(cfg.winMsg,start):next(),d);
     }else{
-      b.classList.remove('no');void b.offsetWidth;b.classList.add('no');sfx('boing');
+      b.classList.remove('no');void b.offsetWidth;b.classList.add('no');sfx('boing');miss++;streak=0;
+      setTimeout(()=>b.classList.add('out'),380);// fade the wrong choice so the next try is easier
+      buddy.react('oops',T('Thử lại nào!',"Try again!"));
       say(o.say||T('Chưa đúng, bé thử lại nhé!',"Not quite, try again!"));
     }
   }
@@ -2233,12 +2377,22 @@ function emojiOrImg(emoji,path,imgClass,wrapClass,style){
 }
 function makeBoard(id,stageSel,items,promptHtml,speech,anim){
   const stage=$(stageSel),TINT=['#fff0f0','#fff6dc','#e9ffef','#e8f3ff','#f3ebff','#ffedf6'];
+  let taps=0,seen=new Set();
+  // surprise moments: first time every tile has been tapped, and every 10 taps
+  function surprise(all){
+    setTimeout(()=>{confetti(all?70:24);sfx('win');addStar(all?3:1);
+      buddy.react('yay',all?T('Bé biết hết rồi!',"You know them all!"):T('Hoan hô!',"Hooray!"))},600);
+  }
   function start(){
+    taps=0;seen=new Set();
     stage.innerHTML=`<div class="board6">${items.map((it,i)=>`<button class="btile" style="background:${TINT[i%TINT.length]}">${emojiOrImg(it[0],it[4],'btimg','be')}${it[1]}</button>`).join('')}</div>`;
     stage.querySelectorAll('.btile').forEach((b,i)=>b.addEventListener('pointerdown',e=>{
       e.preventDefault();const it=items[i];b.classList.remove(anim);void b.offsetWidth;b.classList.add(anim);
       if(it[3])SND[it[3]]();else sfx('boing');
       say(it[1]+'!');say(it[2],'vi-VN',true);
+      taps++;const before=seen.size;seen.add(i);
+      if(seen.size===items.length&&before<items.length)surprise(true);
+      else if(taps%10===0)surprise(false);
     }));
     setPrompt(id,promptHtml,speech);
   }
@@ -3039,10 +3193,10 @@ let current=null;
 function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===id))}
 function openGame(name){
   sfx('tap');music.ensure();if(current)current.stop();hideWin();
-  show(name);current=GAMES[name];
+  show(name);current=GAMES[name];gameStars=stars;
   requestAnimationFrame(()=>current.start());
 }
-function goHome(){if(current)current.stop();current=null;hideWin();hush();music.stop();show('home')}
+function goHome(){if(current)current.stop();current=null;hideWin();buddy.hide();hush();music.stop();show('home')}
 renderHome();
 document.querySelectorAll('.home-btn').forEach(b=>{
   b.addEventListener('click',()=>{sfx('tap');goHome()});
