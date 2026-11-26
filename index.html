@@ -149,6 +149,10 @@ button{font-family:inherit;cursor:pointer}
 .sw.sel{transform:scale(1.2);border-color:var(--ink)}
 .donebtn{border:none;border-radius:999px;padding:1vmin 3.5vmin;font-size:clamp(22px,3.6vmin,36px);font-weight:800;color:#fff;background:var(--green);box-shadow:inset 0 -4px 0 rgba(27,27,47,.12);opacity:.35}
 .donebtn.ready{opacity:1;animation:bob 1s ease-in-out infinite}
+.pmode{display:flex;gap:6px;background:#fff;border-radius:999px;padding:5px;box-shadow:inset 0 -3px 0 rgba(27,27,47,.1);flex-basis:100%;justify-content:center}
+@media (orientation:landscape){.pmode{grid-column:1/-1}}
+.pmode button{border:none;border-radius:999px;padding:.8vmin 2.2vmin;font-family:inherit;font-weight:800;font-size:clamp(15px,2.4vmin,22px);background:transparent;color:var(--ink);white-space:nowrap}
+.pmode button.on{background:var(--ink);color:#fff}
 
 /* ---------- PUZZLE ---------- */
 .zwrap{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3vmin;padding:2vmin}
@@ -2548,29 +2552,64 @@ function picker(stage,id,question,speech,onPick){
 const Paint=(()=>{
   const PAL=[['#FF7A6B',T('đỏ',"red")],['#FF9A5C',T('cam','orange')],['#FFD447',T('vàng',"yellow")],['#5CCB7E',T('xanh lá',"green")],['#5AB6F2',T('xanh dương',"blue")],
     ['#A98CFF',T('tím',"purple")],['#FF8FBF',T('hồng',"pink")],['#a0522d',T('nâu',"brown")],['#1B1B2F',T('đen',"black")],['#ffffff',T('trắng',"white")]];
-  const stage=$('#pstage');
+  const stage=$('#pstage'),NS='http://www.w3.org/2000/svg';
+  // mode: 'tap' = chạm là tô cả vùng; 'brush' = bé tự tô bằng ngón tay (không lem ra ngoài nét)
+  let mode='tap';try{if(localStorage.getItem('bevui_paintmode')==='brush')mode='brush'}catch(e){}
   let cur=0,filled=null,pic=null,praised=false;
   function start(){picker(stage,'paint',T('🔊 Bé muốn tô gì nào?',"🔊 What do you want to color?"),T('Bé muốn tô màu bức tranh nào?',"Which picture would you like to color?"),open)}
+  function hint(){return mode==='tap'?T('Bé chọn màu, rồi chạm vào tranh để tô nhé!',"Pick a color, then tap the picture to color it!"):T('Bé chọn màu, rồi di ngón tay để tự tô nhé!',"Pick a color, then rub your finger to color it in!")}
   function open(k){
     pic=PICS[k];filled=new Set();praised=false;cur=0;
-    stage.innerHTML=`<div class="paintwrap"><svg class="paintsvg" viewBox="0 0 400 400">${picMarkup(pic,false)}</svg>
-      <div class="palette">${PAL.map((p,i)=>`<button class="sw${i===0?' sel':''}" data-i="${i}" style="background:${p[0]}"></button>`).join('')}<button class="donebtn">⭐ Xong!</button></div></div>`;
-    const svg=stage.querySelector('svg'),done=stage.querySelector('.donebtn');
+    stage.innerHTML=`<div class="paintwrap"><svg class="paintsvg" viewBox="0 0 400 400"><defs></defs>${picMarkup(pic,false)}</svg>
+      <div class="palette"><div class="pmode"><button data-m="tap">👆 ${T('Chạm tô',"Tap")}</button><button data-m="brush">🖌️ ${T('Tự tô',"Brush")}</button></div>${PAL.map((p,i)=>`<button class="sw${i===0?' sel':''}" data-i="${i}" style="background:${p[0]}"></button>`).join('')}<button class="donebtn">⭐ Xong!</button></div></div>`;
+    const svg=stage.querySelector('svg'),defs=svg.querySelector('defs'),done=stage.querySelector('.donebtn'),need=()=>mode==='tap'?pic.reg.length:Math.ceil(pic.reg.length*.6);
+    const modeBtns=stage.querySelectorAll('.pmode button');
+    const showMode=()=>modeBtns.forEach(b=>b.classList.toggle('on',b.dataset.m===mode));showMode();
+    function check(){if(filled.size>=need()&&!praised){praised=true;done.classList.add('ready');say(T('Đẹp quá! Tô xong thì bé bấm nút Xong nhé!',"Beautiful! Tap Done when you finish!"))}}
+    // lớp tô riêng cho từng vùng, cắt theo đúng hình vùng đó, nằm ngay trên vùng để các vùng phía trước vẫn che đúng
+    function layer(r){
+      const i=r.getAttribute('data-i');let g=svg.querySelector(`g[data-paint="${i}"]`);if(g)return g;
+      const cp=document.createElementNS(NS,'clipPath');cp.id='pc'+i;const sh=r.cloneNode();sh.removeAttribute('class');cp.appendChild(sh);defs.appendChild(cp);
+      g=document.createElementNS(NS,'g');g.setAttribute('data-paint',i);g.setAttribute('clip-path',`url(#pc${i})`);g.setAttribute('pointer-events','none');
+      const ol=r.cloneNode();ol.removeAttribute('class');ol.removeAttribute('data-i');ol.setAttribute('fill','none');ol.setAttribute('pointer-events','none');
+      r.after(g);g.after(ol);return g;
+    }
+    function pt(e){const m=svg.getScreenCTM().inverse(),q=new DOMPoint(e.clientX,e.clientY).matrixTransform(m);return q.x.toFixed(1)+' '+q.y.toFixed(1)}
+    let stroke=null,sid=null,lastTone=0;
     svg.addEventListener('pointerdown',e=>{
       const r=e.target.closest&&e.target.closest('.rg');if(!r)return;e.preventDefault();
-      r.setAttribute('fill',PAL[cur][0]);filled.add(r.getAttribute('data-i'));
-      audio();tone(400+cur*60,.12,'triangle',.15,0,1.8);
-      if(filled.size===pic.reg.length&&!praised){praised=true;done.classList.add('ready');say(T('Đẹp quá! Tô xong thì bé bấm nút Xong nhé!',"Beautiful! Tap Done when you finish!"))}
+      audio();
+      if(mode==='tap'){
+        r.setAttribute('fill',PAL[cur][0]);filled.add(r.getAttribute('data-i'));
+        tone(400+cur*60,.12,'triangle',.15,0,1.8);check();return;
+      }
+      const path=document.createElementNS(NS,'path'),p0=pt(e);
+      path.setAttribute('d',`M${p0} L${p0}`);path.setAttribute('stroke',PAL[cur][0]);path.setAttribute('stroke-width','30');
+      path.setAttribute('stroke-linecap','round');path.setAttribute('stroke-linejoin','round');path.setAttribute('fill','none');
+      layer(r).appendChild(path);stroke=path;sid=e.pointerId;try{svg.setPointerCapture(e.pointerId)}catch(_){}
+      filled.add(r.getAttribute('data-i'));tone(300+cur*50,.08,'sine',.08,0,1.4);check();
     });
+    svg.addEventListener('pointermove',e=>{
+      if(!stroke||e.pointerId!==sid)return;e.preventDefault();
+      stroke.setAttribute('d',stroke.getAttribute('d')+' L'+pt(e));
+      const t=performance.now();if(t-lastTone>140){lastTone=t;tone(300+cur*50+Math.random()*60,.05,'sine',.04,0,1.2)}
+    });
+    const end=e=>{if(e.pointerId===sid){stroke=null;sid=null}};
+    svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+    modeBtns.forEach(b=>b.addEventListener('click',()=>{
+      mode=b.dataset.m;try{localStorage.setItem('bevui_paintmode',mode)}catch(e){}
+      showMode();sfx('tap');say(mode==='tap'?T('Chạm là tô',"Tap to color"):T('Bé tự tô nhé',"Color it yourself"));
+      praised=false;done.classList.remove('ready');check();
+    }));
     stage.querySelectorAll('.sw').forEach(b=>b.addEventListener('click',()=>{
       cur=+b.dataset.i;stage.querySelectorAll('.sw').forEach(x=>x.classList.toggle('sel',x===b));
       sfx('tap');say(T('Màu ',"")+PAL[cur][1]);
     }));
     done.addEventListener('click',()=>{
-      if(filled.size<pic.reg.length){sfx('boing');say(T('Còn chỗ trắng chưa tô kìa!',"There are still white spots!"));return}
+      if(filled.size<need()){sfx('boing');say(mode==='tap'?T('Còn chỗ trắng chưa tô kìa!',"There are still white spots!"):T('Bé tô thêm vài chỗ nữa nhé!',"Color a few more spots!"));return}
       addStar(3);win(T('Bức tranh thật đẹp! 🎨',"What a beautiful picture! 🎨"),start);
     });
-    setPrompt('paint',T('🔊 Tô màu ',"🔊 Color the ")+pic.label.toLowerCase()+' '+pic.icon,T('Bé chọn màu, rồi chạm vào tranh để tô nhé!',"Pick a color, then tap the picture to color it!"));
+    setPrompt('paint',T('🔊 Tô màu ',"🔊 Color the ")+pic.label.toLowerCase()+' '+pic.icon,hint());
   }
   return{start,stop:()=>{}};
 })();
