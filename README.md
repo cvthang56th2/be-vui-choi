@@ -19,11 +19,11 @@ Bóng bay · Con gì kêu? · Hộp hình khối · Cho thú ăn · Đàn piano 
 ### 🦉 6–7 tuổi (24 game)
 Cộng trừ · Đánh vần tiếng Anh · Xem giờ · Mê cung · Ghép hình 3×3 · Lật thẻ · Chữ cái · Đàn piano · Toán đến 20 · So sánh > < = · Tập đọc · Nghe tiếng Anh · Thứ trong tuần · Chẵn – lẻ · Chục & đơn vị · Sudoku mini · Đua toán · Trái – phải · **Phép nhân · Đo độ dài · Phân số · Điền chữ · Hình học · Lập trình robot**
 
-### 👨‍👩‍👧 Bố mẹ (6 game) — bố mẹ tự chơi lúc bé ngủ
-Đố vui nuôi con · Thật hay đùa? · Gộp đồ bé (vuốt gộp 🍼 → 🎓) · Trượt số (3×3, 4×4) · Bố mẹ kiểu gì? (trắc nghiệm vui) · Hít thở 1 phút
+### 👨‍👩‍👧 Bố mẹ (24 game) — bố mẹ tự chơi lúc bé ngủ
+Đố vui nuôi con · Thật hay đùa? · Gộp đồ bé (vuốt gộp 🍼 → 🎓) · Trượt số (3×3, 4×4) · Bố mẹ kiểu gì? · Hít thở 1 phút · Ca dao tục ngữ · Tinh mắt · Tránh bỉm bẩn (dò mìn) · Sudoku 9×9 · Lật thẻ khó · Hứng đồ · Xếp chữ · Mốc phát triển · Tính nhẩm 60 giây · Tô ô bí ẩn · Tắt đèn cho bé ngủ · Rót nước màu · Tìm từ · Phản xạ · Mê cung đêm · Xếp tháp bánh · Nhớ dãy màu · Tìm số 1–25
 
-### 🤝 Cùng bé (6 game) — bố mẹ và bé chơi chung trên một máy
-Kéo co (chia đôi màn hình, bố mẹ kéo nhẹ hơn cho công bằng) · Ai nhanh hơn? (bé ít lựa chọn hơn) · Trốn tìm · Bắt chước nào · Cờ ca-rô (🐱 bé – 🐶 bố mẹ) · Kể chuyện (xúc xắc nhân vật – nơi chốn – đồ vật)
+### 🤝 Cùng bé (24 game) — bố mẹ và bé chơi chung trên một máy (thi đấu luôn có lợi thế cho bé)
+Kéo co · Ai nhanh hơn? · Trốn tìm · Bắt chước nào · Cờ ca-rô · Kể chuyện · Đập bóng đua · Bố mẹ gợi ý, bé đoán · Vẽ đoán hình · Đứng hình! · Oẳn tù tì · Lật thẻ 2 người · Đừng đánh thức gấu · Ban nhạc gia đình · Câu cá thi · Vẽ đối xứng · Đếm cùng nhau · Đàn đối đáp · Chuyền bóng bay · Ném bóng vào rổ · Dán hình kể chuyện · Truy tìm màu sắc · Hỏi nhau · Leo thang, trượt cầu trượt
 
 ## Song ngữ Việt / English
 
