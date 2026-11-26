@@ -2,22 +2,22 @@
 
 Bộ mini-game giáo dục cho trẻ nhỏ, chạy trên iPad (Safari) — giao diện tiếng Việt, có giọng đọc, chữ và hình to, thao tác đơn giản.
 
-## Các game (chia theo lứa tuổi) — 79 lượt game
+## Các game (chia theo lứa tuổi) — 108 lượt game
 
 Màn hình chính có 4 tab tuổi (app nhớ tab bé chọn). Một số game dùng chung nhiều tuổi và tự chỉnh độ khó.
 
-### 👶 1–2 tuổi (27 game) — không có đáp án sai, mọi lần chạm đều có phản hồi
+### 👶 1–2 tuổi (36 game) — không có đáp án sai, mọi lần chạm đều có phản hồi
 Nút 🏠 bị khoá: bố mẹ **giữ 1 giây** mới thoát.
-Chạm là vui · Ú òa! · Bong bóng · Con vật · Xe cộ · Vẽ ngón tay · Đàn piano · Trái cây · Màu sắc · Cơ thể bé · Nhạc cụ · Gia đình · Bể cá · Ngày & đêm · Pháo hoa · Trứng nở · Các hình · Dắt cún · Lau kính · Bơm bóng · Vườn hoa · Tàu hỏa · Nhảy múa · Làm kem · Xếp khối · Soi đèn · Điện thoại
+Chạm là vui · Ú òa! · Bong bóng · Con vật · Xe cộ · Vẽ ngón tay · Đàn piano · Trái cây · Màu sắc · Cơ thể bé · Nhạc cụ · Gia đình · Bể cá · Ngày & đêm · Pháo hoa · Trứng nở · Các hình · Dắt cún · Lau kính · Bơm bóng · Vườn hoa · Tàu hỏa · Nhảy múa · Làm kem · Xếp khối · Soi đèn · Điện thoại · Thổi bong bóng · Tắm cho thú · Đào cát tìm đồ · Vũng bùn · Nghịch cát · Bong bóng màu · Xây lâu đài cát · Thả bóng bay · **Mưa rơi**
 
-### 🐣 2–3 tuổi (16 game)
-Bóng bay · Con gì kêu? · Hộp hình khối · Cho thú ăn · Đàn piano · Tô màu · Tìm trái cây · Tìm màu · To – nhỏ · Mũi đâu? · Tìm giống nhau · Ai ăn gì? · Nhà của ai? · Đếm 1-2-3 · Tìm hình · Xếp theo màu
+### 🐣 2–3 tuổi (24 game)
+Bóng bay · Con gì kêu? · Hộp hình khối · Cho thú ăn · Đàn piano · Tô màu · Tìm trái cây · Tìm màu · To – nhỏ · Mũi đâu? · Tìm giống nhau · Ai ăn gì? · Nhà của ai? · Đếm 1-2-3 · Tìm hình · Xếp theo màu · **Tìm con vật · Dùng để làm gì? · Thời tiết · Đôi bạn · Cao – thấp · Trên – dưới · Một – nhiều · Dọn đồ**
 
-### 🐥 4–5 tuổi (18 game)
-Đua xe · Đếm số · Quy luật · Tìm bóng · Lắp ráp · Ghép hình · Lật thẻ · Chữ cái ABC · Số nào lớn? · Chữ tiếng Việt · Nhiều – ít · Cái nào khác? · Trái nghĩa · Cảm xúc · Số tiếp theo · Đập chuột số · Nhớ thứ tự · Xe đi đâu?
+### 🐥 4–5 tuổi (24 game)
+Đua xe · Đếm số · Quy luật · Tìm bóng · Lắp ráp · Ghép hình · Lật thẻ · Chữ cái ABC · Số nào lớn? · Chữ tiếng Việt · Nhiều – ít · Cái nào khác? · Trái nghĩa · Cảm xúc · Số tiếp theo · Đập chuột số · Nhớ thứ tự · Xe đi đâu? · Đếm bóng bay · **Chữ hoa – thường · Nghề nghiệp · Xếp thứ tự · Thêm – bớt · Nổi hay chìm?**
 
-### 🦉 6–7 tuổi (18 game)
-Cộng trừ · Đánh vần tiếng Anh · Xem giờ · Mê cung · Ghép hình 3×3 · Lật thẻ · Chữ cái · Đàn piano · Toán đến 20 · So sánh > < = · Tập đọc · Nghe tiếng Anh · Thứ trong tuần · Chẵn – lẻ · Chục & đơn vị · Sudoku mini · Đua toán · Trái – phải
+### 🦉 6–7 tuổi (24 game)
+Cộng trừ · Đánh vần tiếng Anh · Xem giờ · Mê cung · Ghép hình 3×3 · Lật thẻ · Chữ cái · Đàn piano · Toán đến 20 · So sánh > < = · Tập đọc · Nghe tiếng Anh · Thứ trong tuần · Chẵn – lẻ · Chục & đơn vị · Sudoku mini · Đua toán · Trái – phải · **Phép nhân · Đo độ dài · Phân số · Điền chữ · Hình học · Lập trình robot**
 
 ## Song ngữ Việt / English
 
