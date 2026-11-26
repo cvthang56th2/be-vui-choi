@@ -103,8 +103,10 @@ button{font-family:inherit;cursor:pointer}
 @keyframes dance{from{transform:rotate(-7deg)}to{transform:rotate(7deg)}}
 .asm.bounce{animation:hop .4s ease-in-out 6 alternate}
 @keyframes hop{from{transform:translateY(0)}to{transform:translateY(-24px)}}
-.picker{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:4vmin;padding:4vmin;align-content:center}
-.pick{width:clamp(150px,26vmin,260px);aspect-ratio:1;border:none;border-radius:40px;background:#fff;font-size:clamp(70px,13vmin,130px);box-shadow:inset 0 -6px 0 rgba(27,27,47,.12);display:flex;flex-direction:column;align-items:center;justify-content:center;animation:pop .4s cubic-bezier(.2,1.6,.4,1) backwards}
+.picker{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:3vmin;padding:3vmin;align-content:flex-start;overflow-y:auto;-webkit-overflow-scrolling:touch;touch-action:pan-y}
+.pick .pthumb{width:68%;height:auto;pointer-events:none}
+.pick span{text-align:center;line-height:1.1;padding:0 6px}
+.pick{width:clamp(128px,20vmin,210px);gap:.8vmin;aspect-ratio:1;border:none;border-radius:40px;background:#fff;font-size:clamp(70px,13vmin,130px);box-shadow:inset 0 -6px 0 rgba(27,27,47,.12);display:flex;flex-direction:column;align-items:center;justify-content:center;animation:pop .4s cubic-bezier(.2,1.6,.4,1) backwards}
 .pick span{font-size:clamp(20px,3.6vmin,34px);font-weight:800}
 .pick:active{transform:translateY(6px);box-shadow:inset 0 -2px 0 rgba(27,27,47,.12)}
 
@@ -629,7 +631,7 @@ button{color:var(--ink)}
 .qopt.ok{background:var(--green)!important;box-shadow:0 0 0 6px #fff,0 0 0 10px var(--green)}
 .qtext,.cbox{box-shadow:inset 0 -4px 0 rgba(27,27,47,.06)}
 .pick{box-shadow:inset 0 -6px 0 rgba(27,27,47,.08),0 10px 24px rgba(27,27,47,.08);border-radius:36px}
-.pick span{font-family:var(--hf)}
+.pick span{font-family:var(--hf);font-size:clamp(15px,2.4vmin,24px)}
 .btile{box-shadow:inset 0 -5px 0 rgba(27,27,47,.08);font-family:var(--hf)}
 .goldtag{font-family:var(--hf);box-shadow:none}
 .combo{font-family:var(--hf);text-shadow:0 4px 0 var(--ink),0 8px 18px rgba(0,0,0,.2)}
@@ -2280,6 +2282,191 @@ const PICS={
     ['circle','cx="298" cy="262" r="36"','#1B1B2F']],
     det:'<circle cx="112" cy="262" r="12" fill="#fff" stroke="#1B1B2F" stroke-width="4"/><circle cx="298" cy="262" r="12" fill="#fff" stroke="#1B1B2F" stroke-width="4"/><path d="M20 350 H70 M120 350 H170 M220 350 H270 M320 350 H370" stroke="#fff" stroke-width="8" stroke-linecap="round"/>'}
 };
+/* ---------- Siêu anh hùng (tranh tô màu tự vẽ) ---------- */
+(()=>{
+  const K='#1B1B2F',SK='#FFE0C2',R='#FF7A6B',O='#FF9A5C',Y='#FFD447',G='#5CCB7E',B='#5AB6F2',P='#A98CFF',PK='#FF8FBF',BR='#a0522d',WH='#ffffff',SKY='#bde8ff';
+  const rect=(x,y,w,h,rx=0)=>`x="${x}" y="${y}" width="${w}" height="${h}"${rx?` rx="${rx}"`:''}`;
+  const star=(cx,cy,Ro,Ri,n=5)=>'points="'+[...Array(n*2)].map((_,i)=>{const a=-Math.PI/2+i*Math.PI/n,r=i%2?Ri:Ro;return(cx+r*Math.cos(a)).toFixed(1)+','+(cy+r*Math.sin(a)).toFixed(1)}).join(' ')+'"';
+  const BG=c=>['rect','x="3" y="3" width="394" height="394" rx="30"',c];
+  const GROUND=c=>['path','d="M3 336 H397 V367 Q397 397 367 397 H33 Q3 397 3 367 Z"',c];
+  const eyes=(y=122,l=180,r=220)=>`<ellipse cx="${l}" cy="${y}" rx="10" ry="11" fill="#fff" stroke="${K}" stroke-width="4"/><circle cx="${l+1}" cy="${y+1}" r="5.5" fill="${K}"/><ellipse cx="${r}" cy="${y}" rx="10" ry="11" fill="#fff" stroke="${K}" stroke-width="4"/><circle cx="${r-1}" cy="${y+1}" r="5.5" fill="${K}"/>`;
+  const smile=(y=150)=>`<path d="M184 ${y} Q200 ${y+14} 216 ${y}" stroke="${K}" stroke-width="5" fill="none" stroke-linecap="round"/>`;
+  const MASK='d="M144 110 Q200 94 256 110 L252 138 Q230 132 214 140 Q200 130 186 140 Q170 132 148 138 Z"';
+  // Chibi người hùng: o.back (cảnh), o.behind (sau đầu/thân), o.top (trên đầu), o.mid (thắt lưng/váy)
+  function hu(o){
+    const c=o.c;
+    return [BG(o.sky||SKY)].concat(o.back||[],[GROUND(o.ground||G),
+      ['path','d="M158 180 L242 180 L312 362 Q200 388 88 362 Z"',c.cape]],o.behind||[],[
+      ['rect',rect(164,262,32,72),c.suit2],['rect',rect(204,262,32,72),c.suit2],
+      ['rect',rect(154,318,46,36,14),c.boot],['rect',rect(200,318,46,36,14),c.boot],
+      ['rect',rect(114,178,38,82,19),c.suit],o.up?['rect',rect(248,96,38,96,19),c.suit]:['rect',rect(248,178,38,82,19),c.suit],
+      ['circle','cx="133" cy="262" r="19"',c.boot],o.up?['circle','cx="267" cy="96" r="19"',c.boot]:['circle','cx="267" cy="262" r="19"',c.boot],
+      ['rect',rect(150,168,100,108,30),c.suit]],o.mid||[['rect',rect(150,244,100,18),c.belt]],[
+      o.emb,['circle','cx="200" cy="116" r="58"',SK]],o.top||[],(o.mask===false?[]:[['path',o.mask||MASK,c.mask]]));
+  }
+  const HEROES={
+    hero:{label:T('Siêu nhân áo choàng',"Caped hero"),icon:'🦸',reg:hu({
+      c:{cape:R,suit:B,suit2:B,boot:R,belt:Y,mask:R},
+      back:[['circle','cx="66" cy="66" r="32"',Y],['ellipse','cx="300" cy="62" rx="50" ry="22"',WH],
+        ['rect',rect(18,196,72,150),P],['rect',rect(306,166,76,180),O]],
+      emb:['polygon',star(200,210,28,12),Y],
+      top:[['path','d="M146 104 Q146 52 200 52 Q256 52 254 104 Q240 80 216 84 L206 68 L194 84 Q166 80 146 104 Z"',BR]]}),
+      det:'<path d="M34 216 h14 v14 h-14 Z M60 216 h14 v14 h-14 Z M34 250 h14 v14 h-14 Z M60 250 h14 v14 h-14 Z M34 284 h14 v14 h-14 Z M60 284 h14 v14 h-14 Z M322 186 h14 v14 h-14 Z M352 186 h14 v14 h-14 Z M322 222 h14 v14 h-14 Z M352 222 h14 v14 h-14 Z M322 258 h14 v14 h-14 Z M352 258 h14 v14 h-14 Z M322 294 h14 v14 h-14 Z M352 294 h14 v14 h-14 Z" fill="#fff" stroke="'+K+'" stroke-width="3"/>'+eyes()+smile()},
+    heroine:{label:T('Nữ siêu anh hùng',"Super girl"),icon:'🦸‍♀️',reg:hu({
+      sky:'#ffe9f3',c:{cape:P,suit:PK,suit2:P,boot:P,belt:Y,mask:P},
+      back:[['path','d="M24 336 A176 176 0 0 1 376 336 L340 336 A140 140 0 0 0 60 336 Z"',R],
+        ['path','d="M60 336 A140 140 0 0 1 340 336 L306 336 A106 106 0 0 0 94 336 Z"',Y],
+        ['ellipse','cx="48" cy="330" rx="44" ry="24"',WH],['ellipse','cx="352" cy="330" rx="44" ry="24"',WH]],
+      behind:[['path','d="M140 118 Q130 46 200 48 Q270 46 260 118 L268 206 Q244 208 238 176 L162 176 Q156 208 132 206 Z"',O]],
+      mid:[['path','d="M150 238 L250 238 L272 292 Q200 306 128 292 Z"',Y]],
+      emb:['path','d="M200 226 C168 206 174 182 191 184 Q198 185 200 194 Q202 185 209 184 C226 182 232 206 200 226 Z"',R],
+      top:[['path','d="M144 106 Q148 58 200 58 Q252 58 256 106 Q232 82 200 90 Q168 82 144 106 Z"',O],['polygon','points="172,66 180,40 192,56 200,34 208,56 220,40 228,66"',Y]]}),
+      det:'<path d="M168 112 l-6 -8 M176 109 l-3 -9 M232 112 l6 -8 M224 109 l3 -9" stroke="'+K+'" stroke-width="4" stroke-linecap="round"/>'+eyes()+smile()+'<circle cx="166" cy="146" r="7" fill="#FF8FBF" opacity=".6"/><circle cx="234" cy="146" r="7" fill="#FF8FBF" opacity=".6"/>'},
+    flash:{label:T('Siêu nhân tia chớp',"Lightning hero"),icon:'⚡',reg:hu({
+      sky:'#9fb6ff',up:true,c:{cape:Y,suit:R,suit2:R,boot:Y,belt:Y,mask:Y},
+      back:[['path','d="M64 30 A42 42 0 1 0 100 102 A32 32 0 1 1 64 30 Z"',Y],
+        ['ellipse','cx="342" cy="160" rx="44" ry="20"',WH],['ellipse','cx="60" cy="230" rx="44" ry="20"',WH]],
+      emb:['polygon','points="212,180 182,214 200,214 188,240 222,202 204,202 216,180"',Y],
+      top:[['path','d="M142 106 Q142 50 200 50 Q258 50 258 106 Z"',R],
+        ['polygon','points="146,92 98,58 110,84 94,96 146,108"',WH],['polygon','points="254,92 302,58 290,84 306,96 254,108"',WH]]}),
+      det:'<polygon '+star(112,150,9,4)+' fill="#fff"/><polygon '+star(350,56,8,3.5)+' fill="#fff"/><polygon '+star(40,140,7,3)+' fill="#fff"/>'+eyes()+smile()},
+    cat:{label:T('Siêu nhân mèo',"Cat hero"),icon:'🐱',reg:hu({
+      sky:'#c9d3ff',c:{cape:P,suit:K,suit2:K,boot:PK,belt:PK,mask:K},
+      back:[['circle','cx="320" cy="72" r="40"',Y],
+        ['polygon','points="3,336 3,232 66,186 116,232 116,336"',O],['polygon','points="292,336 292,246 344,204 397,246 397,336"',B]],
+      behind:[['path','d="M240 268 Q322 276 316 194 Q314 166 294 172 Q302 244 240 244 Z"',K],
+        ['polygon','points="148,92 144,36 192,64"',K],['polygon','points="252,92 256,36 208,64"',K]],
+      emb:['circle','cx="200" cy="210" r="24"',Y],
+      mask:'d="M140 116 Q160 90 200 104 Q240 90 260 116 L254 140 Q228 134 214 142 Q200 132 186 142 Q172 134 146 140 Z"'}),
+      det:'<path d="M156 78 L152 50 L176 66 M244 78 L248 50 L224 66" stroke="'+K+'" stroke-width="4" fill="none" stroke-linejoin="round"/>'+eyes()+'<path d="M194 142 L206 142 L200 149 Z" fill="'+K+'"/><path d="M200 149 Q192 160 184 154 M200 149 Q208 160 216 154 M150 148 L120 142 M150 156 L120 160 M250 148 L280 142 M250 156 L280 160" stroke="'+K+'" stroke-width="4" fill="none" stroke-linecap="round"/><circle cx="200" cy="216" r="7" fill="'+K+'"/><circle cx="188" cy="202" r="4.5" fill="'+K+'"/><circle cx="200" cy="198" r="4.5" fill="'+K+'"/><circle cx="212" cy="202" r="4.5" fill="'+K+'"/><path d="M56 220 h18 v22 h-18 Z M330 262 h18 v22 h-18 Z" fill="#FFD447" stroke="'+K+'" stroke-width="3"/>'},
+    robot:{label:T('Siêu robot',"Robot hero"),icon:'🤖',reg:[BG('#d7f3ff'),
+      ['circle','cx="66" cy="74" r="30"',O],['circle','cx="336" cy="96" r="20"',P],GROUND('#7a7f99'),
+      ['path','d="M150 178 L250 178 L318 364 Q200 390 82 364 Z"',R],
+      ['rect',rect(194,26,12,40)],['circle','cx="200" cy="26" r="14"',R],
+      ['rect',rect(112,84,24,48,8),Y],['rect',rect(264,84,24,48,8),Y],
+      ['rect',rect(130,56,140,104,26),B],['rect',rect(150,80,100,46,20),K],
+      ['rect',rect(158,280,34,54),'#c9ccd8'],['rect',rect(208,280,34,54),'#c9ccd8'],
+      ['rect',rect(146,320,52,34,12),B],['rect',rect(202,320,52,34,12),B],
+      ['rect',rect(86,176,38,96,19),'#c9ccd8'],['rect',rect(276,176,38,96,19),'#c9ccd8'],
+      ['circle','cx="105" cy="276" r="20"',Y],['circle','cx="295" cy="276" r="20"',Y],
+      ['rect',rect(124,166,152,126,24),B],['rect',rect(158,190,84,64,14),WH],
+      ['polygon',star(200,222,24,10),Y]].map(r=>r[2]?r:[r[0],r[1],'#c9ccd8']),
+      det:'<circle cx="178" cy="103" r="10" fill="#5CCB7E"/><circle cx="222" cy="103" r="10" fill="#5CCB7E"/><circle cx="181" cy="100" r="3.5" fill="#fff"/><circle cx="225" cy="100" r="3.5" fill="#fff"/><path d="M176 142 H224 M184 136 V148 M200 136 V148 M216 136 V148" stroke="'+K+'" stroke-width="4" stroke-linecap="round"/><circle cx="140" cy="182" r="5" fill="'+K+'"/><circle cx="260" cy="182" r="5" fill="'+K+'"/><circle cx="140" cy="276" r="5" fill="'+K+'"/><circle cx="260" cy="276" r="5" fill="'+K+'"/>'},
+    dino:{label:T('Siêu khủng long',"Super dino"),icon:'🦖',reg:[BG(SKY),
+      ['circle','cx="332" cy="64" r="34"',Y],['ellipse','cx="70" cy="60" rx="50" ry="22"',WH],GROUND('#c9e98e'),
+      ['ellipse','cx="40" cy="330" rx="40" ry="30"',G],
+      ['polygon','points="198,100 226,50 240,114"',O],['polygon','points="238,118 284,98 256,150"',O],
+      ['path','d="M280 300 Q350 318 384 280 Q374 348 284 342 Z"',G],
+      ['path','d="M215 190 L285 180 Q352 230 346 302 Q300 272 250 282 Z"',R],
+      ['ellipse','cx="215" cy="270" rx="82" ry="72"',G],
+      ['ellipse','cx="200" cy="284" rx="48" ry="46"',Y],
+      ['polygon',star(200,284,22,9),R],
+      ['ellipse','cx="146" cy="246" rx="16" ry="26"',G],
+      ['rect',rect(150,318,48,40,16),G],['rect',rect(232,318,48,40,16),G],
+      ['ellipse','cx="180" cy="150" rx="78" ry="58"',G],
+      ['path','d="M150 118 Q205 100 252 120 L250 148 Q205 138 152 146 Z"',B]],
+      det:'<ellipse cx="214" cy="130" rx="11" ry="12" fill="#fff" stroke="'+K+'" stroke-width="4"/><circle cx="212" cy="131" r="6" fill="'+K+'"/><circle cx="122" cy="136" r="4" fill="'+K+'"/><circle cx="138" cy="132" r="4" fill="'+K+'"/><path d="M114 170 Q162 194 212 174" stroke="'+K+'" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M138 179 l6 10 l6 -8 M168 184 l6 10 l6 -9" fill="#fff" stroke="'+K+'" stroke-width="3" stroke-linejoin="round"/><path d="M158 348 v8 M172 348 v8 M240 348 v8 M254 348 v8" stroke="'+K+'" stroke-width="4" stroke-linecap="round"/>'},
+    puppy:{label:T('Siêu cún',"Super puppy"),icon:'🐶',reg:[BG(SKY),
+      ['ellipse','cx="74" cy="70" rx="52" ry="24"',WH],['ellipse','cx="320" cy="100" rx="56" ry="24"',WH],GROUND(G),
+      ['path','d="M262 290 Q330 270 326 220 Q344 228 340 256 Q330 306 268 314 Z"',O],
+      ['path','d="M158 214 L242 214 L304 356 Q200 380 96 356 Z"',R],
+      ['ellipse','cx="200" cy="282" rx="70" ry="62"',O],
+      ['rect',rect(158,300,36,54,16),O],['rect',rect(206,300,36,54,16),O],
+      ['circle','cx="200" cy="148" r="66"',O],
+      ['ellipse','cx="136" cy="152" rx="24" ry="50"',BR],['ellipse','cx="264" cy="152" rx="24" ry="50"',BR],
+      ['ellipse','cx="200" cy="182" rx="36" ry="26"',WH],
+      ['path','d="M146 118 Q200 100 254 118 L250 146 Q228 140 214 148 Q200 138 186 148 Q172 140 150 146 Z"',B],
+      ['rect',rect(158,206,84,18,9),R],['circle','cx="200" cy="236" r="16"',Y]],
+      det:eyes(128)+'<ellipse cx="200" cy="172" rx="11" ry="8" fill="'+K+'"/><path d="M200 180 V188 M186 190 Q200 200 214 190" stroke="'+K+'" stroke-width="4" fill="none" stroke-linecap="round"/><polygon '+star(200,236,8,3.5)+' fill="'+K+'"/><path d="M170 352 v-10 M182 352 v-10 M218 352 v-10 M230 352 v-10" stroke="'+K+'" stroke-width="4" stroke-linecap="round"/>'},
+    badge:{label:T('Huy hiệu anh hùng',"Hero badge"),icon:'🛡️',reg:[BG('#fff4d6'),
+      ['polygon',star(200,196,186,130,12),Y],
+      ['path','d="M120 150 Q40 116 16 168 Q56 170 46 200 Q88 196 86 228 Q112 218 124 232 Z"',WH],
+      ['path','d="M120 150 Q40 116 16 168 Q56 170 46 200 Q88 196 86 228 Q112 218 124 232 Z" transform="translate(400,0) scale(-1,1)"',WH],
+      ['path','d="M200 58 L310 98 Q310 260 200 330 Q90 260 90 98 Z"',R],
+      ['path','d="M200 88 L284 118 Q284 246 200 302 Q116 246 116 118 Z"',B],
+      ['polygon',star(200,190,58,24),Y],
+      ['path','d="M80 306 L36 314 L54 332 L38 354 L80 344 Z"',P],['path','d="M320 306 L364 314 L346 332 L362 354 L320 344 Z"',P],
+      ['path','d="M80 298 Q200 324 320 298 L320 342 Q200 368 80 342 Z"',PK]],
+      det:'<polygon '+star(52,62,12,5,4)+' fill="#FFD447" stroke="'+K+'" stroke-width="3"/><polygon '+star(350,58,10,4,4)+' fill="#FFD447" stroke="'+K+'" stroke-width="3"/><polygon '+star(360,250,9,4,4)+' fill="#fff" stroke="'+K+'" stroke-width="3"/>'}
+  };
+  Object.assign(HEROES,{
+    ninja:{label:T('Siêu ninja',"Ninja hero"),icon:'🥷',reg:hu({
+      sky:'#c9d3ff',c:{cape:R,suit:K,suit2:K,boot:R,belt:R},mask:false,
+      back:[['circle','cx="320" cy="70" r="38"',Y],['polygon','points="3,336 3,240 60,200 120,240 120,336"',G],['polygon','points="280,336 280,250 338,210 397,250 397,336"',O]],
+      behind:[['polygon','points="250,92 316,70 300,98 320,118 250,108"',R]],
+      emb:['polygon',star(200,210,30,10,4),'#c9ccd8'],
+      top:[['path','d="M142 112 Q142 56 200 56 Q258 56 258 112 Z"',K],['path','d="M143 138 Q200 148 257 138 Q252 174 200 174 Q148 174 143 138 Z"',K],['rect',rect(143,86,114,16,8),R]]}),
+      det:eyes(122)+'<path d="M166 110 L190 116 M234 110 L210 116" stroke="'+K+'" stroke-width="5" stroke-linecap="round"/><circle cx="200" cy="210" r="7" fill="#fff" stroke="'+K+'" stroke-width="3"/><path d="M40 270 h14 v18 h-14 Z M330 280 h14 v18 h-14 Z" fill="#FFD447" stroke="'+K+'" stroke-width="3"/>'},
+    bunny:{label:T('Siêu thỏ',"Bunny hero"),icon:'🐰',reg:hu({
+      sky:'#e2f6ff',c:{cape:PK,suit:WH,suit2:WH,boot:PK,belt:Y,mask:P},
+      back:[['ellipse','cx="300" cy="60" rx="52" ry="22"',WH],['circle','cx="50" cy="300" r="26"',Y],['circle','cx="350" cy="300" r="26"',R]],
+      behind:[['ellipse','cx="172" cy="48" rx="18" ry="42"',WH],['ellipse','cx="228" cy="48" rx="18" ry="42"',WH]],
+      emb:['polygon','points="200,236 184,192 216,192"',O]}),
+      det:'<path d="M172 20 Q164 48 172 76 M228 20 Q236 48 228 76" stroke="'+K+'" stroke-width="4" fill="none" stroke-linecap="round"/>'+eyes()+'<path d="M194 146 L206 146 L200 152 Z" fill="'+K+'"/><path d="M200 152 Q192 162 184 156 M200 152 Q208 162 216 156" stroke="'+K+'" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M200 192 L192 176 M200 192 L208 176 M200 192 V174" stroke="#5CCB7E" stroke-width="5" stroke-linecap="round"/><circle cx="50" cy="300" r="9" fill="#fff" stroke="'+K+'" stroke-width="3"/><circle cx="350" cy="300" r="9" fill="#fff" stroke="'+K+'" stroke-width="3"/><path d="M50 326 V336 M350 326 V336" stroke="'+K+'" stroke-width="5"/>'},
+    bear:{label:T('Siêu gấu',"Bear hero"),icon:'🐻',reg:hu({
+      sky:SKY,up:true,c:{cape:G,suit:BR,suit2:BR,boot:Y,belt:Y,mask:G},
+      back:[['rect',rect(40,240,20,100),BR],['circle','cx="50" cy="210" r="42"',G],['rect',rect(340,250,20,90),BR],['circle','cx="350" cy="226" r="36"',G],['ellipse','cx="90" cy="60" rx="50" ry="22"',WH]],
+      behind:[['circle','cx="152" cy="70" r="24"',BR],['circle','cx="248" cy="70" r="24"',BR]],
+      emb:['path','d="M200 226 C168 206 174 182 191 184 Q198 185 200 194 Q202 185 209 184 C226 182 232 206 200 226 Z"',R],
+      top:[['ellipse','cx="200" cy="152" rx="28" ry="20"',SK]]}),
+      det:'<circle cx="152" cy="70" r="10" fill="none" stroke="'+K+'" stroke-width="4"/><circle cx="248" cy="70" r="10" fill="none" stroke="'+K+'" stroke-width="4"/>'+eyes()+'<ellipse cx="200" cy="145" rx="9" ry="6" fill="'+K+'"/><path d="M200 151 V157 M190 160 Q200 168 210 160" stroke="'+K+'" stroke-width="4" fill="none" stroke-linecap="round"/>'},
+    astro:{label:T('Siêu phi hành gia',"Space hero"),icon:'👩‍🚀',reg:hu({
+      sky:'#9fb6ff',ground:'#c9ccd8',c:{cape:B,suit:WH,suit2:WH,boot:O,belt:O,mask:B},
+      back:[['circle','cx="70" cy="70" r="40"',O],['circle','cx="340" cy="120" r="24"',G],['circle','cx="330" cy="40" r="14"',Y]],
+      behind:[['circle','cx="200" cy="116" r="76"',SKY],['rect',rect(194,18,12,26),O],['circle','cx="200" cy="18" r="11"',R]],
+      emb:['polygon',star(200,210,28,12),R],
+      top:[['path','d="M146 104 Q146 54 200 54 Q254 54 254 104 Q228 86 200 88 Q172 86 146 104 Z"',BR]]}),
+      det:'<path d="M152 60 Q170 46 190 46" stroke="#fff" stroke-width="7" fill="none" stroke-linecap="round"/>'+eyes()+smile()+'<ellipse cx="60" cy="366" rx="22" ry="8" fill="none" stroke="'+K+'" stroke-width="4"/><ellipse cx="340" cy="372" rx="26" ry="9" fill="none" stroke="'+K+'" stroke-width="4"/><polygon '+star(150,200,8,3.5)+' fill="#fff"/><polygon '+star(260,30,7,3)+' fill="#fff"/><polygon '+star(370,200,7,3)+' fill="#fff"/>'},
+    supercar:{label:T('Siêu xe anh hùng',"Hero car"),icon:'🏎️',reg:[BG(SKY),
+      ['circle','cx="340" cy="60" r="32"',Y],['ellipse','cx="100" cy="64" rx="56" ry="24"',WH],
+      ['rect',rect(30,150,60,140),P],['rect',rect(300,130,70,160),G],
+      ['path','d="M3 290 H397 V367 Q397 397 367 397 H33 Q3 397 3 367 Z"','#7a7f99'],
+      ['polygon','points="34,228 6,214 16,240 4,262 34,252"',O],
+      ['polygon','points="46,204 34,162 88,162 88,176 66,176 72,204"',Y],
+      ['path','d="M32 274 L32 224 Q32 204 54 202 L120 196 L160 146 Q170 134 190 134 L262 134 Q282 134 294 150 L322 194 L360 202 Q376 206 376 226 L376 274 Z"',R],
+      ['path','d="M150 192 L182 152 L222 152 L222 192 Z"',WH],['path','d="M238 192 L238 152 L278 152 L304 192 Z"',WH],
+      ['circle','cx="232" cy="236" r="26"',Y],['polygon',star(232,236,18,8),B],
+      ['ellipse','cx="362" cy="222" rx="10" ry="13"',Y],
+      ['circle','cx="110" cy="276" r="38"',K],['circle','cx="300" cy="276" r="38"',K],
+      ['circle','cx="110" cy="276" r="16"',WH],['circle','cx="300" cy="276" r="16"',WH]],
+      det:'<path d="M46 176 h14 v14 h-14 Z M46 214 h14 v14 h-14 Z M318 150 h14 v14 h-14 Z M342 150 h14 v14 h-14 Z" fill="#fff" stroke="'+K+'" stroke-width="3"/><path d="M60 360 H110 M160 360 H210 M260 360 H310" stroke="#fff" stroke-width="8" stroke-linecap="round"/><path d="M130 230 H190 M120 248 H180" stroke="'+K+'" stroke-width="5" stroke-linecap="round"/>'},
+    rocket:{label:T('Tên lửa anh hùng',"Hero rocket"),icon:'🚀',reg:[BG('#9fb6ff'),
+      ['circle','cx="78" cy="310" r="52"',O],['circle','cx="326" cy="80" r="32"',Y],['ellipse','cx="342" cy="346" rx="40" ry="18"',WH],
+      ['path','d="M166 300 Q200 392 234 300 Z"',R],['path','d="M182 300 Q200 352 218 300 Z"',Y],
+      ['path','d="M162 222 L108 304 L162 292 Z"',R],['path','d="M238 222 L292 304 L238 292 Z"',R],
+      ['path','d="M160 300 L160 150 Q160 92 200 46 Q240 92 240 150 L240 300 Z"',WH],
+      ['path','d="M200 46 Q224 72 233 110 L167 110 Q176 72 200 46 Z"',R],
+      ['circle','cx="200" cy="168" r="30"',B],['rect',rect(160,238,80,24),Y],
+      ['rect',rect(186,292,28,14,4),'#c9ccd8']],
+      det:'<path d="M180 160 Q200 150 220 160 L218 170 Q200 164 182 170 Z" fill="'+K+'"/><circle cx="190" cy="163" r="3.5" fill="#fff"/><circle cx="210" cy="163" r="3.5" fill="#fff"/><path d="M190 180 Q200 188 210 180" stroke="'+K+'" stroke-width="4" fill="none" stroke-linecap="round"/><polygon '+star(200,250,9,4)+' fill="'+K+'"/><circle cx="60" cy="296" r="9" fill="none" stroke="'+K+'" stroke-width="4"/><circle cx="96" cy="326" r="6" fill="none" stroke="'+K+'" stroke-width="4"/><polygon '+star(60,70,10,4)+' fill="#fff"/><polygon '+star(110,150,7,3)+' fill="#fff"/><polygon '+star(340,200,8,3.5)+' fill="#fff"/><polygon '+star(270,30,6,2.5)+' fill="#fff"/>'},
+    bee:{label:T('Siêu ong',"Bee hero"),icon:'🐝',reg:[BG(SKY),
+      ['ellipse','cx="320" cy="60" rx="52" ry="22"',WH],GROUND(G),
+      ['circle','cx="56" cy="306" r="28"',PK],['circle','cx="56" cy="306" r="11"',Y],['circle','cx="344" cy="300" r="28"',P],['circle','cx="344" cy="300" r="11"',Y],
+      ['ellipse','cx="150" cy="170" rx="34" ry="58" transform="rotate(-30 150 170)"',WH],['ellipse','cx="250" cy="170" rx="34" ry="58" transform="rotate(30 250 170)"',WH],
+      ['path','d="M160 210 L240 210 L304 340 Q200 362 96 340 Z"',R],
+      ['polygon','points="200,352 186,326 214,326"',K],
+      ['ellipse','cx="200" cy="252" rx="70" ry="84"',Y],
+      ['path','d="M131 242 L269 242 Q271 256 268 272 L132 272 Q129 256 131 242 Z"',K],
+      ['path','d="M138 292 L262 292 Q256 304 245 316 L155 316 Q144 304 138 292 Z"',K],
+      ['circle','cx="200" cy="140" r="54"',Y],
+      ['path','d="M150 128 Q200 114 250 128 L246 156 Q200 148 154 156 Z"',R]],
+      det:'<path d="M182 90 Q170 60 152 56 M218 90 Q230 60 248 56" stroke="'+K+'" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="150" cy="54" r="9" fill="'+K+'"/><circle cx="250" cy="54" r="9" fill="'+K+'"/>'+eyes(142,182,218)+smile(170)+'<path d="M56 334 V364 M344 328 V364" stroke="#3a8a4f" stroke-width="6"/>'},
+    chick:{label:T('Siêu gà con',"Super chick"),icon:'🐥',reg:[BG('#fff4d6'),
+      ['circle','cx="70" cy="70" r="34"',O],['ellipse','cx="320" cy="70" rx="52" ry="22"',WH],GROUND(G),
+      ['path','d="M150 200 L250 200 L306 340 Q200 362 94 340 Z"',B],
+      ['polygon','points="164,322 150,356 190,356 182,322"',O],['polygon','points="218,322 210,356 250,356 236,322"',O],
+      ['ellipse','cx="200" cy="262" rx="80" ry="72"',Y],
+      ['ellipse','cx="124" cy="256" rx="22" ry="40"',Y],['ellipse','cx="276" cy="256" rx="22" ry="40"',Y],
+      ['polygon',star(200,276,28,12),R],
+      ['polygon','points="180,100 188,62 202,92 216,62 222,100"',Y],
+      ['circle','cx="200" cy="150" r="60"',Y],
+      ['path','d="M146 124 Q200 108 254 124 L250 152 Q228 146 214 154 Q200 144 186 154 Q172 146 150 152 Z"',R],
+      ['polygon','points="184,166 216,166 200,188"',O]],
+      det:eyes(136)+'<circle cx="160" cy="176" r="9" fill="#FF8FBF" opacity=".6"/><circle cx="240" cy="176" r="9" fill="#FF8FBF" opacity=".6"/>'}
+  });
+  Object.assign(PICS,HEROES);
+})();
+
 function picMarkup(pic,colored){
   return pic.reg.map((r,i)=>`<${r[0]} ${r[1]} data-i="${i}" class="rg" fill="${colored?r[2]:'#ffffff'}" stroke="#1B1B2F" stroke-width="5" stroke-linejoin="round"/>`).join('')+`<g pointer-events="none">${pic.det}</g>`;
 }
@@ -2287,7 +2474,7 @@ function picker(stage,id,question,speech,onPick){
   stage.innerHTML='<div class="picker"></div>';const pk=stage.firstChild;
   Object.keys(PICS).forEach((k,i)=>{
     const b=document.createElement('button');b.className='pick';b.style.animationDelay=(i*.08)+'s';
-    b.innerHTML=PICS[k].icon+'<span>'+PICS[k].label+'</span>';
+    b.innerHTML='<svg class="pthumb" viewBox="0 0 400 400">'+picMarkup(PICS[k],true)+'</svg><span>'+PICS[k].label+'</span>';
     b.addEventListener('click',()=>{sfx('tap');onPick(k)});pk.appendChild(b);
   });
   setPrompt(id,question,speech);
