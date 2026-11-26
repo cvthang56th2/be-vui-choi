@@ -1099,6 +1099,22 @@ svg.shp{width:clamp(150px,30vmin,270px);height:auto;display:block}
 .rbdel{background:#FFE0DA}
 .rbw.run .rbk,.rbw.run .rbdel,.rbw.run .rbgo{opacity:.5;pointer-events:none}
 @media (max-height:500px){.rbgrid{width:min(78vh,420px)}.rbc{font-size:calc(min(78vh,420px) / var(--n) * .55)}.rbbot{font-size:calc(min(78vh,420px) / var(--n) * .66)}}
+/* 4–5: Nối điểm */
+.cnw{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:1vmin}
+.cnw svg{width:min(86vmin,640px);max-height:100%;height:auto;touch-action:none;overflow:visible;background:#fff;border-radius:32px;box-shadow:0 10px 24px rgba(27,27,47,.08)}
+.cnd{cursor:pointer}
+.cnd circle.v{fill:#fff;stroke:#2B2350;stroke-width:1.2;transform-box:fill-box;transform-origin:center}
+.cnd.done circle.v{fill:#5CCB7E}
+.cnd.next circle.v{fill:#FFD447;animation:cnpulse .9s ease-in-out infinite alternate}
+.cnd.no circle.v{fill:#FF7A6B;animation:cnshake .35s}
+.cnd text{font:800 6.5px 'Baloo 2',Nunito,sans-serif;fill:#2B2350;stroke:#fff;stroke-width:1.8;paint-order:stroke;text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.cnd.done text{fill:#45AE68}
+@keyframes cnpulse{to{transform:scale(1.6)}}
+@keyframes cnshake{25%{transform:translateX(-1.5px)}75%{transform:translateX(1.5px)}}
+.cnfill{opacity:0;transition:opacity .7s}
+.cnw.full .cnfill{opacity:.9}
+.cnpic{position:absolute;right:5%;top:4%;font-size:clamp(70px,15vmin,150px);line-height:1;opacity:0;transform:scale(.3) rotate(-20deg);transition:opacity .5s,transform .6s cubic-bezier(.2,1.6,.4,1);pointer-events:none}
+.cnw.full .cnpic{opacity:1;transform:none}
 </style>
 </head>
 <body>
@@ -1503,6 +1519,10 @@ svg.shp{width:clamp(150px,30vmin,270px);height:auto;display:block}
 <section class="screen" id="robot">
   <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
   <div class="stage" id="rbstage"></div>
+</section>
+<section class="screen" id="connect">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="cnstage"></div>
 </section>
 <section class="screen" id="walk">
   <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
@@ -5057,6 +5077,48 @@ const Robot=(()=>{
   return{start,stop};
 })();
 
+/* ---------- 4–5: NỐI ĐIỂM (chạm số theo thứ tự 1 → 10 để vẽ hình) ---------- */
+const Connect=(()=>{
+  const SH=[['🪁',T('Cánh diều',"A kite"),'#5AB6F2',[[50,8],[82,45],[50,92],[18,45]]],
+    ['🏠',T('Ngôi nhà',"A house"),'#FF9A5C',[[20,90],[20,45],[50,14],[80,45],[80,90]]],
+    ['⛵',T('Thuyền buồm',"A sailboat"),'#FFD447',[[12,66],[48,66],[48,12],[82,62],[88,66],[76,88],[24,88]]],
+    ['🐟',T('Con cá',"A fish"),'#52B4F5',[[8,50],[30,30],[55,25],[75,40],[92,24],[92,76],[75,60],[55,75],[30,70]]],
+    ['❤️',T('Trái tim',"A heart"),'#FF7A6B',[[50,88],[18,60],[8,36],[18,18],[36,14],[50,30],[64,14],[82,18],[92,36],[82,60]]],
+    ['⭐',T('Ngôi sao',"A star"),'#FFC23D',[...Array(10)].map((_,i)=>{const a=-Math.PI/2+i*Math.PI/5,r=i%2?18:44;return[+(50+r*Math.cos(a)).toFixed(1),+(54+r*Math.sin(a)).toFixed(1)]})]];
+  const stage=$('#cnstage'),ROUNDS=5;let round=0,order=[],sh=null,nxt=0,tmr=0,hintT=0,lock=false;
+  function start(){round=0;order=pickN([0,1,2,3,4,5],ROUNDS).sort((a,b)=>SH[a][3].length-SH[b][3].length);next()}
+  function next(){
+    stop();lock=false;nxt=0;sh=SH[order[round]];const P=sh[3],n=P.length;
+    const cx=P.reduce((s,p)=>s+p[0],0)/n,cy=P.reduce((s,p)=>s+p[1],0)/n;
+    const dots=P.map((p,i)=>{let dx=p[0]-cx,dy=p[1]-cy;const L=Math.hypot(dx,dy)||1;dx/=L;dy/=L;
+      return`<g class="cnd" data-i="${i}"><circle class="hit" cx="${p[0]}" cy="${p[1]}" r="8" fill="transparent"/><circle class="v" cx="${p[0]}" cy="${p[1]}" r="2.8"/><text x="${(p[0]+dx*7).toFixed(1)}" y="${(p[1]+dy*7).toFixed(1)}">${i+1}</text></g>`}).join('');
+    stage.innerHTML=`<div class="cnw"><svg viewBox="-6 -6 112 112" aria-hidden="true"><polygon class="cnfill" points="${P.map(p=>p.join(',')).join(' ')}" fill="${sh[2]}"/><polyline class="cnline" points="" fill="none" stroke="#2B2350" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>${dots}</svg><div class="cnpic">${sh[0]}</div></div>`;
+    stage.querySelectorAll('.cnd').forEach(g=>g.addEventListener('pointerdown',e=>{e.preventDefault();tap(g)}));
+    mark();
+    setPrompt('connect',T(`🔊 Nối các số từ 1 đến ${n} ⭐ ${round+1}/${ROUNDS}`,`🔊 Connect 1 to ${n} ⭐ ${round+1}/${ROUNDS}`),T(`Bé chạm vào các số theo thứ tự, từ một đến ${viNum(n)}, xem hiện ra hình gì nhé!`,`Tap the numbers in order, from one to ${enNum(n)}, and see what picture appears!`));
+  }
+  function mark(){
+    stage.querySelectorAll('.cnd').forEach((g,i)=>{g.classList.toggle('done',i<nxt);g.classList.remove('next');if(i<nxt)g.classList.remove('no')});
+    clearTimeout(hintT);hintT=setTimeout(()=>{const g=stage.querySelector(`.cnd[data-i="${nxt}"]`);if(g&&!lock)g.classList.add('next')},nxt?4000:2500);
+  }
+  function tap(g){
+    if(lock)return;const i=+g.dataset.i,P=sh[3],n=P.length;
+    if(i<nxt)return;
+    if(i!==nxt){g.classList.remove('no');void g.getBoundingClientRect();g.classList.add('no');sfx('boing');buddy.react('oops',T('Thử lại nào!',"Try again!"));say(T(`Bé tìm số ${viNum(nxt+1)} nhé!`,`Find number ${enNum(nxt+1)}!`));return}
+    nxt++;audio();tone(PENTA[(nxt-1)%PENTA.length]*(nxt>PENTA.length?2:1),.22,'triangle',.16);say(viNum(nxt));
+    stage.querySelector('.cnline').setAttribute('points',P.slice(0,nxt).concat(nxt===n?[P[0]]:[]).map(p=>p.join(',')).join(' '));
+    mark();
+    if(nxt===n){
+      lock=true;clearTimeout(hintT);stage.querySelector('.cnw').classList.add('full');addStar();sfx('ding');buddy.react('yay',pickOne(PRAISE));
+      round++;
+      tmr=setTimeout(()=>{say(T(`${sh[1]}! `,`${sh[1]}! `)+pickOne(PRAISE));
+        tmr=afterSay(()=>round>=ROUNDS?win(T('Bé nối điểm giỏi quá! ✏️',"Great dot connecting! ✏️"),start):next(),1600)},500);
+    }
+  }
+  function stop(){clearTimeout(tmr);clearTimeout(hintT)}
+  return{start,stop};
+})();
+
 /* ---------- Home: card icons (illustrated, ink-outlined SVG, 64×64) ---------- */
 const W='#fff',K='#2B2350';
 const IR='#FF6B5A',IY='#FFC23D',IB='#52B4F5',IP='#FF8DBE',IT='#33C3B4',IV='#A07CF2',IG='#62C771',IO='#FF9B45',IC='#FFF3E2',ISK='#FFD9B8',ISA='#F4D58D',IBR='#C98A4B',ILB='#E3F4FF',IMUD='#9C6A3E';
@@ -5073,6 +5135,7 @@ const istar=(cx,cy,r,f)=>{let d='';for(let i=0;i<10;i++){const a=-Math.PI/2+i*Ma
 const ibal=(x,y,r,f)=>il(`M${x} ${y+r*1.2} q-4 ${r*.6} 1 ${r*1.3}`,2.5)+ie(x,y,r,r*1.18,f)+ip(`M${x-3} ${y+r*1.3}h6l-3-4Z`,f)+il(`M${x-r*.5} ${y-r*.35} q2 -${r*.4} ${r*.4} -${r*.45}`,2.5,W);
 const ismile=(y=40,w=6)=>il(`M${32-w} ${y} Q32 ${y+5} ${32+w} ${y}`);
 const ICONS={
+  connect:iq(6,6,52,52,12,W)+il('M16 46 L24 16 L44 22 L48 48 Z',3)+ip('M16 46 L24 16 L44 22 L48 48 Z',IP)+ic(16,46,3.5,IG)+ic(24,16,3.5,IG)+ic(44,22,3.5,IG)+ic(48,48,3.5,IY),
   rain:ip('M16 36 Q6 36 8 28 Q10 20 18 22 Q20 10 32 12 Q42 8 46 20 Q56 20 56 28 Q56 36 48 36 Z',W)+ip('M20 42 q-5 7 0 10 q5-3 0-10Z',IB)+ip('M34 44 q-5 7 0 10 q5-3 0-10Z',IB)+ip('M47 41 q-5 7 0 10 q5-3 0-10Z',IB),
   animalQ:ie(18,20,7,11,IBR)+ie(46,20,7,11,IBR)+ic(32,34,18,IO)+idt(25,31)+idt(39,31)+ie(32,40,5,3.5,K)+il('M28 46 Q32 49 36 46',2.5),
   useQ:iq(6,32,36,9,4,IB)+iq(38,24,20,12,3,W)+il('M42 24v-7M47 24v-7M52 24v-7',3),
@@ -5280,11 +5343,12 @@ Object.assign(CARDS,{
   frac:['🍕',T('Phân số',"Fractions"),T('Một nửa, một phần tư',"Halves & quarters"),'#ff8a8a','#ff5757'],
   missing:['✍️',T('Điền chữ',"Missing letter"),T('Chính tả',"Spelling"),'#5fd3c8','#4FC9BC'],
   sides:['🔺',T('Hình học',"Shapes & sides"),T('Đếm cạnh',"Count the sides"),'#8ee07a','#45b026'],
+  connect:['✏️',T('Nối điểm',"Connect the dots"),T('Đếm 1–10',"Count 1–10"),'#ffb86b','#ff8f3d'],
   robot:['🤖',T('Lập trình robot',"Code the robot"),T('Tư duy lập trình',"Coding logic"),'#9aa5c8','#5a6290']
 });
 const AGES=[{icon:'👶',label:T('1–2 tuổi',"Age 1–2"),say:T('một đến hai',"one to two"),games:['tap','peek','bubbles','wand','bath','dig','mud','sandbox','paintbub','castle','animals','vehicles','draw','piano','fruitsB','colorsB','bodyB','instr','family','aqua','daynight','fireworks','eggs','shapesB','walk','wipe','pump','garden','float','train','dance','icecream','blocks','flashlight','phone','rain']},
   {icon:'🐣',label:T('2–3 tuổi',"Age 2–3"),say:T('hai đến ba',"two to three"),games:['balloon','sound','sorter','feed','piano','paint','fruitQ','colorQ','sizeQ','bodyQ','sameQ','eatQ','homeQ','count3','shapeQ','csort','animalQ','useQ','weatherQ','pairQ','tallQ','posQ','onemany','tidy']},
-  {icon:'🐥',label:T('4–5 tuổi',"Age 4–5"),say:T('bốn đến năm',"four to five"),games:['race','count','countballoon','pattern','shadow','build','puzzle','memory','abc','bigger','vnletter','moreless','oddone','opposite','emotion','nextnum','whack','simon','vehq','caseQ','jobQ','seriate','addsub','sinkQ']},
+  {icon:'🐥',label:T('4–5 tuổi',"Age 4–5"),say:T('bốn đến năm',"four to five"),games:['race','count','countballoon','pattern','shadow','build','puzzle','memory','abc','bigger','vnletter','moreless','oddone','opposite','emotion','nextnum','whack','simon','vehq','caseQ','jobQ','seriate','addsub','sinkQ','connect']},
   {icon:'🦉',label:T('6–7 tuổi',"Age 6–7"),say:T('sáu đến bảy',"six to seven"),games:['math','spell','clock','maze','puzzle','memory','abc','piano','math20','compare','readvn','listen','days','evenodd','tens','sudoku','mathrace','leftright','mulQ','measure','frac','missing','sides','robot']}];
 function renderHome(){
   $('#agetabs').innerHTML=AGES.map((a,i)=>`<button class="agetab${i===AGE?' on':''}" data-a="${i}">${a.label}</button>`).join('');
@@ -5308,7 +5372,7 @@ $('#langToggle').addEventListener('click',()=>{sfx('tap');setLang(LANG==='en'?'v
 document.querySelectorAll('.langbtn').forEach(b=>{b.classList.toggle('on',b.dataset.lang===LANG);b.addEventListener('click',()=>{sfx('tap');setLang(b.dataset.lang)})});
 
 /* ---------- Navigation ---------- */
-const GAMES={rain:Rain,animalQ:AnimalQ,useQ:UseQ,weatherQ:WeatherQ,pairQ:PairQ,tallQ:TallQ,posQ:PosQ,onemany:OneManyQ,tidy:Tidy,caseQ:CaseQ,jobQ:JobQ,seriate:Seriate,addsub:AddSubQ,sinkQ:SinkQ,mulQ:MulQ,measure:MeasureQ,frac:FracQ,missing:MissQ,sides:SidesQ,robot:Robot,wand:Wand,bath:Bath,dig:Dig,mud:Mud,sandbox:Sandbox,paintbub:PaintBub,castle:Castle,walk:Walk,wipe:Wipe,pump:Pump,garden:Garden,float:Float,train:Train,dance:Dance,icecream:IceCream,blocks:Blocks,flashlight:Flashlight,phone:Phone,fruitsB:FruitBoard,colorsB:ColorBoard,bodyB:BodyBoard,instr:InstrBoard,family:FamilyBoard,aqua:Aqua,daynight:DayNight,fireworks:Fireworks,eggs:Eggs,shapesB:ShapeBoard,fruitQ:FruitQ,colorQ:ColorQ,sizeQ:SizeQ,bodyQ:BodyQ,sameQ:SameQ,eatQ:EatQ,homeQ:HomeQ,count3:Count3Q,countballoon:CountBalloonQ,shapeQ:ShapeQ,csort:CSort,bigger:BiggerQ,vnletter:VNLetterQ,moreless:MoreLessQ,oddone:OddQ,opposite:OppQ,emotion:EmotionQ,nextnum:NextNumQ,whack:Whack,simon:Simon,vehq:VehQ,math20:Math20Q,compare:CompareQ,readvn:ReadVNQ,listen:ListenQ,days:DaysQ,evenodd:EvenOddQ,tens:TensQ,sudoku:Sudoku,mathrace:MathRaceQ,leftright:LeftRightQ,tap:TapFun,peek:Peek,bubbles:Bubbles,animals:AnimalBoard,vehicles:VehicleBoard,draw:Draw,race:Race,build:Build,memory:Memory,balloon:Balloon,paint:Paint,puzzle:Puzzle,abc:ABC,feed:Feed,piano:Piano,sound:SoundQ,sorter:Sorter,shadow:ShadowQ,count:CountQ,pattern:PatternQ,math:MathQ,spell:Spell,maze:Maze,clock:ClockQ};
+const GAMES={connect:Connect,rain:Rain,animalQ:AnimalQ,useQ:UseQ,weatherQ:WeatherQ,pairQ:PairQ,tallQ:TallQ,posQ:PosQ,onemany:OneManyQ,tidy:Tidy,caseQ:CaseQ,jobQ:JobQ,seriate:Seriate,addsub:AddSubQ,sinkQ:SinkQ,mulQ:MulQ,measure:MeasureQ,frac:FracQ,missing:MissQ,sides:SidesQ,robot:Robot,wand:Wand,bath:Bath,dig:Dig,mud:Mud,sandbox:Sandbox,paintbub:PaintBub,castle:Castle,walk:Walk,wipe:Wipe,pump:Pump,garden:Garden,float:Float,train:Train,dance:Dance,icecream:IceCream,blocks:Blocks,flashlight:Flashlight,phone:Phone,fruitsB:FruitBoard,colorsB:ColorBoard,bodyB:BodyBoard,instr:InstrBoard,family:FamilyBoard,aqua:Aqua,daynight:DayNight,fireworks:Fireworks,eggs:Eggs,shapesB:ShapeBoard,fruitQ:FruitQ,colorQ:ColorQ,sizeQ:SizeQ,bodyQ:BodyQ,sameQ:SameQ,eatQ:EatQ,homeQ:HomeQ,count3:Count3Q,countballoon:CountBalloonQ,shapeQ:ShapeQ,csort:CSort,bigger:BiggerQ,vnletter:VNLetterQ,moreless:MoreLessQ,oddone:OddQ,opposite:OppQ,emotion:EmotionQ,nextnum:NextNumQ,whack:Whack,simon:Simon,vehq:VehQ,math20:Math20Q,compare:CompareQ,readvn:ReadVNQ,listen:ListenQ,days:DaysQ,evenodd:EvenOddQ,tens:TensQ,sudoku:Sudoku,mathrace:MathRaceQ,leftright:LeftRightQ,tap:TapFun,peek:Peek,bubbles:Bubbles,animals:AnimalBoard,vehicles:VehicleBoard,draw:Draw,race:Race,build:Build,memory:Memory,balloon:Balloon,paint:Paint,puzzle:Puzzle,abc:ABC,feed:Feed,piano:Piano,sound:SoundQ,sorter:Sorter,shadow:ShadowQ,count:CountQ,pattern:PatternQ,math:MathQ,spell:Spell,maze:Maze,clock:ClockQ};
 const NAMES={race:T('Đua xe!',"Racing!"),build:T('Lắp ráp!',"Build it!"),memory:T('Lật thẻ!',"Memory!"),balloon:T('Bóng bay!',"Balloons!"),paint:T('Tô màu!',"Coloring!"),puzzle:T('Ghép hình!',"Puzzle!"),abc:T('Chữ cái!',"Letters!"),feed:T('Cho thú ăn!',"Feed the animals!"),piano:T('Đàn piano!',"Piano!")};
 let current=null;
 const GTINT=[['#FFF0E8','#F6D9CB'],['#FFF7D6','#F1E3A6'],['#EAF8EC','#CBE8D0'],['#E8F4FD','#C7E0F3'],['#F1ECFF','#DAD0F6'],['#FFEEF5','#F5D0E0'],['#E6F7F4','#C3E6DF']];
