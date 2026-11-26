@@ -237,6 +237,7 @@ button{font-family:inherit;cursor:pointer}
 .cblbox .cbitem .string{height:30%}
 .cblbox .cbitem.popped{opacity:0;transform:scale(.3) translateY(14px)}
 .citem.counted,.cblbox .cbitem.counted{animation:cntbump .45s ease-out}
+.speed-btn{position:relative}.speed-btn.bump{animation:cntbump .35s ease-out}
 @keyframes cntbump{0%{scale:1}40%{scale:1.3}100%{scale:1}}
 .cblbox .cbitem.counted{transform:translateY(-10px)}
 .cblbox .cbitem .cbn{position:absolute;left:50%;top:-14px;translate:-50% 0;background:var(--ink,#2B2350);color:#fff;border-radius:50%;width:1.8em;height:1.8em;font-size:clamp(14px,2.4vmin,24px);display:flex;align-items:center;justify-content:center;animation:pop .3s;font-style:normal;font-family:var(--hf);z-index:2}
@@ -285,9 +286,9 @@ button{font-family:inherit;cursor:pointer}
 .peekwrap{position:absolute;inset:0;display:flex;align-items:center;justify-content:space-evenly;padding:3vmin;background:linear-gradient(180deg,transparent 60%,#2B2350 60%,#2B2350 calc(60% + 4px),#9EDC8A calc(60% + 4px))}
 .spot{position:relative;width:clamp(170px,28vmin,300px);aspect-ratio:1;cursor:pointer;touch-action:none}
 .spot .ani{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:clamp(110px,18vmin,200px);transform:scale(.3) translateY(30%);opacity:0;transition:all .5s cubic-bezier(.2,1.6,.4,1)}
-.spot.open .ani{transition-delay:.35s}
+.spot.open .ani{transition-delay:calc(.35s * var(--pace,1))}
 .spot.open .ani{transform:scale(1);opacity:1;animation:hop .4s ease-in-out .9s 4 alternate}
-.spot .cover{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:clamp(150px,26vmin,280px);line-height:1;transition:transform .9s cubic-bezier(.3,1.3,.5,1),opacity .9s;filter:drop-shadow(inset 0 -6px 0 rgba(27,27,47,.12))}
+.spot .cover{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:clamp(150px,26vmin,280px);line-height:1;transition:transform calc(.9s * var(--pace,1)) cubic-bezier(.3,1.3,.5,1),opacity calc(.9s * var(--pace,1));filter:drop-shadow(inset 0 -6px 0 rgba(27,27,47,.12))}
 .spot .cover .covsvg{width:1em;height:1.08em;display:block;overflow:visible}
 .spot:not(.open) .cover{animation:wiggle 2.4s ease-in-out infinite}
 .spot:nth-child(2):not(.open) .cover{animation-delay:.8s}.spot:nth-child(3):not(.open) .cover{animation-delay:1.6s}
@@ -1893,7 +1894,7 @@ function say(text,lang,queue,force,opts){
   if(!text||(!VS.on&&!force))return;
   if(lang==='vi-VN!')lang='vi-VN';else if(!lang||lang==='vi-VN')lang=LANG==='en'?'en-US':'vi-VN';
   if(!queue)hush();
-  const pre=lang.slice(0,2),v=hasTTS?pickVoice(lang):null,rate=pre==='vi'?VS.rate:Math.max(.5,VS.rate-.07);
+  const pre=lang.slice(0,2),v=hasTTS?pickVoice(lang):null,rate=(pre==='vi'?VS.rate:Math.max(.5,VS.rate-.07))*SPD().voice;
   const chunks=text.replace(/([.!?…])\s+/g,'$1\n').split('\n').filter(c=>c.trim());
   const useRec=VS.rec&&force!=='device'&&audio();
   const plan=chunks.map(c=>{const f=useRec?recFile(pre,c):null;return{c,buf:f?recBuf(f):null}});
@@ -1973,6 +1974,11 @@ renderStars(false);
 /* ---------- Fun layer: tap sparks, flying stars, combo, Mít buddy ---------- */
 let lastPt={x:innerWidth/2,y:innerHeight/2};
 const FXC=['#FF7A6B','#FFD447','#5CCB7E','#5AB6F2','#A98CFF','#FF9A5C','#FF8FBF'];
+/* Per-game speed (🐢 slow / 🐇 normal / 🚀 fast), chosen with the button in each game's top bar and remembered per game.
+   wait: multiplies pauses between turns; move: multiplies how fast things move; voice: multiplies the spoken rate. */
+const SPEEDS=[{icon:'🐢',wait:1.6,move:.7,voice:.88},{icon:'🐇',wait:1,move:1,voice:1},{icon:'🚀',wait:.6,move:1.35,voice:1.12}];
+let CUR_GAME=null,SPEED_OF={};try{SPEED_OF=JSON.parse(localStorage.getItem('bevui_speed')||'{}')||{}}catch(e){}
+const SPD=()=>SPEEDS[CUR_GAME&&SPEED_OF[CUR_GAME]!=null?SPEED_OF[CUR_GAME]:1]||SPEEDS[1];
 function burst(x,y,n){
   for(let i=0;i<(n||8);i++){
     const s=document.createElement('div'),a=Math.random()*Math.PI*2,d=rand(30,80);
@@ -2070,6 +2076,7 @@ function win(msg,again){
   const earned=Math.max(0,stars-gameStars);gameStars=stars;
   $('#winEarn').textContent=`+${earned} ⭐`;$('#winEarn').style.display=earned?'':'none';
   // gift box: tap (or wait) to open and reveal a sticker
+  const sp=SPD().wait;ms*=sp;pad*=sp;
   const g=$('#winSticker'),got=$('#winGot');g.textContent='🎁';g.classList.remove('open');got.textContent=T('Chạm để mở quà!',"Tap to open your gift!");
   pendingGift=awardSticker();clearTimeout(giftT);giftT=afterSay(openGift,2600,500);
 }
@@ -2083,6 +2090,7 @@ function openGift(){
 }
 $('#winSticker').addEventListener('click',openGift);
 function hideWin(){$('#win').classList.remove('show');clearTimeout(giftT);pendingGift=null}
+  gap*=SPD().wait;step*=SPD().wait;
 $('#bookBtn').addEventListener('click',()=>{sfx('tap');openBook()});
 $('#bookClose').addEventListener('click',()=>{sfx('tap');$('#book').classList.remove('show')});
 $('#winAgain').addEventListener('click',()=>{sfx('tap');hideWin();winAgainFn&&winAgainFn()});
@@ -2136,11 +2144,11 @@ const Race=(()=>{
     }
   }
   function update(dt){
-    const v=speed*(slowT>0?.4:1);
+    const v=speed*(slowT>0?.4:1)*SPD().move;
     slowT=Math.max(0,slowT-dt);wobble*=Math.pow(.2,dt);
     scroll+=v*dt;
     carX+=(laneX(lane)-carX)*Math.min(1,dt*12);
-    spawnT-=dt;if(spawnT<=0){spawn();spawnT=rand(1.0,1.6)*(260/speed)}
+    spawnT-=dt;if(spawnT<=0){spawn();spawnT=rand(1.0,1.6)*(260/(speed*SPD().move))}
     const cy=carY();
     for(const o of objs){
       o.y+=v*dt;
@@ -2452,7 +2460,7 @@ const Memory=(()=>{
       }
     }else{
       lock=true;
-      timer=setTimeout(()=>{f.c.classList.remove('flipped');c.classList.remove('flipped');lock=false},1800);
+      timer=setTimeout(()=>{f.c.classList.remove('flipped');c.classList.remove('flipped');lock=false},1800*SPD().wait);
     }
   }
   return{start:()=>{level=[0,0,0,1][AGE];deal()},stop:()=>clearTimeout(timer),resize:layout};
@@ -2523,7 +2531,7 @@ const Balloon=(()=>{
     if(!running)return;
     const dt=Math.min(.05,(t-last)/1000);last=t;
     spawnT-=dt;if(spawnT<=0){spawn();spawnT=rand(.7,1.15)}
-    for(const b of list){if(!b.popped){b.y-=b.v*dt;place(b,t)}}
+    for(const b of list){if(!b.popped){b.y-=b.v*dt*SPD().move;place(b,t)}}
     list=list.filter(b=>{if(b.popped)return false;if(b.y<-bw*2){b.el.remove();return false}return true});
     raf=requestAnimationFrame(loop);
   }
@@ -3382,7 +3390,7 @@ const Peek=(()=>{
       const a=pickOne(SOUNDS);sp.querySelector('.ani').textContent=a[0];sp.classList.add('open');
       audio();tone(300,.6,'sine',.22,0,3);tone(1200,.2,'triangle',.12,.7);addStar();
       timers.push(setTimeout(()=>{say(T(`Ú òa! ${a[1]}! ${a[2]}!`,`Peekaboo! ${a[1]}! ${a[2]}!`));
-        timers.push(afterSay(()=>sp.classList.remove('open'),3500,1200))},500));
+        timers.push(afterSay(()=>sp.classList.remove('open'),3500,1200))},500*SPD().wait));
     }));
     setPrompt('peek',T('🙈 Ai trốn trong này nhỉ?',"🙈 Who's hiding in here?"),T('Ai đang trốn trong này nhỉ? Bé chạm vào xem nào!',"Who's hiding in here? Tap to see!"));
   }
@@ -3836,14 +3844,14 @@ const Whack=(()=>{
         if(hits%4===0)timers.push(afterSay(newTarget,500,200));else say(pickOne([T('Bốp!',"Bop!"),T('Trúng rồi!',"Got it!"),T('Giỏi!',"Nice!")]));
       }else{sfx('boing');say(T('Đây là số ',"This is number ")+viNum(n)+'!')}
     }));
-    newTarget();tick=setInterval(pop,1000);
+    newTarget();tick=setInterval(()=>{if(Math.random()<SPD().move*.7)pop()},700);
   }
   function newTarget(){if(!run)return;let t;do{t=1+ri(9)}while(t===target);target=t;
     setPrompt('whack',T(`🔊 Đập chuột số <b style="color:#FF7A6B;font-size:1.2em">${target}</b> &nbsp;${hits}/${GOAL}`,`🔊 Bop number <b style="color:#FF7A6B;font-size:1.2em">${target}</b> &nbsp;${hits}/${GOAL}`),T(`Bé đập chú chuột có số ${viNum(target)} nhé!`,`Bop the mouse with number ${viNum(target)}!`))}
   function pop(){
     if(!run)return;const free=[...stage.querySelectorAll('.mole:not(.up)')];if(!free.length)return;
     const m=pickOne(free),n=Math.random()<.45?target:1+ri(9);m.dataset.n=n;delete m.dataset.hit;m.classList.remove('bonk');m.querySelector('.mn').textContent=n;m.classList.add('up');
-    timers.push(setTimeout(()=>m.classList.remove('up'),rand(2000,2800)));
+    timers.push(setTimeout(()=>m.classList.remove('up'),rand(2000,2800)/SPD().move));
   }
   function stop(){run=false;clearInterval(tick);timers.forEach(clearTimeout);timers=[]}
   return{start,stop};
@@ -3858,7 +3866,7 @@ const Simon=(()=>{
     seq=[ri(4),ri(4)];timers.push(setTimeout(play,900));
     setPrompt('simon',T('🔊 Nhìn kỹ rồi bấm lại theo thứ tự',"🔊 Watch, then tap in the same order"),T('Bé nhìn và nghe thật kỹ, rồi bấm lại theo đúng thứ tự nhé!',"Watch and listen carefully, then tap in the same order!"));
   }
-  function play(){lock=true;pos=0;seq.forEach((k,j)=>timers.push(setTimeout(()=>light(k,600),j*850)));timers.push(setTimeout(()=>{lock=false;say(T('Đến lượt bé!',"Your turn!"))},seq.length*850+150))}
+  function play(){lock=true;pos=0;const w=SPD().wait,st=850*w;seq.forEach((k,j)=>timers.push(setTimeout(()=>light(k,600*w),j*st)));timers.push(setTimeout(()=>{lock=false;say(T('Đến lượt bé!',"Your turn!"))},seq.length*st+150))}
   function press(i){
     if(lock)return;light(i,300);
     if(i!==seq[pos]){lock=true;sfx('boing');say(T('Ôi, chưa đúng. Mình xem lại nhé!',"Oops, not quite. Let's watch again!"));timers.push(afterSay(play,1600,500));return}
@@ -5379,11 +5387,11 @@ const GTINT=[['#FFF0E8','#F6D9CB'],['#FFF7D6','#F1E3A6'],['#EAF8EC','#CBE8D0'],[
 function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===id))}
 function openGame(name){
   sfx('tap');music.play(name);if(current)current.stop();hideWin();
-  show(name);current=GAMES[name];gameStars=stars;
+  show(name);current=GAMES[name];gameStars=stars;CUR_GAME=name;paintSpeed(name);
   {const sc=document.getElementById(name),i=Math.max(0,Object.keys(CARDS).indexOf(name));if(sc){sc.style.setProperty('--gt',GTINT[i%GTINT.length][0]);sc.style.setProperty('--gd',GTINT[i%GTINT.length][1])}}
   {const g=current;requestAnimationFrame(()=>{if(g&&current===g)g.start()})}
 }
-function goHome(){if(current)current.stop();current=null;hideWin();buddy.hide();hush();music.play('home');show('home')}
+function goHome(){if(current)current.stop();current=null;CUR_GAME=null;hideWin();buddy.hide();hush();music.play('home');show('home')}
 renderHome();
 document.querySelectorAll('.home-btn').forEach(b=>{
   b.addEventListener('click',()=>{sfx('tap');goHome()});
@@ -5423,3 +5431,15 @@ document.addEventListener('dblclick',e=>e.preventDefault());
 </script>
 </body>
 </html>
+// speed button in every game's top bar (also for games added later: it is injected, not written in each section)
+const SPEED_SAY=[T('Chậm thôi!',"Slow!"),T('Vừa vừa!',"Normal!"),T('Nhanh lên!',"Fast!")];
+function paintSpeed(name){const sc=document.getElementById(name),b=sc&&sc.querySelector('.speed-btn');if(!b)return;
+  const i=SPEED_OF[name]!=null?SPEED_OF[name]:1;b.textContent=SPEEDS[i].icon;b.dataset.s=i;sc.style.setProperty('--pace',SPEEDS[i].wait)}
+document.querySelectorAll('.screen .topbar').forEach(tb=>{
+  const st=tb.querySelector('.stars');if(!st||tb.querySelector('.speed-btn'))return;
+  const b=document.createElement('button');b.className='btn-round speed-btn';b.textContent='🐇';b.setAttribute('aria-label',T('Tốc độ',"Speed"));
+  b.addEventListener('click',()=>{const id=tb.closest('.screen').id,i=((SPEED_OF[id]!=null?SPEED_OF[id]:1)+1)%3;
+    SPEED_OF[id]=i;try{localStorage.setItem('bevui_speed',JSON.stringify(SPEED_OF))}catch(e){}
+    sfx('tap');paintSpeed(id);b.classList.remove('bump');void b.offsetWidth;b.classList.add('bump');say(SPEED_SAY[i])});
+  tb.insertBefore(b,st);
+});
