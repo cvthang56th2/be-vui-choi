@@ -238,6 +238,11 @@ button{font-family:inherit;cursor:pointer}
 .cblbox .cbitem.popped{opacity:0;transform:scale(.3) translateY(14px)}
 .citem.counted,.cblbox .cbitem.counted{animation:cntbump .45s ease-out}
 .speed-btn{position:relative}.speed-btn.bump{animation:cntbump .35s ease-out}
+/* quick sound toggles (music / voice) on home and in every game */
+.snd-btn{position:relative}.snd-btn.off{opacity:.55}.snd-btn.bump{animation:cntbump .35s ease-out}
+.snd-btn.off::after{content:'';position:absolute;left:22%;right:22%;top:50%;height:4px;margin-top:-2px;border-radius:2px;background:#FF5A4E;transform:rotate(-40deg);box-shadow:0 0 0 2px #fff}
+@media (max-width:540px) and (orientation:portrait){.topbar .snd-btn{width:38px;height:38px}.topbar{gap:6px}}
+@media (max-width:440px){.brand .wordmark{display:none}.brand{padding:4px!important}}
 @keyframes cntbump{0%{scale:1}40%{scale:1.3}100%{scale:1}}
 .cblbox .cbitem.counted{transform:translateY(-10px)}
 .cblbox .cbitem .cbn{position:absolute;left:50%;top:-14px;translate:-50% 0;background:var(--ink,#2B2350);color:#fff;border-radius:50%;width:1.8em;height:1.8em;font-size:clamp(14px,2.4vmin,24px);display:flex;align-items:center;justify-content:center;animation:pop .3s;font-style:normal;font-family:var(--hf);z-index:2}
@@ -1233,6 +1238,8 @@ svg.shp{width:clamp(150px,30vmin,270px);height:auto;display:block}
     <div class="brand"><svg class="hmark" viewBox="0 0 150 120" aria-hidden="true"><path d="M26 44 L22 6 L56 26 Z M124 44 L128 6 L94 26 Z" fill="#FF9B45" stroke="#2B2350" stroke-width="8" stroke-linejoin="round"/><ellipse cx="75" cy="68" rx="56" ry="46" fill="#FF9B45" stroke="#2B2350" stroke-width="8"/><ellipse cx="75" cy="88" rx="26" ry="17" fill="#FFF3E2"/><ellipse cx="52" cy="64" rx="8" ry="10" fill="#2B2350"/><ellipse cx="98" cy="64" rx="8" ry="10" fill="#2B2350"/><ellipse cx="75" cy="86" rx="8" ry="6" fill="#2B2350"/></svg><span class="wordmark">bé vui chơi</span></div>
     <div class="hactions">
       <button class="stars hstars" id="bookBtn" aria-label="Bộ sưu tập sticker"><span class="starcount">0</span></button>
+      <button class="hbtn snd-btn" data-snd="music" aria-label="Nhạc nền"></button>
+      <button class="hbtn snd-btn" data-snd="voice" aria-label="Giọng đọc"></button>
       <button class="hbtn" id="langToggle" aria-label="Language"></button>
       <button class="hbtn" id="gearBtn" aria-label="Cài đặt"></button>
     </div>
@@ -1960,6 +1967,15 @@ const music={
   }
 };
 document.addEventListener('visibilitychange',()=>{document.hidden?music.pause():music.resume()});
+// one place to switch music / voice: the quick 🎵 / 💬 buttons and the settings checkboxes all call these
+function setMusicOn(on){MS.on=!!on;saveMS();music.setEnabled(MS.on);paintSnd()}
+function setVoiceOn(on){VS.on=!!on;saveVS();if(!VS.on)hush();paintSnd()}
+function paintSnd(){
+  document.querySelectorAll('.snd-btn').forEach(b=>{const m=b.dataset.snd==='music',on=m?MS.on:VS.on;
+    b.classList.toggle('off',!on);b.setAttribute('aria-pressed',on?'true':'false');
+    b.setAttribute('aria-label',m?(on?T('Tắt nhạc nền','Turn music off'):T('Bật nhạc nền','Turn music on')):(on?T('Tắt giọng đọc','Turn voice off'):T('Bật giọng đọc','Turn voice on')))});
+  const mc=document.getElementById('mOn'),vc=document.getElementById('vOn');if(mc)mc.checked=MS.on;if(vc)vc.checked=VS.on;
+}
 
 /* ---------- Voice (speech synthesis) ---------- */
 let voices=[];
@@ -3249,9 +3265,9 @@ const Piano=(()=>{
   selEn.addEventListener('change',()=>{VS.en=selEn.value;saveVS();say('Hello! Apple. Ball. Cat.','en-US',false,'device')});
   rate.addEventListener('input',()=>{VS.rate=+rate.value;rl.textContent=Math.round(VS.rate*100)+'%';saveVS()});
   rate.addEventListener('change',()=>say(T('Một, hai, ba, bốn, năm.',"One, two, three, four, five."),'vi-VN',false,true));
-  on.addEventListener('change',()=>{VS.on=on.checked;saveVS();if(!VS.on)hush()});
+  on.addEventListener('change',()=>setVoiceOn(on.checked));
   recOn.addEventListener('change',()=>{VS.rec=recOn.checked;saveVS();say(T('Chào bé! Mình là Mít. Bé có nghe rõ không?',"Hi! I'm Mit. Can you hear me clearly?"),'vi-VN',false,true)});
-  mOn.addEventListener('change',()=>{MS.on=mOn.checked;saveMS();music.setEnabled(MS.on)});
+  mOn.addEventListener('change',()=>setMusicOn(mOn.checked));
   mVol.addEventListener('input',()=>{MS.vol=+mVol.value;mVolL.textContent=Math.round(MS.vol*100)+'%';saveMS();music.setVolume(MS.vol)});
   box.querySelectorAll('.vtest').forEach(b=>b.addEventListener('click',()=>{
     b.dataset.t==='vi'?say(T('Chào bé! Mình là Mít. Bé hãy chạm vào bóng màu đỏ nhé!',"Hi! I'm Mit. Tap the red balloon!"),'vi-VN',false,true):say('Hello! A for Apple. B for Ball.','en-US',false,true);
@@ -5859,6 +5875,8 @@ const GL={
   home:`<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M6 19 L20 7 L34 19 L34 34 L6 34 Z" fill="#FF6B5A" stroke="${K}" stroke-width="4" stroke-linejoin="round"/><rect x="16" y="23" width="9" height="11" rx="2" fill="#fff" stroke="${K}" stroke-width="3.5"/></svg>`,
   star:`<svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12,2.5 14.9,8.6 21.5,9.3 16.5,13.8 18,20.4 12,17 6,20.4 7.5,13.8 2.5,9.3 9.1,8.6" fill="#FFC23D" stroke="${K}" stroke-width="2.2" stroke-linejoin="round"/></svg>`,
   gear:`<svg viewBox="0 0 24 24" fill="none" stroke="${K}" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/><circle cx="9" cy="6" r="2.4" fill="#fff"/><circle cx="15" cy="12" r="2.4" fill="#fff"/><circle cx="8" cy="18" r="2.4" fill="#fff"/></svg>`,
+  music:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 17V5l11-2v12" fill="none" stroke="${K}" stroke-width="2.2" stroke-linejoin="round"/><circle cx="6.5" cy="17.5" r="3" fill="#B49CFF" stroke="${K}" stroke-width="2.2"/><circle cx="17.5" cy="15.5" r="3" fill="#B49CFF" stroke="${K}" stroke-width="2.2"/></svg>`,
+  voice:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v8a2.5 2.5 0 0 1-2.5 2.5H11l-5 4.5V16h0.5A2.5 2.5 0 0 1 4 13.5Z" fill="#6CC4F7" stroke="${K}" stroke-width="2.2" stroke-linejoin="round"/><path d="M8.5 9.5h7" stroke="${K}" stroke-width="2.2" stroke-linecap="round"/></svg>`,
   book:`<svg class="bkic" viewBox="0 0 24 24" fill="none" stroke="${K}" stroke-width="2.2" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8 3v18"/><circle cx="14" cy="11" r="2.5" fill="${K}"/></svg>`
 };
 document.querySelectorAll('.home-btn').forEach(b=>{b.innerHTML=GL.home;b.setAttribute('aria-label',T('Về màn hình chính','Home'))});
@@ -6024,6 +6042,21 @@ document.querySelectorAll('.screen .topbar').forEach(tb=>{
     sfx('tap');paintSpeed(id);b.classList.remove('bump');void b.offsetWidth;b.classList.add('bump');say(SPEED_SAY[i])});
   tb.insertBefore(b,st);
 });
+// music / voice toggles in every game's top bar, next to the speed button
+document.querySelectorAll('.screen .topbar').forEach(tb=>{
+  const sp=tb.querySelector('.speed-btn');if(!sp||tb.querySelector('.snd-btn'))return;
+  ['music','voice'].forEach(k=>{const b=document.createElement('button');b.className='btn-round snd-btn';b.dataset.snd=k;tb.insertBefore(b,sp)});
+});
+document.querySelectorAll('.snd-btn').forEach(b=>{
+  b.innerHTML=b.dataset.snd==='music'?GL.music:GL.voice;
+  b.addEventListener('click',()=>{
+    sfx('tap');
+    if(b.dataset.snd==='music')setMusicOn(!MS.on);else setVoiceOn(!VS.on);
+    b.classList.remove('bump');void b.offsetWidth;b.classList.add('bump');
+    toast(b.dataset.snd==='music'?(MS.on?T('🎵 Đã bật nhạc nền','🎵 Music on'):T('🔇 Đã tắt nhạc nền','🔇 Music off')):(VS.on?T('💬 Đã bật giọng đọc','💬 Voice on'):T('🤫 Đã tắt giọng đọc','🤫 Voice off')));
+  });
+});
+paintSnd();
 document.querySelectorAll('.home-btn').forEach(b=>{
   b.addEventListener('click',()=>{sfx('tap');goHome()});
 });
