@@ -4748,7 +4748,20 @@ window.addEventListener('pointerdown',()=>{audio();if(!current)music.play('home'
 window.addEventListener('pointerdown',()=>{if(actx&&actx.state!=='running')audio();music.resume()},{passive:true});
 // Offline + auto-update when hosted (GitHub Pages). Skipped inside the iOS app and sandboxed previews.
 if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost')){
-  window.addEventListener('load',()=>{try{navigator.serviceWorker.register('sw.js').catch(()=>{})}catch(e){}});
+  window.addEventListener('load',()=>{try{
+    const hadSW=!!navigator.serviceWorker.controller;let pending=false;
+    navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(reg=>{
+      // home-screen app can stay open for days: look for a new version whenever it comes back to the front
+      document.addEventListener('visibilitychange',()=>{
+        if(document.hidden){if(pending)location.reload()}else reg.update().catch(()=>{});
+      });
+    }).catch(()=>{});
+    // new version took over → reload, but never in the middle of a game: wait until the app is in the background
+    navigator.serviceWorker.addEventListener('controllerchange',()=>{
+      if(!hadSW)return;
+      if(document.hidden||!current)location.reload();else pending=true;
+    });
+  }catch(e){}});
 }
 // block pinch / double-tap zoom on iPad
 document.addEventListener('gesturestart',e=>e.preventDefault());
