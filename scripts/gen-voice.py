@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Pre-record the app's voice with KorvaTTS → audio/voice/*.mp3 + audio/voice/manifest.json.
+"""Pre-record the app's voice with VieNeu-TTS → audio/voice/*.mp3 + audio/voice/manifest.json.
 
 The app splits every say() text into sentences (on . ! ? …) and plays the recorded file for each
 sentence it finds in the manifest; anything not recorded falls back to the device voice.
@@ -11,8 +11,9 @@ Sentences come from two places:
     "missed sentences" list the app keeps (localStorage key bevui_voice_miss)
 
 Only new sentences are synthesized, so re-running after adding a game is quick.
-Setup:  python3.13 -m venv .venv-voice && .venv-voice/bin/pip install korvatts
-Run:    .venv-voice/bin/python scripts/gen-voice.py [--dry-run] [--voice khanh_vy] [--lang vi,en]
+Setup:  python3.13 -m venv .venv-voice && .venv-voice/bin/pip install vieneu
+Run:    .venv-voice/bin/python scripts/gen-voice.py [--dry-run] [--voice "Mỹ Duyên"] [--lang vi,en]
+(KorvaTTS was tried first and dropped: every Korva voice had an audible tremble.)
 """
 import argparse, hashlib, json, os, re, subprocess, sys, tempfile, time, unicodedata
 from pathlib import Path
@@ -62,16 +63,16 @@ def literals(html: str):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('--voice', default='khanh_vy')
-    ap.add_argument('--speed', type=float, default=0.95)
-    ap.add_argument('--steps', type=int, default=32)
+    ap.add_argument('--voice', default='Mỹ Duyên', help='a VieNeu preset voice name')
     ap.add_argument('--lang', default='vi', help='vi, en or vi,en (English defaults to the device voice)')
     ap.add_argument('--dry-run', action='store_true')
     ap.add_argument('--limit', type=int, default=0, help='synthesize at most N new sentences (for a quick test)')
     ap.add_argument('--jobs', type=int, default=6, help='parallel worker processes')
-    ap.add_argument('--device', default='cpu', help='cpu or auto (auto tries CoreML, which is slower here)')
+    ap.add_argument('--out', default='', help='write somewhere other than audio/voice (for trying settings)')
     ap.add_argument('--shard', default='', help=argparse.SUPPRESS)  # i/n, set for worker processes
     a = ap.parse_args()
+    global OUT
+    if a.out: OUT = Path(a.out).resolve()
 
     src = []
     src += [tuple(p) for p in json.loads((ROOT / 'scripts' / 'voice-phrases.json').read_text())]
@@ -92,12 +93,13 @@ def main():
     mpath = OUT / 'manifest.json'
     old = json.loads(mpath.read_text()) if mpath.exists() else {}
     meta = old.get('_', {})
-    if meta and (meta.get('voice'), meta.get('speed'), meta.get('steps')) != (a.voice, a.speed, a.steps):
+    if meta and (meta.get('engine'), meta.get('voice')) != ('vieneu', a.voice):
         print('voice settings changed → re-recording everything'); old = {}
-    if not old:  # settings changed (or first run): drop every old recording
-        for f in OUT.glob('*.mp3'): f.unlink()
+    fresh = not old  # settings changed (or first run): every old recording goes
+    # languages not asked for this run keep their recordings as they are
+    a.other = {l: m for l, m in old.items() if l not in ('_', *langs)}
     # a sentence is recorded when its file exists, so parallel workers need no shared state
-    have = {lk: fname(*lk) for lk in want if (OUT / fname(*lk)).exists()}
+    have = {} if fresh else {lk: fname(*lk) for lk in want if (OUT / fname(*lk)).exists()}
     todo = [(lk, t) for lk, t in want.items() if lk not in have]
     if a.shard:
         i, n = map(int, a.shard.split('/'))
@@ -107,6 +109,9 @@ def main():
     if a.dry_run: return
     if a.limit: todo = todo[:a.limit]
     if not a.shard:
+        if fresh:
+            for f in OUT.glob('*.mp3'): f.unlink()
+            a.other = {}
         write(mpath, have, want, a)  # record the settings before the workers start
         if todo:
             args = [a2 for a2 in sys.argv[1:]]
@@ -115,19 +120,28 @@ def main():
             if any(p.wait() for p in procs): print('a worker failed; run again to finish', file=sys.stderr)
         have = {lk: fname(*lk) for lk in want if (OUT / fname(*lk)).exists()}
         write(mpath, have, want, a, prune=True)
-        print(f'done → {mpath.relative_to(ROOT)} ({len(have)}/{len(want)} recorded)')
+        print(f'done → {mpath} ({len(have)}/{len(want)} recorded)')
         return
 
-    from korvatts import TTS
-    tts = TTS(device=a.device, num_threads=max(1, (os.cpu_count() or 4) // a.jobs))
-    style = tts.get_voice(a.voice)
+    from vieneu import Vieneu
+    tts = Vieneu(threads=max(1, (os.cpu_count() or 4) // a.jobs))
     t0 = time.time()
     with tempfile.TemporaryDirectory() as tmp:
         for i, ((lang, k), text) in enumerate(todo, 1):
             name = fname(lang, k)
-            wav, _ = tts.synthesize(text, voice=style, lang=lang, total_steps=a.steps, speed=a.speed, seed=7)
+            # VieNeu samples token by token, so now and then a take runs on or gets cut short:
+            # keep the take whose length best fits the number of syllables
+            syl = max(1, len(text.split()))
+            best = None
+            for _ in range(3):
+                wav = tts.infer(text, voice=a.voice)
+                dur = len(wav) / tts.sample_rate
+                off = max(0.0, dur - (0.6 + syl * 0.42), (0.2 + syl * 0.12) - dur)
+                if best is None or off < best[0]: best = (off, wav)
+                if off == 0: break
+            if best[0] > 0: print(f'  [{a.shard}] odd length kept for: {text}', flush=True)
             w = Path(tmp) / 'x.wav'
-            tts.save_audio(wav, w)
+            tts.save(best[1], w)
             subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', str(w), '-ac', '1', '-ar', '24000',
                             '-b:a', '40k', str(Path(tmp) / name)], check=True)
             os.replace(Path(tmp) / name, OUT / name)  # appear whole, never half-written
@@ -141,7 +155,7 @@ def fname(lang, k):
 
 
 def write(mpath, have, want, a, prune=False):
-    m = {'_': {'voice': a.voice, 'speed': a.speed, 'steps': a.steps}, 'vi': {}, 'en': {}}
+    m = {'_': {'engine': 'vieneu', 'voice': a.voice}, 'vi': {}, 'en': {}, **getattr(a, 'other', {})}
     for (lang, k), f in sorted(have.items()):
         if (lang, k) in want: m[lang][k] = f
     if prune:  # drop recordings of sentences the app no longer says

@@ -1619,7 +1619,7 @@ function pickVoice(lang){
 }
 function loadVoices(){try{voices=speechSynthesis.getVoices()||[]}catch(e){}if(window.renderVoiceUI)renderVoiceUI()}
 if(hasTTS){loadVoices();try{speechSynthesis.onvoiceschanged=loadVoices}catch(e){}setTimeout(loadVoices,800)}
-/* Recorded voice: sentences pre-recorded with KorvaTTS (scripts/gen-voice.py → audio/voice/).
+/* Recorded voice: sentences pre-recorded with VieNeu-TTS (scripts/gen-voice.py → audio/voice/).
    say() splits its text into sentences; a sentence found in the manifest plays its recording, any other
    sentence is read by the device voice. Sentences the app speaks that have no recording are listed in
    localStorage 'bevui_voice_miss' so they can be added to scripts/voice-extra.json and recorded. */

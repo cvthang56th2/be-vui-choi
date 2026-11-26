@@ -26,19 +26,19 @@ Nút **🇻🇳 VI / 🇬🇧 EN** ở góc trên màn hình chính (hoặc ⚙�
 - `say(text)` đọc theo ngôn ngữ đang chọn; `say(text,'vi-VN!')` luôn đọc tiếng Việt (dùng cho phần song ngữ: Lật thẻ, ABC, Đánh vần, Nghe tiếng Anh vẫn đọc nghĩa tiếng Việt).
 - Game "Chữ tiếng Việt" chỉ hiện ở chế độ tiếng Việt; "Tập đọc" ở chế độ tiếng Anh thành tập đọc từ tiếng Anh.
 
-## Giọng đọc thu sẵn (KorvaTTS)
+## Giọng đọc thu sẵn (VieNeu-TTS)
 
-Câu tiếng Việt được thu sẵn bằng [KorvaTTS](https://huggingface.co/dogenthq/KorvaTTS) (giọng `khanh_vy`) vào `audio/voice/` (mỗi câu một file mp3, tra theo `audio/voice/manifest.json`). `say()` tách văn bản thành từng câu: câu có file thu sẵn thì phát file, câu chưa có thì đọc bằng giọng máy. Tắt được ở ⚙️ → *Giọng tiếng Việt tự nhiên*. Tiếng Anh vẫn dùng giọng máy.
+Câu tiếng Việt được thu sẵn bằng [VieNeu-TTS](https://pypi.org/project/vieneu/) (giọng `Mỹ Duyên`) vào `audio/voice/` (mỗi câu một file mp3, tra theo `audio/voice/manifest.json`). `say()` tách văn bản thành từng câu: câu có file thu sẵn thì phát file, câu chưa có thì đọc bằng giọng máy. Tắt được ở ⚙️ → *Giọng tiếng Việt tự nhiên*. Tiếng Anh vẫn dùng giọng máy.
 
 Tạo lại sau khi thêm/sửa câu thoại (chỉ thu các câu mới):
 
 ```bash
-python3.13 -m venv .venv-voice && .venv-voice/bin/pip install korvatts   # lần đầu
+python3.13 -m venv .venv-voice && .venv-voice/bin/pip install vieneu   # lần đầu
 npm run voice
 ```
 
 - `scripts/voice-harvest.mjs` chạy app trong jsdom, gọi thử mọi game câu hỏi (`makeQuiz`) hàng nghìn lần để gom câu ghép từ dữ liệu → `scripts/voice-phrases.json`.
-- `scripts/gen-voice.py` lấy thêm các câu cố định `T('…','…')` trong `index.html` và `scripts/voice-extra.json` (tự thêm, dạng `[["vi","Câu cần thu"]]`), rồi thu bằng Korva. Tuỳ chọn: `--voice`, `--speed`, `--lang vi,en`, `--dry-run`.
+- `scripts/gen-voice.py` lấy thêm các câu cố định `T('…','…')` trong `index.html` và `scripts/voice-extra.json` (tự thêm, dạng `[["vi","Câu cần thu"]]`), rồi thu bằng VieNeu (6 tiến trình song song, khoảng 12 phút cho toàn bộ). Tuỳ chọn: `--voice`, `--lang vi,en`, `--jobs`, `--dry-run`.
 - Câu app nói mà chưa có file được ghi vào `localStorage.bevui_voice_miss` — chép sang `scripts/voice-extra.json` rồi chạy lại.
 
 ## Chạy thử
