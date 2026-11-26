@@ -5048,7 +5048,7 @@ const Tidy=(()=>{
     if(bk&&+bk.dataset.c===bi){
       const e=el.textContent;el.remove();bk.querySelector('.bkin').insertAdjacentHTML('beforeend',`<span>${e}</span>`);
       bk.classList.remove('ok');void bk.offsetWidth;bk.classList.add('ok');sfx('snap');addStar();say(cap(boxes[bi][0])+'!');left--;
-      if(!left){round++;tmr=setTimeout(()=>round>=ROUNDS?win(T('Bé dọn dẹp ngăn nắp quá! 🧸',"So neat and tidy! 🧸"),start):(sfx('ding'),say(pickOne(PRAISE)),next()),1300)}
+      if(!left){round++;tmr=afterSay(()=>round>=ROUNDS?win(T('Bé dọn dẹp ngăn nắp quá! 🧸',"So neat and tidy! 🧸"),start):(sfx('ding'),say(pickOne(PRAISE)),next()),1500)}
     }else{back();if(bk){sfx('boing');say(T(`Cái này là ${boxes[bi][0]} mà!`,`This one goes with the ${boxes[bi][0]}!`))}}
   }
   return{start,stop:()=>clearTimeout(tmr)};
@@ -5089,7 +5089,7 @@ const Seriate=(()=>{
     if(k===nxt){
       const slot=stage.querySelectorAll('.srslot')[nxt];slot.innerHTML=b.innerHTML;slot.classList.add('full');b.classList.add('used');
       audio();tone(PENTA[Math.min(nxt,PENTA.length-1)],.25,'triangle',.18);if(nums)say(viNum(vals[k]));nxt++;
-      if(nxt>=n){addStar();round++;tmr=setTimeout(()=>{if(round>=ROUNDS)win(T('Bé xếp thứ tự giỏi quá! 📶',"Great ordering! 📶"),start);else{sfx('ding');say(pickOne(PRAISE));tmr=setTimeout(next,900)}},700)}
+      if(nxt>=n){addStar();round++;tmr=afterSay(()=>{if(round>=ROUNDS)win(T('Bé xếp thứ tự giỏi quá! 📶',"Great ordering! 📶"),start);else{sfx('ding');say(pickOne(PRAISE));tmr=afterSay(next,900,500)}},700)}
     }else{
       b.classList.remove('no');void b.offsetWidth;b.classList.add('no');sfx('boing');buddy.react('oops',T('Thử lại nào!',"Try again!"));
       say(nums?T('Tìm số bé nhất còn lại nhé!',"Find the smallest number left!"):T('Tìm cái nhỏ nhất còn lại nhé!',"Find the smallest one left!"));
@@ -5236,10 +5236,10 @@ const Robot=(()=>{
       p=np;place(p);audio();tone(PENTA[i%PENTA.length],.15,'square',.05);i++;
       if(key(p)===key(goal)){timers.push(setTimeout(()=>{
         bot.classList.add('yay');sfx('ding');addStar(prog.length<=bfs()?2:1);buddy.react('yay',pickOne(PRAISE));round++;
-        if(round>=ROUNDS){timers.push(setTimeout(()=>win(T('Bé là lập trình viên nhí! 🤖',"You're a little coder! 🤖"),start),900))}
-        else{say(T('Robot tới ngôi sao rồi! ',"The robot reached the star! ")+pickOne(PRAISE));timers.push(setTimeout(next,1800))}
+        if(round>=ROUNDS){timers.push(afterSay(()=>win(T('Bé là lập trình viên nhí! 🤖',"You're a little coder! 🤖"),start),900))}
+        else{say(T('Robot tới ngôi sao rồi! ',"The robot reached the star! ")+pickOne(PRAISE));timers.push(afterSay(next,1800))}
       },400));return}
-      timers.push(setTimeout(step,480));
+      timers.push(setTimeout(step,480/SPD().move));
     };
     timers.push(setTimeout(step,250));
   }
@@ -5372,7 +5372,7 @@ const Merge=(()=>{
     const nw=add();render(merged,new Set([nw]));
     const k=Math.max(...g.flat());
     if(k>maxK){maxK=k;if(k>=4){addStar(k>=7?2:1);buddy.react('yay',E[k]);tone(660+k*60,.2,'triangle',.15)}
-      if(k>=GOAL&&!won){won=true;setTimeout(()=>win(T('Bé đã lớn tới mũ tốt nghiệp! 🎓',"All the way to graduation! 🎓"),start),600);return}}
+      if(k>=GOAL&&!won){won=true;afterSay(()=>win(T('Bé đã lớn tới mũ tốt nghiệp! 🎓',"All the way to graduation! 🎓"),start),600);return}}
     if(!canMove()){over=true;setTimeout(()=>{
       stage.querySelector('.mggrid').insertAdjacentHTML('beforeend',`<div class="mgover">${T('Hết nước đi rồi!',"No more moves!")}<div>${T('Điểm',"Score")}: ${score}</div><button class="pbtn">${T('Chơi lại',"Play again")}</button></div>`);
       stage.querySelector('.mgover .pbtn').addEventListener('click',()=>{sfx('tap');start()});
@@ -5419,8 +5419,8 @@ const Slide=(()=>{
     while(cur!==i){b[cur]=b[cur+step];b[cur+step]=0;cur+=step}
     moves++;sfx('flip');place();
     if(solved()){lock=true;sfx('ding');addStar(N>3?3:1);buddy.react('yay',pickOne(PRAISE));lvl++;
-      if(lvl>=SIZES.length)setTimeout(()=>win(T('Bố mẹ xếp số siêu đỉnh! 🔢',"Sliding puzzle master! 🔢"),start),700);
-      else{say(T(`Xong rồi! Hết ${moves} bước.`,`Solved in ${moves} moves!`));setTimeout(deal,2200)}}
+      if(lvl>=SIZES.length)afterSay(()=>win(T('Bố mẹ xếp số siêu đỉnh! 🔢',"Sliding puzzle master! 🔢"),start),700);
+      else{say(T(`Xong rồi! Hết ${moves} bước.`,`Solved in ${moves} moves!`));afterSay(deal,2200)}}
   }
   return{start,stop(){lock=true}};
 })();
@@ -5447,7 +5447,7 @@ const PType=(()=>{
     lock=false;const q=PTQ[i],ord=shuffle([0,1,2,3]);
     stage.innerHTML=`<div class="ptw"><div class="ptext"><span class="pq">${i+1} / ${PTQ.length}</span>${q[0]}</div><div class="qopts txt">${ord.map((k,j)=>`<button class="qopt" data-k="${k}" style="background:${QC[(j+i)%QC.length]};animation-delay:${j*.07}s">${q[1][k]}</button>`).join('')}</div></div>`;
     stage.querySelectorAll('.qopt').forEach(b=>b.addEventListener('click',()=>{if(lock)return;lock=true;b.classList.add('ok');sfx('ding');tally[+b.dataset.k]++;i++;
-      tmr=setTimeout(i<PTQ.length?ask:result,650)}));
+      tmr=afterSay(i<PTQ.length?ask:result,650,300)}));
     setPrompt('ptype',T('💞 Bố mẹ kiểu gì?',"💞 What kind of parent are you?"),q[0]);
   }
   function result(){
@@ -5471,7 +5471,7 @@ const Breathe=(()=>{
   }
   function cycle(p){
     if(!run)return;const [sec,txt,sc]=PH[p],el=stage.querySelector('.brc');
-    el.style.transitionDuration=sec+'s';el.style.transform=`scale(${sc})`;el.querySelector('.brt').textContent=txt;
+    const k=SPD().wait;el.style.transitionDuration=sec*k+'s';el.style.transform=`scale(${sc})`;el.querySelector('.brt').textContent=txt;
     stage.querySelector('.brn').textContent=T(`Nhịp ${c+1} / ${CYC}`,`Breath ${c+1} / ${CYC}`);
     tone([196,247,165][p],sec*.9,'sine',.07);if(c<2)say(txt.replace('…',''));
     timers.push(setTimeout(()=>{
@@ -5479,7 +5479,7 @@ const Breathe=(()=>{
       c++;if(c<CYC)return cycle(0);
       run=false;addStar(2);el.querySelector('.brt').textContent='🌿';
       win(T('Bố mẹ đã thư giãn rồi! Cảm ơn bố mẹ đã luôn cố gắng 💚',"All relaxed! Thank you for doing your best 💚"),start);
-    },sec*1000));
+    },sec*k*1000));
   }
   function stop(){run=false;timers.forEach(clearTimeout);timers=[]}
   return{start,stop};
@@ -5509,7 +5509,7 @@ const Tug=(()=>{
     if(Math.abs(pos)>=100){
       run=false;const w=pos>0?1:0;score[w]++;sfx('ding');if(w)addStar(2);else addStar(1);
       stage.querySelectorAll('.who b')[w].textContent=score[w];
-      if(score[w]>=NEED){timers.push(setTimeout(()=>win(w?T('Bé thắng kéo co! 🏆',"The kid wins the tug of war! 🏆"):T('Bố mẹ thắng! Lần sau bé thắng nhé! 💪',"Parent wins! Kid's turn next time! 💪"),start),700));return}
+      if(score[w]>=NEED){timers.push(afterSay(()=>win(w?T('Bé thắng kéo co! 🏆',"The kid wins the tug of war! 🏆"):T('Bố mẹ thắng! Lần sau bé thắng nhé! 💪',"Parent wins! Kid's turn next time! 💪"),start),700));return}
       say(w?T('Bé kéo được rồi! Giỏi quá!',"The kid pulled it! Great job!"):T('Bố mẹ kéo được rồi! Bé cố lên!',"Parent pulled it! Come on, kid!"));
       timers.push(afterSay(round,1500,300));
     }
@@ -5535,7 +5535,7 @@ const Snap=(()=>{
     if(lock||h.classList.contains('frozen'))return;
     if(b.dataset.e!==t[0]){b.classList.add('no');sfx('boing');h.classList.add('frozen');timers.push(setTimeout(()=>h.classList.remove('frozen'),1000));return}
     lock=true;b.classList.add('ok');sfx('ding');score[p]++;h.querySelector('.who b').textContent=score[p];if(p)addStar();
-    if(score[p]>=GOAL){timers.push(setTimeout(()=>win(p?T('Bé nhanh tay quá! ⚡',"Lightning-fast kid! ⚡"):T('Bố mẹ thắng rồi! Ván sau bé phục thù nhé! ⚡',"Parent wins! Rematch time! ⚡"),start),700));return}
+    if(score[p]>=GOAL){timers.push(afterSay(()=>win(p?T('Bé nhanh tay quá! ⚡',"Lightning-fast kid! ⚡"):T('Bố mẹ thắng rồi! Ván sau bé phục thù nhé! ⚡',"Parent wins! Rematch time! ⚡"),start),700));return}
     say(p?pickOne(PRAISE):T('Bố mẹ nhanh hơn rồi!',"Parent was faster!"));timers.push(afterSay(next,1100,250));
   }
   function stop(){lock=true;timers.forEach(clearTimeout);timers=[]}
@@ -5590,7 +5590,7 @@ const Mimic=(()=>{
   }
   function done(){
     if(lock)return;lock=true;timers.forEach(clearTimeout);timers=[];sfx('ding');addStar();r++;buddy.react('yay',pickOne(PRAISE));
-    if(r>=ROUNDS){timers.push(setTimeout(()=>win(T('Cả nhà bắt chước giỏi quá! 🎭',"Brilliant acting, everyone! 🎭"),start),500));return}
+    if(r>=ROUNDS){timers.push(afterSay(()=>win(T('Cả nhà bắt chước giỏi quá! 🎭',"Brilliant acting, everyone! 🎭"),start),500));return}
     say(pickOne(PRAISE));timers.push(afterSay(next,1000,300));
   }
   function stop(){timers.forEach(clearTimeout);timers=[]}
@@ -5614,7 +5614,7 @@ const TTT=(()=>{
     const ln=L.find(l=>l.every(k=>b[k]===turn));
     if(ln){lock=true;ln.forEach(k=>stage.querySelectorAll('.ttc')[k].classList.add('line'));sfx('ding');score[turn]++;if(!turn)addStar(2);
       stage.querySelectorAll('.ttbar b')[turn].textContent=score[turn];
-      if(score[turn]>=NEED){timers.push(setTimeout(()=>win(turn?T('Bố mẹ thắng chung cuộc! Bé chơi lại nhé! 🐶',"Parent wins the match! Play again? 🐶"):T('Bé thắng chung cuộc! 🐱🏆',"The kid wins the match! 🐱🏆"),start),900));return}
+      if(score[turn]>=NEED){timers.push(afterSay(()=>win(turn?T('Bố mẹ thắng chung cuộc! Bé chơi lại nhé! 🐶',"Parent wins the match! Play again? 🐶"):T('Bé thắng chung cuộc! 🐱🏆',"The kid wins the match! 🐱🏆"),start),900));return}
       say(turn?T('Bố mẹ thắng ván này!',"Parent wins this round!"):T('Bé thắng ván này! Giỏi quá!',"Kid wins this round! Great job!"));
       first=1-first;timers.push(afterSay(deal,1600,300));return}
     if(b.every(x=>x>=0)){lock=true;sfx('boing');say(T('Hoà rồi! Chơi ván mới nào.',"It's a draw! New round."));first=1-first;timers.push(afterSay(deal,1400,300));return}
@@ -5648,7 +5648,7 @@ const StoryDice=(()=>{
   }
   function finish(){
     sfx('ding');addStar(2);told++;buddy.react('yay',T('Hay quá!',"Lovely!"));
-    if(told>=GOAL){timers.push(setTimeout(()=>win(T('Cả nhà là những người kể chuyện tài ba! 📖',"What a family of storytellers! 📖"),start),500));return}
+    if(told>=GOAL){timers.push(afterSay(()=>win(T('Cả nhà là những người kể chuyện tài ba! 📖',"What a family of storytellers! 📖"),start),500));return}
     render(null,true);say(T('Câu chuyện hay quá! Lắc tiếp nào!',"What a great story! Roll again!"));
   }
   function stop(){timers.forEach(t=>{clearTimeout(t);clearInterval(t)});timers=[];rolling=false}
