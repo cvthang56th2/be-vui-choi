@@ -47,6 +47,8 @@ self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
   const url = new URL(e.request.url);
   if (url.origin !== location.origin) return;
+  // Let Vercel Analytics / Speed Insights hit the network directly
+  if (url.pathname.startsWith('/_vercel/')) return;
   const fresh = e.request.mode === 'navigate' || /\.(html|json|webmanifest)$/.test(url.pathname) || url.pathname.endsWith('/');
   e.respondWith(caches.open(CACHE).then(cache => fresh ? networkFirst(e, cache) : staleWhileRevalidate(e, cache)));
 });
