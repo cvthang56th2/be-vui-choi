@@ -920,7 +920,7 @@ html,body{font-family:'Nunito',system-ui,sans-serif;background-color:var(--paper
 .agetabs{width:min(100%,1180px);background:none;box-shadow:none;border-radius:0;padding:8px 6px 12px;gap:clamp(8px,1.4vmin,14px);justify-content:flex-start;align-self:center}
 .agetab{display:flex;align-items:center;gap:8px;height:clamp(46px,6.4vmin,56px);padding:0 clamp(14px,2.4vmin,22px) 0 9px;border-radius:999px;background:#D6F0CC;color:var(--ink);font-family:var(--hf);font-weight:800;font-size:clamp(16px,2.6vmin,22px);box-shadow:var(--press);transition:transform .15s,box-shadow .15s}
 .agetab::before{content:"";width:clamp(24px,3.6vmin,32px);height:clamp(24px,3.6vmin,32px);border-radius:50%;background:var(--yellow);box-shadow:inset 0 0 0 3px var(--ink);flex:none}
-.agetab:nth-child(2)::before{background:var(--pink)}.agetab:nth-child(3)::before{background:var(--blue)}.agetab:nth-child(4)::before{background:var(--purple)}
+.agetab:nth-child(2)::before{background:var(--pink)}.agetab:nth-child(3)::before{background:var(--blue)}.agetab:nth-child(4)::before{background:var(--purple)}.agetab:nth-child(5)::before{background:var(--green)}.agetab:nth-child(6)::before{background:var(--red)}
 .agetab.on{background:#fff;color:var(--ink);box-shadow:var(--edge);transform:translateY(-3px)}
 
 /* home: sticker cards */
@@ -1116,6 +1116,108 @@ svg.shp{width:clamp(150px,30vmin,270px);height:auto;display:block}
 .cnw.full .cnfill{opacity:.9}
 .cnpic{position:absolute;right:5%;top:4%;font-size:clamp(70px,15vmin,150px);line-height:1;opacity:0;transform:scale(.3) rotate(-20deg);transition:opacity .5s,transform .6s cubic-bezier(.2,1.6,.4,1);pointer-events:none}
 .cnw.full .cnpic{opacity:1;transform:none}
+/* ---------- BỐ MẸ & CHƠI CÙNG BÉ ---------- */
+.ptext{background:#fff;color:var(--ink);border-radius:28px;padding:2.4vmin 4vmin;font-size:clamp(21px,4vmin,40px);font-weight:800;line-height:1.25;max-width:min(92vw,900px);text-align:center;box-shadow:inset 0 -4px 0 rgba(27,27,47,.12)}
+.ptext .pq{display:block;font-size:.55em;opacity:.6;margin-bottom:.6vmin}
+.pnote{background:#FFF7D6;color:var(--ink);border-radius:20px;padding:1.6vmin 3vmin;font-size:clamp(16px,2.8vmin,26px);font-weight:700;max-width:min(92vw,820px);text-align:center;animation:pop .3s}
+.qopts.txt{flex-direction:column;align-items:stretch;gap:2vmin;width:min(92vw,620px)}
+.qopts.txt .qopt{height:auto;min-height:clamp(54px,9vmin,84px);width:100%;font-size:clamp(19px,3.4vmin,32px);padding:1.4vmin 3vmin;border-radius:22px;line-height:1.2}
+.qopts.tf .qopt small{font-size:.62em}
+.qopts.tf .qopt{font-size:clamp(26px,5vmin,48px);min-width:clamp(150px,26vmin,260px);height:clamp(90px,15vmin,150px)}
+/* merge (gộp đồ bé) */
+.mgw{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2vmin;touch-action:none;padding:1vmin}
+.mgbar{display:flex;gap:2vmin;align-items:center;font-weight:800;font-size:clamp(18px,3vmin,30px)}
+.mgbar span{background:#fff;border-radius:999px;padding:.6vmin 2.4vmin}
+.mgbar button{border:none;background:#fff;border-radius:50%;width:2.2em;height:2.2em;font-size:inherit;font-weight:800;color:var(--ink)}
+.mggrid{--s:min(76vmin,560px,calc(100vh - 230px));width:var(--s);height:var(--s);display:grid;grid-template-columns:repeat(4,1fr);gap:calc(var(--s)*.025);padding:calc(var(--s)*.025);background:#E7D9C4;border-radius:24px;position:relative}
+.mgc{border-radius:16px;background:rgba(255,255,255,.45);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:calc(var(--s)*.11);line-height:1}
+.mgc small{font-size:.28em;font-weight:800;color:var(--ink);opacity:.65;margin-top:.15em}
+.mgc.nw{animation:pop .25s}.mgc.mg{animation:hop .18s ease-in-out 2 alternate}
+.mgchain{font-size:clamp(16px,3vmin,28px);opacity:.85;text-align:center}
+.mgover{position:absolute;inset:0;background:rgba(255,255,255,.8);border-radius:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2vmin;font-weight:800;font-size:clamp(22px,4vmin,40px)}
+.pbtn{border:none;border-radius:999px;background:var(--green);color:#fff;font-family:inherit;font-weight:800;font-size:clamp(18px,3.2vmin,32px);padding:1.2vmin 4vmin;box-shadow:inset 0 -4px 0 rgba(27,27,47,.15)}
+.pbtn.alt{background:#fff;color:var(--ink)}
+/* slide */
+.slw{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2vmin}
+.slgrid{--s:min(74vmin,540px,calc(100vh - 220px));width:var(--s);height:var(--s);position:relative;background:#E7D9C4;border-radius:24px}
+.sltile{position:absolute;width:calc(var(--s)/var(--n) - 10px);height:calc(var(--s)/var(--n) - 10px);left:calc(var(--x)*var(--s)/var(--n) + 5px);top:calc(var(--y)*var(--s)/var(--n) + 5px);border:none;border-radius:16px;color:#fff;font-family:inherit;font-weight:800;font-size:calc(var(--s)/var(--n)*.42);transition:left .12s,top .12s;box-shadow:inset 0 -5px 0 rgba(27,27,47,.15)}
+.sltile.ok{filter:saturate(.6) brightness(1.05)}
+.slinfo{font-weight:800;font-size:clamp(18px,3vmin,30px);background:#fff;border-radius:999px;padding:.6vmin 3vmin}
+/* personality */
+.ptw{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2.4vmin;padding:2vmin;overflow:auto}
+.ptres{background:#fff;border-radius:30px;padding:3vmin 4vmin;max-width:min(92vw,720px);text-align:center;animation:pop .35s}
+.ptres .big{font-size:clamp(80px,18vmin,160px);line-height:1}
+.ptres h2{margin:.6vmin 0;font-size:clamp(24px,4.6vmin,44px)}
+.ptres p{margin:0;font-size:clamp(17px,2.9vmin,27px);font-weight:600;line-height:1.35}
+/* breathe */
+.brw{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4vmin}
+.brc{width:min(36vmin,300px);height:min(36vmin,300px);border-radius:50%;background:radial-gradient(circle at 35% 30%,#C9F2DF,#5CCB7E);display:flex;align-items:center;justify-content:center;transform:scale(.7);transition-property:transform;transition-timing-function:ease-in-out;box-shadow:0 0 0 14px rgba(92,203,126,.18),0 0 0 30px rgba(92,203,126,.08);cursor:pointer}
+.brt{color:#fff;font-weight:800;font-size:clamp(20px,4vmin,38px);text-align:center;text-shadow:0 2px 0 rgba(0,0,0,.12);padding:0 2vmin}
+.brn{font-weight:800;font-size:clamp(18px,3vmin,30px);opacity:.75}
+/* duo (2 players on one screen) */
+.duo{position:absolute;inset:0;display:flex;flex-direction:column}
+.duo .half{flex:1;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.6vmin;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+.duo .half.top{transform:rotate(180deg);background:rgba(90,182,242,.16)}
+.duo .half.bot{background:rgba(255,122,107,.16)}
+.duo .who{font-weight:800;font-size:clamp(18px,3.2vmin,30px);background:#fff;border-radius:999px;padding:.4vmin 2.6vmin}
+.duo .who b{color:var(--red);margin-left:.4em}
+.duo .mid{height:4px;background:repeating-linear-gradient(90deg,var(--ink) 0 14px,transparent 14px 26px);opacity:.25}
+.duo.tg .half{flex-direction:row;justify-content:space-around}
+.tgbtn{font-size:clamp(70px,16vmin,150px);line-height:1;transition:transform .08s}
+.half.hit .tgbtn{transform:scale(.85)}
+.tgrope{position:absolute;left:50%;top:0;bottom:0;width:10px;margin-left:-5px;background:repeating-linear-gradient(0deg,#C98A4B 0 10px,#A66E35 10px 20px);border-radius:5px;pointer-events:none}
+.tgflag{position:absolute;left:50%;top:50%;font-size:clamp(46px,9vmin,80px);transform:translate(-50%,calc(-50% + var(--p,0)*1px));transition:transform .1s;pointer-events:none;z-index:2}
+.tgcount{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:clamp(90px,22vmin,200px);font-weight:800;color:var(--red);pointer-events:none;z-index:3;text-shadow:0 4px 0 #fff}
+.snt{font-size:clamp(40px,9vmin,80px);background:#fff;border-radius:24px;padding:.4vmin 3vmin;line-height:1.2}
+.snopts{display:flex;gap:2.4vmin;flex-wrap:wrap;justify-content:center}
+.snopts button{border:none;background:#fff;border-radius:22px;font-size:clamp(40px,8.5vmin,80px);width:clamp(70px,13vmin,130px);height:clamp(70px,13vmin,130px);box-shadow:inset 0 -4px 0 rgba(27,27,47,.12)}
+.snopts button.ok{background:#5CCB7E}.snopts button.no{animation:shake .35s;background:#ffd2cc}
+.half.frozen .snopts{opacity:.35}
+/* hide & seek */
+.hsw{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.hsgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:3vmin;width:min(80vmin,560px,calc(100vh - 200px))}
+.hsb{border:none;background:none;font-size:clamp(70px,15vmin,130px);line-height:1;aspect-ratio:1;position:relative;transition:opacity .3s}
+.hsb.wig{animation:shake .4s}.hsb.seen{opacity:.35}
+.hsb .pet{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:.7em;animation:pop .4s}
+/* mimic */
+.mmw{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3vmin;padding:2vmin}
+.mmcard{background:#fff;border-radius:34px;padding:3vmin 5vmin;text-align:center;animation:pop .35s;box-shadow:inset 0 -6px 0 rgba(27,27,47,.1)}
+.mmcard .big{font-size:clamp(100px,24vmin,220px);line-height:1}
+.mmcard div:last-child{font-size:clamp(24px,5vmin,46px);font-weight:800;margin-top:1vmin}
+.mmbar{width:min(70vw,520px);height:14px;border-radius:7px;background:rgba(255,255,255,.7);overflow:hidden}
+.mmbar i{display:block;height:100%;background:var(--green);width:100%;transform-origin:left}
+/* tic-tac-toe */
+.ttw{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2.4vmin}
+.ttbar{display:flex;gap:3vmin;font-weight:800;font-size:clamp(18px,3.2vmin,32px)}
+.ttbar span{background:#fff;border-radius:999px;padding:.6vmin 2.6vmin;opacity:.55;transition:opacity .2s,transform .2s}
+.ttbar span.on{opacity:1;transform:scale(1.08);box-shadow:0 4px 0 var(--pink)}
+.ttgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.6vmin;width:min(66vmin,480px,calc(100vh - 230px))}
+.ttc{aspect-ratio:1;border:none;border-radius:22px;background:#fff;font-size:clamp(50px,13vmin,120px);line-height:1;box-shadow:inset 0 -5px 0 rgba(27,27,47,.1)}
+.ttc.line{background:#FFF0A8;animation:hop .25s ease-in-out 2 alternate}
+.ttc span{display:inline-block;animation:pop .25s}
+/* story dice */
+.sdw{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2.6vmin;padding:2vmin}
+.sddice{display:flex;gap:3vmin;flex-wrap:wrap;justify-content:center}
+.sdd{background:#fff;border-radius:26px;width:clamp(110px,22vmin,200px);padding:1.6vmin 1vmin;text-align:center;box-shadow:inset 0 -5px 0 rgba(27,27,47,.1)}
+.sdd .big{font-size:clamp(60px,12vmin,110px);line-height:1.1}
+.sdd small{display:block;font-weight:800;font-size:clamp(13px,2.2vmin,20px);opacity:.6}
+.sdd b{display:block;font-size:clamp(14px,2.5vmin,22px);min-height:2.4em}
+.sdd.roll .big{animation:shake .15s infinite}
+.sdtext{background:rgba(255,255,255,.8);border-radius:22px;padding:1.6vmin 3vmin;font-weight:700;font-size:clamp(17px,3vmin,28px);max-width:min(92vw,820px);text-align:center;line-height:1.35}
+.sdbtns{display:flex;gap:2vmin;flex-wrap:wrap;justify-content:center}
+/* 4–5: Xúc xắc */
+.dice{display:inline-grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);width:1.3em;height:1.3em;padding:.14em;gap:.03em;background:#fff;border-radius:.24em;box-shadow:inset 0 0 0 .055em #2B2350,0 .06em 0 rgba(27,27,47,.15);vertical-align:middle;box-sizing:border-box}
+.dice i{border-radius:50%;margin:.025em}.dice i.on{background:var(--dc,#2B2350)}
+.qdice{display:flex;align-items:center;gap:2vmin;font-size:clamp(100px,20vmin,200px)}
+.qdice .aop{font-size:.4em}
+.qopt .dice{font-size:.95em}
+/* 4–5: Trộn màu */
+.mixq{display:flex;align-items:center;gap:2vmin;font-size:clamp(80px,15vmin,150px)}
+.mixq b{font-size:.5em;color:#2B2350}
+.blob{display:inline-flex;align-items:center;justify-content:center;width:1em;height:1em;border-radius:46% 54% 50% 50%/55% 45% 55% 45%;background:var(--c);box-shadow:inset 0 0 0 .05em #2B2350,inset -.08em -.1em 0 rgba(0,0,0,.12);font-size:inherit;color:#2B2350;font-weight:800;line-height:1;transition:background .5s}
+.blob.q{font-size:.6em;width:1.67em;height:1.67em;background:#fff;box-shadow:inset 0 0 0 .06em #2B2350}
+.blob.q.fill{background:var(--c);animation:pop .4s}
+.qopt .blob{font-size:.95em}
 </style>
 </head>
 <body>
@@ -1517,6 +1619,54 @@ svg.shp{width:clamp(150px,30vmin,270px);height:auto;display:block}
   <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
   <div class="stage" id="shqstage"></div>
 </section>
+<section class="screen" id="pquiz">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="pqstage"></div>
+</section>
+<section class="screen" id="myth">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="mystage"></div>
+</section>
+<section class="screen" id="merge">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="mgstage"></div>
+</section>
+<section class="screen" id="slide">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="slstage"></div>
+</section>
+<section class="screen" id="ptype">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="pystage"></div>
+</section>
+<section class="screen" id="breathe">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="brstage"></div>
+</section>
+<section class="screen" id="tug">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="tgstage"></div>
+</section>
+<section class="screen" id="snap">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="snstage"></div>
+</section>
+<section class="screen" id="hideseek">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="hsstage"></div>
+</section>
+<section class="screen" id="mimic">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="mmstage"></div>
+</section>
+<section class="screen" id="ttt">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="ttstage"></div>
+</section>
+<section class="screen" id="story">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="sdcstage"></div>
+</section>
 <section class="screen" id="robot">
   <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
   <div class="stage" id="rbstage"></div>
@@ -1524,6 +1674,18 @@ svg.shp{width:clamp(150px,30vmin,270px);height:auto;display:block}
 <section class="screen" id="connect">
   <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
   <div class="stage" id="cnstage"></div>
+</section>
+<section class="screen" id="sequence">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="seqstage"></div>
+</section>
+<section class="screen" id="dice">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="dicestage"></div>
+</section>
+<section class="screen" id="mixcolor">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="mixstage"></div>
 </section>
 <section class="screen" id="walk">
   <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
@@ -1837,6 +1999,11 @@ if(hasTTS){loadVoices();try{speechSynthesis.onvoiceschanged=loadVoices}catch(e){
    localStorage 'bevui_voice_miss' so they can be added to scripts/voice-extra.json and recorded. */
 const vnorm=s=>s.normalize('NFC').toLowerCase().replace(/’/g,"'").replace(/[–—-]/g,' ').replace(/[^\p{L}\p{N}\p{M}\s'_]/gu,' ').replace(/\s+/g,' ').trim();
 let TTS_LIVE=0;
+/* Per-game speed (🐢 slow / 🐇 normal / 🚀 fast), chosen with the button in each game's top bar and remembered per game.
+   wait: multiplies pauses between turns; move: multiplies how fast things move; voice: multiplies the spoken rate. */
+const SPEEDS=[{icon:'🐢',wait:1.6,move:.7,voice:.88},{icon:'🐇',wait:1,move:1,voice:1},{icon:'🚀',wait:.6,move:1.35,voice:1.12}];
+let CUR_GAME=null,SPEED_OF={};try{SPEED_OF=JSON.parse(localStorage.getItem('bevui_speed')||'{}')||{}}catch(e){}
+const SPD=()=>SPEEDS[CUR_GAME&&SPEED_OF[CUR_GAME]!=null?SPEED_OF[CUR_GAME]:1]||SPEEDS[1];
 const REC={map:null,bufs:new Map(),src:new Set(),tok:0,chain:Promise.resolve(),busy:0,gain:null};
 try{fetch('audio/voice/manifest.json').then(r=>r.ok?r.json():null).then(m=>{
   if(m)for(const k of Object.keys(m))if(k==='_'||!Object.keys(m[k]).length)delete m[k];REC.map=m;
@@ -1934,6 +2101,7 @@ const isSpeaking=()=>REC.busy>0||TTS_LIVE>0;
 const SAY_WAIT=new Map(),_clearT=window.clearTimeout.bind(window);
 window.clearTimeout=id=>{const c=SAY_WAIT.get(id);if(c!==undefined){SAY_WAIT.delete(id);_clearT(c)}_clearT(id)};
 function afterSay(fn,ms,pad=700){
+  const sp=SPD().wait;ms*=sp;pad*=sp;
   const t0=Date.now();let quiet=0;
   const h=setTimeout(function tick(){
     if(!SAY_WAIT.has(h))return;
@@ -1947,6 +2115,7 @@ function afterSay(fn,ms,pad=700){
 /* Count items one by one in step with the voice: "Một! Hai! Ba! …" then a closing sentence.
    mark(i) is called as each number is spoken (timers stand in when the voice is off). */
 function countAlong(n,mark,closing,gap=260,step=800,fast=0){
+  gap*=SPD().wait;step*=SPD().wait;
   const seen=new Set(),hit=i=>{if(i<n&&!seen.has(i)){seen.add(i);for(let k=0;k<i;k++)hit(k);mark(i)}};
   const words=NUMW.slice(1,n+1).map(w=>cap(w)+'!');
   const fb=[],byTimer=()=>{for(let i=0;i<n;i++)fb.push(setTimeout(()=>hit(i),i*step))};
@@ -1956,7 +2125,7 @@ function countAlong(n,mark,closing,gap=260,step=800,fast=0){
 }
 
 /* ---------- Age group ---------- */
-let AGE=2;try{const a=parseInt(localStorage.getItem('bevui_age2'),10);if(a>=0&&a<=3)AGE=a}catch(e){}
+let AGE=2;try{const a=parseInt(localStorage.getItem('bevui_age2'),10);if(a>=0&&a<=5)AGE=a}catch(e){}
 
 /* ---------- Stars ---------- */
 let stars=0;
@@ -1974,11 +2143,6 @@ renderStars(false);
 /* ---------- Fun layer: tap sparks, flying stars, combo, Mít buddy ---------- */
 let lastPt={x:innerWidth/2,y:innerHeight/2};
 const FXC=['#FF7A6B','#FFD447','#5CCB7E','#5AB6F2','#A98CFF','#FF9A5C','#FF8FBF'];
-/* Per-game speed (🐢 slow / 🐇 normal / 🚀 fast), chosen with the button in each game's top bar and remembered per game.
-   wait: multiplies pauses between turns; move: multiplies how fast things move; voice: multiplies the spoken rate. */
-const SPEEDS=[{icon:'🐢',wait:1.6,move:.7,voice:.88},{icon:'🐇',wait:1,move:1,voice:1},{icon:'🚀',wait:.6,move:1.35,voice:1.12}];
-let CUR_GAME=null,SPEED_OF={};try{SPEED_OF=JSON.parse(localStorage.getItem('bevui_speed')||'{}')||{}}catch(e){}
-const SPD=()=>SPEEDS[CUR_GAME&&SPEED_OF[CUR_GAME]!=null?SPEED_OF[CUR_GAME]:1]||SPEEDS[1];
 function burst(x,y,n){
   for(let i=0;i<(n||8);i++){
     const s=document.createElement('div'),a=Math.random()*Math.PI*2,d=rand(30,80);
@@ -2070,13 +2234,12 @@ function confetti(n){
   }
 }
 function win(msg,again){
-  sfx('win');say(msg.replace(/[^\p{L}\p{N}\s!.,]/gu,'')+T(' Bé giỏi quá!'," Great job!"));
+  sfx('win');say(msg.replace(/[^\p{L}\p{N}\s!.,]/gu,'')+(AGE===4?T(' Bố mẹ giỏi quá!'," Well done!"):AGE===5?T(' Cả nhà giỏi quá!'," Great teamwork!"):T(' Bé giỏi quá!'," Great job!")));
   confetti();$('#winmsg').textContent=msg;$('#win').classList.add('show');winAgainFn=again;
   buddy.hide();
   const earned=Math.max(0,stars-gameStars);gameStars=stars;
   $('#winEarn').textContent=`+${earned} ⭐`;$('#winEarn').style.display=earned?'':'none';
   // gift box: tap (or wait) to open and reveal a sticker
-  const sp=SPD().wait;ms*=sp;pad*=sp;
   const g=$('#winSticker'),got=$('#winGot');g.textContent='🎁';g.classList.remove('open');got.textContent=T('Chạm để mở quà!',"Tap to open your gift!");
   pendingGift=awardSticker();clearTimeout(giftT);giftT=afterSay(openGift,2600,500);
 }
@@ -2090,7 +2253,6 @@ function openGift(){
 }
 $('#winSticker').addEventListener('click',openGift);
 function hideWin(){$('#win').classList.remove('show');clearTimeout(giftT);pendingGift=null}
-  gap*=SPD().wait;step*=SPD().wait;
 $('#bookBtn').addEventListener('click',()=>{sfx('tap');openBook()});
 $('#bookClose').addEventListener('click',()=>{sfx('tap');$('#book').classList.remove('show')});
 $('#winAgain').addEventListener('click',()=>{sfx('tap');hideWin();winAgainFn&&winAgainFn()});
@@ -5127,6 +5289,437 @@ const Connect=(()=>{
   return{start,stop};
 })();
 
+/* ================= BỐ MẸ (games for parents, while the little one naps) ================= */
+const PQ=[
+  [T('Bé nên được bú mẹ hoàn toàn trong bao lâu?',"How long should babies be exclusively breastfed?"),[T('3 tháng',"3 months"),T('6 tháng',"6 months"),T('9 tháng',"9 months")],1,T('Tổ chức Y tế Thế giới khuyên bú mẹ hoàn toàn trong 6 tháng đầu.',"The WHO recommends exclusive breastfeeding for the first 6 months.")],
+  [T('Chiếc răng sữa đầu tiên thường mọc lúc bé khoảng mấy tháng?',"Around what age does the first baby tooth usually appear?"),[T('2 tháng',"2 months"),T('6 tháng',"6 months"),T('12 tháng',"12 months")],1,T('Đa số bé mọc răng đầu tiên khoảng 6 tháng, sớm hay muộn vài tháng đều bình thường.',"Most babies get their first tooth around 6 months; a few months earlier or later is normal.")],
+  [T('Bé có tất cả bao nhiêu chiếc răng sữa?',"How many baby teeth does a child have?"),['16','20','32'],1,T('Bộ răng sữa có 20 chiếc, thường mọc đủ khi bé khoảng 3 tuổi.',"There are 20 baby teeth, usually all in by about age 3.")],
+  [T('Trẻ sơ sinh thường ngủ bao nhiêu giờ mỗi ngày?',"How many hours a day do newborns usually sleep?"),[T('8 đến 10 giờ',"8 to 10 hours"),T('14 đến 17 giờ',"14 to 17 hours"),T('20 đến 22 giờ',"20 to 22 hours")],1,T('Trẻ sơ sinh ngủ khoảng 14 đến 17 giờ mỗi ngày, chia thành nhiều giấc ngắn.',"Newborns sleep about 14 to 17 hours a day, in many short naps.")],
+  [T('Tư thế ngủ an toàn nhất cho trẻ dưới 1 tuổi là gì?',"What is the safest sleep position for babies under 1?"),[T('Nằm sấp',"On the tummy"),T('Nằm ngửa',"On the back"),T('Nằm nghiêng',"On the side")],1,T('Cho bé nằm ngửa trên mặt phẳng chắc, không gối, không chăn dày để ngủ an toàn.',"Put babies on their back on a firm, flat surface without pillows or loose blankets.")],
+  [T('Bé thường biết đi những bước đầu tiên vào khoảng?',"When do babies usually take their first steps?"),[T('6 tháng',"6 months"),T('12 tháng',"12 months"),T('24 tháng',"24 months")],1,T('Khoảng 12 tháng, nhưng từ 9 đến 18 tháng đều là bình thường.',"Around 12 months, but anywhere from 9 to 18 months is normal.")],
+  [T('Không nên cho bé ăn mật ong khi bé dưới bao nhiêu tuổi?',"Babies shouldn't have honey before what age?"),[T('3 tháng',"3 months"),T('6 tháng',"6 months"),T('1 tuổi',"1 year")],2,T('Mật ong có thể gây ngộ độc ở trẻ dưới 1 tuổi.',"Honey can cause botulism in babies under 1.")],
+  [T('Bé bắt đầu ăn dặm từ khoảng mấy tháng?',"Around what age should babies start solid food?"),[T('3 tháng',"3 months"),T('6 tháng',"6 months"),T('12 tháng',"12 months")],1,T('Khoảng 6 tháng là lúc bé sẵn sàng ăn dặm, vẫn tiếp tục bú mẹ hoặc sữa công thức.',"Around 6 months, while still breastfeeding or having formula.")],
+  [T('Bé sơ sinh nhìn rõ nhất ở khoảng cách nào?',"At what distance do newborns see best?"),[T('20 đến 30 xăng ti mét',"8 to 12 inches"),T('1 mét',"3 feet"),T('3 mét',"10 feet")],0,T('Đúng bằng khoảng cách từ mặt bé đến mặt mẹ khi bế bú!',"That's exactly the distance to a parent's face during a feed!")],
+  [T('Bé thường nở nụ cười đầu tiên đáp lại bố mẹ khi nào?',"When do babies usually give their first social smile?"),[T('Khoảng 2 tháng',"Around 2 months"),T('Khoảng 6 tháng',"Around 6 months"),T('Khoảng 1 tuổi',"Around 1 year")],0,T('Nụ cười xã giao xuất hiện khoảng 6 đến 8 tuần tuổi.',"The social smile shows up at about 6 to 8 weeks.")],
+  [T('Ghế ô tô cho bé nhỏ nên lắp quay về hướng nào?',"Which way should a baby's car seat face?"),[T('Quay về phía trước',"Forward"),T('Quay về phía sau',"Rear-facing"),T('Quay ngang',"Sideways")],1,T('Ghế quay về phía sau bảo vệ đầu và cổ bé tốt nhất, càng lâu càng tốt.',"Rear-facing protects the head and neck best, for as long as possible.")],
+  [T('Thóp trên đầu bé thường khép lại khi nào?',"When does the soft spot on a baby's head usually close?"),[T('Khoảng 3 tháng',"Around 3 months"),T('Khoảng 12 đến 18 tháng',"Around 12 to 18 months"),T('Khoảng 4 tuổi',"Around age 4")],1,T('Thóp trước thường khép khi bé khoảng 12 đến 18 tháng tuổi.',"The front soft spot usually closes between 12 and 18 months.")],
+  [T('Cân nặng của bé thường gấp đôi lúc mới sinh vào khoảng?',"When does a baby usually double their birth weight?"),[T('1 tháng',"1 month"),T('5 tháng',"5 months"),T('12 tháng',"12 months")],1,T('Khoảng 5 tháng bé nặng gấp đôi, và khoảng 1 tuổi nặng gấp ba lúc sinh.',"About 5 months to double, and about 1 year to triple.")],
+  [T('Từ mấy tuổi bé có thể uống sữa bò tươi thay cho sữa mẹ hoặc sữa công thức?',"From what age can cow's milk replace breast milk or formula?"),[T('6 tháng',"6 months"),T('1 tuổi',"1 year"),T('3 tuổi',"3 years")],1,T('Sau 1 tuổi bé mới nên uống sữa bò tươi làm đồ uống chính.',"Cow's milk as a main drink should wait until after age 1.")],
+  [T('Trẻ sơ sinh có khoảng bao nhiêu chiếc xương?',"About how many bones does a newborn have?"),['206','300','150'],1,T('Khoảng 300! Nhiều xương sẽ dần liền lại thành 206 chiếc ở người lớn.',"About 300! Many fuse together into the 206 bones of an adult.")]
+];
+let pqDeck=[];
+const PQuiz=makeQuiz({id:'pquiz',stage:'#pqstage',rounds:8,winMsg:T('Bố mẹ thông thái quá! 📚',"Such well-informed parents! 📚"),gen(r){
+  if(!r||!pqDeck.length)pqDeck=shuffle(PQ.slice());const q=pqDeck[r%pqDeck.length];
+  return{html:`<div class="ptext"><span class="pq">${T('Câu',"Question")} ${r+1}</span>${q[0]}</div>`,cls:'txt',prompt:T('🍼 Đố vui nuôi con',"🍼 Parenting quiz"),speech:q[0],
+    options:q[1].map((o,i)=>({white:true,html:o,correct:i===q[2],say:T('Chưa đúng rồi, thử lại nhé!',"Not quite, try again!")})),
+    onCorrect(st){st.querySelector('.qarea').insertAdjacentHTML('beforeend',`<div class="pnote">💡 ${q[3]}</div>`);say(q[3]);return 3200}};
+}});
+
+const MYTH=[
+  [T('Cạo trọc đầu giúp tóc bé mọc dày hơn.',"Shaving a baby's head makes the hair grow thicker."),0,T('Không đúng. Độ dày của tóc do gen quyết định, cạo đầu không làm tóc dày hơn.',"Myth. Hair thickness is genetic; shaving doesn't change it.")],
+  [T('Bế bé nhiều sẽ làm bé hư.',"Holding a baby a lot will spoil them."),0,T('Không đúng. Bé nhỏ được ôm ấp nhiều sẽ thấy an toàn và gắn bó hơn.',"Myth. Lots of cuddles help little babies feel safe and bonded.")],
+  [T('Trẻ sơ sinh có nhiều xương hơn người lớn.',"Newborns have more bones than adults."),1,T('Đúng. Bé có khoảng 300 chiếc xương, sau này liền lại thành 206.',"True. About 300 bones that later fuse into 206.")],
+  [T('Bé dưới 6 tháng bú mẹ hoàn toàn vẫn cần uống thêm nước lọc.',"Exclusively breastfed babies under 6 months need extra water."),0,T('Không đúng. Sữa mẹ đã đủ nước, kể cả khi trời nóng.',"Myth. Breast milk has all the water they need, even in hot weather.")],
+  [T('Mắt của bé có thể đổi màu trong năm đầu.',"A baby's eye colour can change in the first year."),1,T('Đúng. Màu mắt thường ổn định khi bé khoảng 1 tuổi.',"True. Eye colour usually settles by about age 1.")],
+  [T('Xe tròn tập đi giúp bé biết đi sớm hơn.',"Baby walkers help babies walk sooner."),0,T('Không đúng. Xe tròn không giúp bé đi sớm hơn và dễ gây té ngã. Cho bé tự bò, vịn là tốt nhất.',"Myth. Walkers don't speed up walking and can cause falls. Floor play is best.")],
+  [T('Bé mới sinh đã nhận ra giọng của mẹ.',"Newborns already recognise their mother's voice."),1,T('Đúng. Bé đã nghe giọng mẹ từ khi còn trong bụng.',"True. Babies hear their mother's voice in the womb.")],
+  [T('Rung lắc mạnh giúp bé nhanh nín khóc mà không hại gì.',"Shaking a baby hard to stop crying is harmless."),0,T('Rất nguy hiểm! Rung lắc mạnh có thể gây tổn thương não. Khi quá mệt, hãy đặt bé nằm an toàn và nghỉ một chút.',"Very dangerous! Shaking can cause brain injury. If you're overwhelmed, lay the baby down safely and take a break.")],
+  [T('Đọc sách cho bé từ khi còn rất nhỏ giúp bé phát triển ngôn ngữ.',"Reading to babies from very early helps language develop."),1,T('Đúng. Nghe giọng bố mẹ đọc mỗi ngày giúp bé học từ nhanh hơn.',"True. Hearing parents read every day helps babies learn words.")],
+  [T('Bé khóc tức là bé đang đói.',"A crying baby is always hungry."),0,T('Không hẳn. Bé còn khóc vì buồn ngủ, ướt bỉm, nóng, lạnh hay chỉ muốn được ôm.',"Not always. Babies also cry when tired, wet, hot, cold, or just wanting a cuddle.")],
+  [T('Nước mắt thật của bé thường chưa có trong vài tuần đầu.',"Newborns often cry without real tears for the first few weeks."),1,T('Đúng. Tuyến lệ của bé cần vài tuần để hoạt động đầy đủ.',"True. Tear ducts take a few weeks to fully work.")],
+  [T('Bé biết nói muộn hơn bạn cùng tuổi chắc chắn là có vấn đề.',"A child who talks later than peers definitely has a problem."),0,T('Không chắc chắn. Mỗi bé một nhịp riêng. Nếu lo lắng, bố mẹ hỏi ý kiến bác sĩ nhi nhé.',"Not necessarily. Every child has their own pace; ask a paediatrician if you're worried.")],
+  [T('Bé sơ sinh có phản xạ nắm chặt ngón tay bố mẹ.',"Newborns have a reflex to grip your finger tightly."),1,T('Đúng. Đó là phản xạ nắm, thường mất dần sau vài tháng.',"True. It's the grasp reflex, which fades after a few months.")]
+];
+let mythDeck=[];
+const MythQ=makeQuiz({id:'myth',stage:'#mystage',rounds:8,winMsg:T('Bố mẹ không dễ bị lừa đâu! 🕵️',"No fooling these parents! 🕵️"),gen(r){
+  if(!r||!mythDeck.length)mythDeck=shuffle(MYTH.slice());const m=mythDeck[r%mythDeck.length];
+  return{html:`<div class="ptext"><span class="pq">${T('Thật hay đùa?',"Fact or myth?")}</span>“${m[0]}”</div>`,cls:'tf',prompt:T('🤔 Thật hay đùa?',"🤔 Fact or myth?"),speech:T('Thật hay đùa? ',"Fact or myth? ")+m[0],
+    options:[[1,'✅',T('Thật',"Fact")],[0,'🙅',T('Đùa',"Myth")]].map(([v,e,l])=>({html:`${e}<small>${l}</small>`,correct:v===m[1],say:T('Chưa đúng đâu, nghĩ lại nhé!',"Not quite, think again!")})),
+    onCorrect(st){st.querySelector('.qarea').insertAdjacentHTML('beforeend',`<div class="pnote">💡 ${m[2]}</div>`);say(m[2]);return 3400}};
+}});
+
+/* ---------- Gộp đồ bé: merge equal tiles, from a milk bottle up to the graduation cap ---------- */
+const Merge=(()=>{
+  const stage=$('#mgstage'),N=4,GOAL=9,E=['','🍼','🧦','🧸','🦆','🧩','🪁','🚲','🎒','🎓','🏆','👑','💎'];
+  const COL=['','#FFF3E2','#FFE4C4','#FFD0A6','#FFB98A','#FFA07A','#FF8C8C','#FF8FBF','#C9A7FF','#8FC5FF','#7EE0B5','#FFD447','#FFC23D'];
+  let g=[],score=0,best=0,maxK=0,over=false,won=false,sx=0,sy=0,down=false;
+  try{best=parseInt(localStorage.getItem('bevui_mg_best'),10)||0}catch(e){}
+  function empty(){const e=[];for(let r=0;r<N;r++)for(let c=0;c<N;c++)if(!g[r][c])e.push([r,c]);return e}
+  function add(){const e=empty();if(!e.length)return null;const [r,c]=pickOne(e);g[r][c]=Math.random()<.9?1:2;return r+','+c}
+  function start(){
+    g=[...Array(N)].map(()=>Array(N).fill(0));score=0;maxK=1;over=false;won=false;
+    stage.innerHTML=`<div class="mgw"><div class="mgbar"><span>${T('Điểm',"Score")}: <b class="mgs">0</b></span><span>🏅 <b class="mgb">${best}</b></span><button class="mgnew" aria-label="${T('Chơi lại',"Restart")}">↻</button></div><div class="mggrid"></div><div class="mgchain">${E.slice(1,GOAL+1).join(' → ')}</div></div>`;
+    stage.querySelector('.mgnew').addEventListener('click',()=>{sfx('tap');start()});
+    const w=stage.querySelector('.mgw');
+    w.addEventListener('pointerdown',e=>{down=true;sx=e.clientX;sy=e.clientY});
+    w.addEventListener('pointerup',e=>{if(!down)return;down=false;const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.max(Math.abs(dx),Math.abs(dy))<28)return;
+      Math.abs(dx)>Math.abs(dy)?move(dx<0?0:1):move(dy<0?2:3)});
+    const a=add(),b=add();render(new Set(),new Set([a,b]));
+    setPrompt('merge',T('🧸 Vuốt để gộp 2 món giống nhau',"🧸 Swipe to merge matching items"),T('Vuốt lên, xuống, trái, phải để gộp hai món đồ giống nhau. Từ bình sữa lớn dần đến mũ tốt nghiệp nhé!',"Swipe up, down, left or right to merge two matching items. Grow from a milk bottle all the way to a graduation cap!"));
+  }
+  function line(a){const b=a.filter(x=>x),out=[],m=[];
+    for(let i=0;i<b.length;i++){if(b[i]===b[i+1]){out.push(b[i]+1);m.push(out.length-1);score+=2**(b[i]+1);i++}else out.push(b[i])}
+    while(out.length<N)out.push(0);return{out,m}}
+  function move(dir){ // 0 left · 1 right · 2 up · 3 down
+    if(over)return;let moved=false;const merged=new Set();
+    for(let i=0;i<N;i++){
+      const idx=[...Array(N)].map((_,j)=>dir<2?[i,j]:[j,i]);if(dir%2)idx.reverse();
+      const {out,m}=line(idx.map(([r,c])=>g[r][c]));
+      idx.forEach(([r,c],j)=>{if(g[r][c]!==out[j])moved=true;g[r][c]=out[j]});m.forEach(j=>merged.add(idx[j].join(',')));
+    }
+    if(!moved){sfx('bump');return}
+    merged.size?sfx('pop'):sfx('flip');
+    const nw=add();render(merged,new Set([nw]));
+    const k=Math.max(...g.flat());
+    if(k>maxK){maxK=k;if(k>=4){addStar(k>=7?2:1);buddy.react('yay',E[k]);tone(660+k*60,.2,'triangle',.15)}
+      if(k>=GOAL&&!won){won=true;setTimeout(()=>win(T('Bé đã lớn tới mũ tốt nghiệp! 🎓',"All the way to graduation! 🎓"),start),600);return}}
+    if(!canMove()){over=true;setTimeout(()=>{
+      stage.querySelector('.mggrid').insertAdjacentHTML('beforeend',`<div class="mgover">${T('Hết nước đi rồi!',"No more moves!")}<div>${T('Điểm',"Score")}: ${score}</div><button class="pbtn">${T('Chơi lại',"Play again")}</button></div>`);
+      stage.querySelector('.mgover .pbtn').addEventListener('click',()=>{sfx('tap');start()});
+      say(T(`Hết nước đi rồi! Bố mẹ được ${score} điểm.`,`No more moves! You scored ${score} points.`));
+    },400)}
+  }
+  function canMove(){if(empty().length)return true;for(let r=0;r<N;r++)for(let c=0;c<N;c++){const v=g[r][c];if((c<N-1&&g[r][c+1]===v)||(r<N-1&&g[r+1][c]===v))return true}return false}
+  function render(merged,nw){
+    if(score>best){best=score;try{localStorage.setItem('bevui_mg_best',best)}catch(e){}}
+    stage.querySelector('.mgs').textContent=score;stage.querySelector('.mgb').textContent=best;
+    let h='';for(let r=0;r<N;r++)for(let c=0;c<N;c++){const k=g[r][c],id=r+','+c;
+      h+=`<div class="mgc${merged.has(id)?' mg':''}${nw.has(id)?' nw':''}" style="${k?'background:'+COL[Math.min(k,COL.length-1)]:''}">${k?(E[k]||'💎')+`<small>${2**k}</small>`:''}</div>`}
+    stage.querySelector('.mggrid').innerHTML=h;
+  }
+  window.addEventListener('keydown',e=>{if(current!==Merge)return;const d={ArrowLeft:0,ArrowRight:1,ArrowUp:2,ArrowDown:3}[e.key];if(d!==undefined){e.preventDefault();move(d)}});
+  return{start,stop(){down=false}};
+})();
+
+/* ---------- Trượt số: classic sliding puzzle, 3×3 then 4×4 ---------- */
+const Slide=(()=>{
+  const stage=$('#slstage'),SIZES=[3,3,4],TC=['#FF7A6B','#FF9A5C','#FFC23D','#5CCB7E','#33C3B4','#5AB6F2','#A98CFF','#FF8FBF'];
+  let N=3,b=[],moves=0,lvl=0,lock=false,tiles=[];
+  function start(){lvl=0;deal()}
+  function nb(e){const r=Math.floor(e/N),c=e%N,o=[];if(r)o.push(e-N);if(r<N-1)o.push(e+N);if(c)o.push(e-1);if(c<N-1)o.push(e+1);return o}
+  function deal(){
+    N=SIZES[lvl];lock=false;moves=0;b=[...Array(N*N).keys()].map(i=>(i+1)%(N*N));
+    let e=N*N-1,prev=-1;for(let k=0;k<N*N*30;k++){const o=nb(e).filter(x=>x!==prev),x=pickOne(o);b[e]=b[x];b[x]=0;prev=e;e=x}
+    if(solved())return deal();
+    stage.innerHTML=`<div class="slw"><div class="slinfo"></div><div class="slgrid" style="--n:${N}"></div></div>`;
+    const gr=stage.querySelector('.slgrid');tiles=[];
+    for(let v=1;v<N*N;v++){const t=document.createElement('button');t.className='sltile';t.textContent=v;t.style.background=TC[(v-1)%TC.length];
+      t.addEventListener('pointerdown',ev=>{ev.preventDefault();tap(b.indexOf(v))});gr.appendChild(t);tiles[v]=t}
+    place();
+    setPrompt('slide',T(`🔢 Xếp số theo thứ tự · Màn ${lvl+1}/${SIZES.length}`,`🔢 Put the numbers in order · Level ${lvl+1}/${SIZES.length}`),
+      lvl?T('Màn tiếp theo! Bố mẹ trượt các ô để xếp lại cho đúng thứ tự nhé.',"Next level! Slide the tiles back into order."):T('Chạm vào ô cạnh chỗ trống để trượt. Xếp các số từ 1 theo thứ tự nhé!',"Tap a tile next to the gap to slide it. Put the numbers back in order from 1!"));
+  }
+  function place(){for(let i=0;i<N*N;i++){const v=b[i];if(!v)continue;const t=tiles[v];t.style.setProperty('--x',i%N);t.style.setProperty('--y',Math.floor(i/N));t.classList.toggle('ok',v===i+1)}
+    stage.querySelector('.slinfo').textContent=T(`Số bước: ${moves}`,`Moves: ${moves}`)}
+  function solved(){for(let i=0;i<N*N-1;i++)if(b[i]!==i+1)return false;return true}
+  function tap(i){
+    if(lock)return;const e=b.indexOf(0),er=Math.floor(e/N),ec=e%N,r=Math.floor(i/N),c=i%N;
+    if(r!==er&&c!==ec){sfx('bump');return}
+    const step=r===er?(c>ec?1:-1):(r>er?N:-N);let cur=e;  // slide a whole row/column segment at once
+    while(cur!==i){b[cur]=b[cur+step];b[cur+step]=0;cur+=step}
+    moves++;sfx('flip');place();
+    if(solved()){lock=true;sfx('ding');addStar(N>3?3:1);buddy.react('yay',pickOne(PRAISE));lvl++;
+      if(lvl>=SIZES.length)setTimeout(()=>win(T('Bố mẹ xếp số siêu đỉnh! 🔢',"Sliding puzzle master! 🔢"),start),700);
+      else{say(T(`Xong rồi! Hết ${moves} bước.`,`Solved in ${moves} moves!`));setTimeout(deal,2200)}}
+  }
+  return{start,stop(){lock=true}};
+})();
+
+/* ---------- Bố mẹ kiểu gì? (fun personality quiz, no wrong answers) ---------- */
+const PTYPES=[
+  ['🦁',T('Bố mẹ Sư tử',"Lion parent"),T('Nguyên tắc, chu đáo, việc gì cũng có kế hoạch. Bé luôn thấy an toàn khi có bố mẹ bên cạnh.',"Organised and dependable, always with a plan. Your little one always feels safe with you.")],
+  ['🐨',T('Bố mẹ Gấu túi',"Koala parent"),T('Ấm áp và tình cảm, kho ôm ấp không bao giờ cạn. Bé lớn lên trong thật nhiều yêu thương.',"Warm and cuddly, with an endless supply of hugs. Your little one grows up wrapped in love.")],
+  ['🐬',T('Bố mẹ Cá heo',"Dolphin parent"),T('Vui nhộn, sáng tạo, biến việc gì cũng thành trò chơi. Nhà mình lúc nào cũng có tiếng cười.',"Playful and creative, turning everything into a game. Your home is always full of laughter.")],
+  ['🦉',T('Bố mẹ Cú mèo',"Owl parent"),T('Ham tìm hiểu, kiên nhẫn trả lời mọi câu hỏi vì sao. Bé được nuôi dưỡng sự tò mò mỗi ngày.',"Curious and patient with every 'why?'. Your little one's curiosity is fed every day.")]
+];
+const PTQ=[
+  [T('Bé khóc lúc nửa đêm, bố mẹ sẽ…',"The baby cries at midnight. You…"),[T('Bình tĩnh làm theo quy trình: bỉm, sữa, ru',"Calmly run the routine: nappy, milk, rock"),T('Ôm bé vào lòng, ôm mãi không buông',"Scoop them up and cuddle forever"),T('Hát một bài thật vui cho bé nín',"Sing a silly song until they stop"),T('Mở sổ ghi chép xem vì sao bé khóc',"Check your notes to work out why")]],
+  [T('Cuối tuần lý tưởng của nhà mình là…',"Your ideal family weekend is…"),[T('Lịch trình rõ ràng từ sáng tới tối',"A clear plan from morning to night"),T('Cả nhà nằm ôm nhau xem phim',"Snuggling up together for a movie"),T('Ra công viên chạy nhảy tưng bừng',"Running wild at the park"),T('Đi bảo tàng hoặc thư viện',"A trip to a museum or library")]],
+  [T('Bé nhất quyết không chịu ăn rau…',"Your child refuses to eat vegetables…"),[T('Ăn xong rau mới được ăn tráng miệng',"Veggies first, then dessert"),T('Dỗ dành, đút từng thìa một',"Coax them gently, one spoonful at a time"),T('Xếp rau thành hình mặt cười',"Arrange the veggies into a smiley face"),T('Đọc ngay vài bài về trẻ biếng ăn',"Read up on picky eating right away")]],
+  [T('Món không thể thiếu trong túi đồ của bố mẹ…',"The one thing always in your bag…"),[T('Danh sách việc cần làm',"A to-do list"),T('Khăn sữa và gấu bông',"A muslin cloth and a teddy"),T('Bong bóng và đồ chơi',"Bubbles and toys"),T('Sách và nhiệt kế',"A book and a thermometer")]],
+  [T('Câu cửa miệng của bố mẹ là…',"Your catchphrase is…"),[T('Nói là làm!',"I mean it!"),T('Lại đây ôm cái nào!',"Come here for a hug!"),T('Mình chơi trò này đi!',"Let's play a game!"),T('Tại sao nhỉ? Cùng tìm hiểu nha!',"Why is that? Let's find out!")]],
+  [T('Bé làm đổ cả cốc sữa ra sàn…',"Your child spills a whole cup of milk…"),[T('Cùng bé lau dọn ngay',"Clean it up together right away"),T('Không sao đâu con, ôm cái nào',"It's okay sweetie, come here"),T('Ồ, sữa vẽ thành hình con cá kìa!',"Ooh, the milk looks like a fish!"),T('Giải thích vì sao cốc bị đổ',"Explain why the cup tipped over")]]
+];
+const PType=(()=>{
+  const stage=$('#pystage');let i=0,tally=[0,0,0,0],lock=false,tmr=0;
+  function start(){i=0;tally=[0,0,0,0];ask()}
+  function ask(){
+    lock=false;const q=PTQ[i],ord=shuffle([0,1,2,3]);
+    stage.innerHTML=`<div class="ptw"><div class="ptext"><span class="pq">${i+1} / ${PTQ.length}</span>${q[0]}</div><div class="qopts txt">${ord.map((k,j)=>`<button class="qopt" data-k="${k}" style="background:${QC[(j+i)%QC.length]};animation-delay:${j*.07}s">${q[1][k]}</button>`).join('')}</div></div>`;
+    stage.querySelectorAll('.qopt').forEach(b=>b.addEventListener('click',()=>{if(lock)return;lock=true;b.classList.add('ok');sfx('ding');tally[+b.dataset.k]++;i++;
+      tmr=setTimeout(i<PTQ.length?ask:result,650)}));
+    setPrompt('ptype',T('💞 Bố mẹ kiểu gì?',"💞 What kind of parent are you?"),q[0]);
+  }
+  function result(){
+    const m=Math.max(...tally),t=PTYPES[tally.indexOf(m)];addStar(2);sfx('win');confetti(40);
+    stage.innerHTML=`<div class="ptw"><div class="ptres"><div class="big">${t[0]}</div><h2>${t[1]}</h2><p>${t[2]}</p></div><div class="sdbtns"><button class="pbtn">${T('Làm lại',"Try again")}</button></div></div>`;
+    stage.querySelector('.pbtn').addEventListener('click',()=>{sfx('tap');start()});
+    setPrompt('ptype',`💞 ${t[1]}`,T(`Bố mẹ là ${t[1].toLowerCase()}! `,`You're a ${t[1].toLowerCase()}! `)+t[2]);
+  }
+  return{start,stop:()=>clearTimeout(tmr)};
+})();
+
+/* ---------- Hít thở 1 phút: guided breathing for tired parents ---------- */
+const Breathe=(()=>{
+  const stage=$('#brstage'),CYC=5,PH=[[4,T('Hít vào…',"Breathe in…"),1.25],[2,T('Giữ nhẹ…',"Hold…"),1.25],[6,T('Thở ra…',"Breathe out…"),.7]];
+  let timers=[],c=0,run=false;
+  function start(){
+    stop();music.stop();c=0;
+    stage.innerHTML=`<div class="brw"><div class="brc"><span class="brt">${T('Chạm để bắt đầu',"Tap to begin")}</span></div><div class="brn">${T('5 nhịp thở · khoảng 1 phút',"5 breaths · about 1 minute")}</div></div>`;
+    stage.querySelector('.brc').addEventListener('click',()=>{if(run)return;run=true;audio();cycle(0)});
+    setPrompt('breathe',T('🌿 Hít thở thư giãn',"🌿 Relaxing breaths"),T('Bố mẹ vất vả rồi. Mình cùng hít thở thật chậm một phút nhé. Chạm vào vòng tròn để bắt đầu.',"You've been working hard. Let's take one slow minute to breathe. Tap the circle to begin."));
+  }
+  function cycle(p){
+    if(!run)return;const [sec,txt,sc]=PH[p],el=stage.querySelector('.brc');
+    el.style.transitionDuration=sec+'s';el.style.transform=`scale(${sc})`;el.querySelector('.brt').textContent=txt;
+    stage.querySelector('.brn').textContent=T(`Nhịp ${c+1} / ${CYC}`,`Breath ${c+1} / ${CYC}`);
+    tone([196,247,165][p],sec*.9,'sine',.07);if(c<2)say(txt.replace('…',''));
+    timers.push(setTimeout(()=>{
+      if(p<2)return cycle(p+1);
+      c++;if(c<CYC)return cycle(0);
+      run=false;addStar(2);el.querySelector('.brt').textContent='🌿';
+      win(T('Bố mẹ đã thư giãn rồi! Cảm ơn bố mẹ đã luôn cố gắng 💚',"All relaxed! Thank you for doing your best 💚"),start);
+    },sec*1000));
+  }
+  function stop(){run=false;timers.forEach(clearTimeout);timers=[]}
+  return{start,stop};
+})();
+
+/* ================= CHƠI CÙNG BÉ (parent + child on one screen) ================= */
+const DUO_P=T('👨‍👩‍👧 Bố mẹ',"👨‍👩‍👧 Parent"),DUO_K=T('🧒 Bé',"🧒 Kid");
+
+/* ---------- Kéo co: tap your half to pull the ribbon to your side ---------- */
+const Tug=(()=>{
+  const stage=$('#tgstage'),NEED=2;let pos=0,run=false,score=[0,0],timers=[],H=300;
+  function start(){score=[0,0];round()}
+  function round(){
+    stop();pos=0;
+    stage.innerHTML=`<div class="duo tg"><div class="half top" data-p="0"><div class="who">${DUO_P}<b>${score[0]}</b></div><div class="tgbtn">💪</div></div><div class="half bot" data-p="1"><div class="tgbtn">💪</div><div class="who">${DUO_K}<b>${score[1]}</b></div></div><div class="tgrope"></div><div class="tgflag">🎀</div><div class="tgcount"></div></div>`;
+    H=stage.clientHeight/2-40;
+    stage.querySelectorAll('.half').forEach(h=>h.addEventListener('pointerdown',e=>{e.preventDefault();pull(+h.dataset.p,h)}));
+    const cd=stage.querySelector('.tgcount');let n=3;
+    setPrompt('tug',T('🪢 Kéo co! Chạm thật nhanh vào nửa của mình',"🪢 Tug of war! Tap your half as fast as you can"),score[0]+score[1]?'':T('Bố mẹ ngồi phía trên, bé ngồi phía dưới. Ai chạm nhanh hơn sẽ kéo được nơ về phía mình!',"Parent sits at the top, kid at the bottom. Tap fast to pull the bow to your side!"));
+    const tick=()=>{if(n){cd.textContent=n;tone(520,.12,'triangle',.15);n--;timers.push(setTimeout(tick,800))}else{cd.textContent='';run=true;tone(880,.25,'triangle',.18);say(T('Kéo!',"Pull!"))}};
+    timers.push(afterSay(tick,600,200));
+  }
+  function pull(p,h){
+    if(!run)return;pos+=p?7:-4.5;  // grown-ups pull a bit softer so it stays fair 😉
+    h.classList.add('hit');setTimeout(()=>h.classList.remove('hit'),80);tone(p?440:330,.06,'triangle',.08);
+    stage.querySelector('.tgflag').style.setProperty('--p',(pos/100*H).toFixed(0));
+    if(Math.abs(pos)>=100){
+      run=false;const w=pos>0?1:0;score[w]++;sfx('ding');if(w)addStar(2);else addStar(1);
+      stage.querySelectorAll('.who b')[w].textContent=score[w];
+      if(score[w]>=NEED){timers.push(setTimeout(()=>win(w?T('Bé thắng kéo co! 🏆',"The kid wins the tug of war! 🏆"):T('Bố mẹ thắng! Lần sau bé thắng nhé! 💪',"Parent wins! Kid's turn next time! 💪"),start),700));return}
+      say(w?T('Bé kéo được rồi! Giỏi quá!',"The kid pulled it! Great job!"):T('Bố mẹ kéo được rồi! Bé cố lên!',"Parent pulled it! Come on, kid!"));
+      timers.push(afterSay(round,1500,300));
+    }
+  }
+  function stop(){run=false;timers.forEach(clearTimeout);timers=[]}
+  return{start,stop};
+})();
+
+/* ---------- Ai nhanh hơn? Both find the same picture; the kid gets fewer choices ---------- */
+const SNAPI=[['🐱',T('con mèo',"the cat")],['🐶',T('con chó',"the dog")],['🐰',T('con thỏ',"the rabbit")],['🐸',T('con ếch',"the frog")],['🐷',T('con heo',"the pig")],['🐮',T('con bò',"the cow")],['🍎',T('quả táo',"the apple")],['🍌',T('quả chuối',"the banana")],['🚗',T('ô tô',"the car")],['⚽',T('quả bóng',"the ball")],['🌸',T('bông hoa',"the flower")],['⭐',T('ngôi sao',"the star")],['🐟',T('con cá',"the fish")],['🦆',T('con vịt',"the duck")]];
+const Snap=(()=>{
+  const stage=$('#snstage'),GOAL=5;let score=[0,0],t=null,lock=true,timers=[];
+  function start(){score=[0,0];stop();next()}
+  function opts(n){const o=shuffle(SNAPI.filter(x=>x!==t)).slice(0,n-1);o.push(t);return shuffle(o)}
+  function half(p){return`<div class="half ${p?'bot':'top'}" data-p="${p}"><div class="who">${p?DUO_K:DUO_P}<b>${score[p]}</b></div><div class="snt">${T('Tìm',"Find")} ${t[0]}</div><div class="snopts">${opts(p?3:5).map(o=>`<button data-e="${o[0]}">${o[0]}</button>`).join('')}</div></div>`}
+  function next(){
+    lock=false;let n;do{n=pickOne(SNAPI)}while(n===t);t=n;
+    stage.innerHTML=`<div class="duo">${half(0)}<div class="mid"></div>${half(1)}</div>`;
+    stage.querySelectorAll('.half').forEach(h=>h.querySelectorAll('button').forEach(b=>b.addEventListener('pointerdown',e=>{e.preventDefault();tap(+h.dataset.p,h,b)})));
+    setPrompt('snap',T(`⚡ Ai tìm ${t[0]} nhanh hơn?`,`⚡ Who finds ${t[0]} first?`),T(`Tìm ${t[1]}!`,`Find ${t[1]}!`));
+  }
+  function tap(p,h,b){
+    if(lock||h.classList.contains('frozen'))return;
+    if(b.dataset.e!==t[0]){b.classList.add('no');sfx('boing');h.classList.add('frozen');timers.push(setTimeout(()=>h.classList.remove('frozen'),1000));return}
+    lock=true;b.classList.add('ok');sfx('ding');score[p]++;h.querySelector('.who b').textContent=score[p];if(p)addStar();
+    if(score[p]>=GOAL){timers.push(setTimeout(()=>win(p?T('Bé nhanh tay quá! ⚡',"Lightning-fast kid! ⚡"):T('Bố mẹ thắng rồi! Ván sau bé phục thù nhé! ⚡',"Parent wins! Rematch time! ⚡"),start),700));return}
+    say(p?pickOne(PRAISE):T('Bố mẹ nhanh hơn rồi!',"Parent was faster!"));timers.push(afterSay(next,1100,250));
+  }
+  function stop(){lock=true;timers.forEach(clearTimeout);timers=[]}
+  return{start,stop};
+})();
+
+/* ---------- Trốn tìm: one hides a friend behind a bush, the other finds it ---------- */
+const HideSeek=(()=>{
+  const stage=$('#hsstage'),PETS=['🐰','🐱','🐶','🐻','🦊','🐼'],ROUNDS=4,BUSH=['🌳','🌲','🌳','🌷','🌳','🌻','🌲','🌳','🌵'];
+  let r=0,pet='',spot=-1,phase='hide',tries=0,timers=[];
+  const hider=()=>r%2?'k':'p';
+  function start(){r=0;stop();deal()}
+  function deal(){
+    phase='hide';spot=-1;tries=0;pet=PETS[r%PETS.length];
+    stage.innerHTML=`<div class="hsw"><div class="hsgrid">${BUSH.map((b,i)=>`<button class="hsb" data-i="${i}">${b}</button>`).join('')}</div></div>`;
+    stage.querySelectorAll('.hsb').forEach(b=>b.addEventListener('click',()=>tap(+b.dataset.i,b)));
+    hider()==='p'?setPrompt('hideseek',T(`🙈 Bé nhắm mắt! Bố mẹ giấu ${pet} vào một bụi cây`,`🙈 Kid, close your eyes! Parent hides ${pet} behind a bush`),T('Bé ơi nhắm mắt lại nào! Bố mẹ giấu bạn vào một bụi cây nhé.',"Close your eyes, little one! Parent, hide our friend behind a bush.")):
+      setPrompt('hideseek',T(`🙈 Bố mẹ nhắm mắt! Bé giấu ${pet} vào một bụi cây`,`🙈 Parent, close your eyes! Kid hides ${pet} behind a bush`),T('Đến lượt bé giấu! Bố mẹ nhắm mắt lại nào. Bé chạm vào một bụi cây để giấu bạn nhé.',"Kid's turn to hide! Parent, close your eyes. Kid, tap a bush to hide our friend."));
+  }
+  function tap(i,b){
+    if(phase==='hide'){
+      spot=i;phase='wait';b.classList.add('wig');noise(.4,.15,2500,1);
+      timers.push(setTimeout(()=>{phase='seek';
+        hider()==='p'?setPrompt('hideseek',T(`👀 Bé mở mắt ra! ${pet} trốn ở đâu nhỉ?`,`👀 Open your eyes! Where is ${pet} hiding?`),T('Bé mở mắt ra nào! Bạn ấy trốn ở bụi cây nào nhỉ?',"Open your eyes! Which bush is our friend hiding behind?")):
+          setPrompt('hideseek',T(`👀 Bố mẹ mở mắt! ${pet} trốn ở đâu?`,`👀 Parent, open your eyes! Where is ${pet}?`),T('Bố mẹ mở mắt ra nào! Bé giấu bạn ở đâu nhỉ? Bé đừng mách nhé!',"Parent, open your eyes! Where did the kid hide our friend? No telling!"));
+      },700));return}
+    if(phase!=='seek'||b.classList.contains('seen'))return;
+    tries++;b.classList.remove('wig');void b.offsetWidth;b.classList.add('wig');noise(.3,.12,2200,1);
+    if(i!==spot){b.classList.add('seen');sfx('boing');say(pickOne([T('Không có ở đây!',"Not here!"),T('Ở đây trống trơn!',"Nobody here!"),T('Tìm chỗ khác nào!',"Try another spot!")]));return}
+    phase='done';b.insertAdjacentHTML('beforeend',`<span class="pet">${pet}</span>`);sfx('ding');burst(lastPt.x,lastPt.y,16);addStar(tries<=2?2:1);r++;
+    say(T('Ú òa! Tìm thấy rồi!',"Peekaboo! Found you!"));
+    if(r>=ROUNDS)timers.push(afterSay(()=>win(T('Cả nhà chơi trốn tìm vui quá! 🙈',"Hide and seek champions! 🙈"),start),1400,300));
+    else timers.push(afterSay(deal,1800,300));
+  }
+  function stop(){timers.forEach(clearTimeout);timers=[]}
+  return{start,stop};
+})();
+
+/* ---------- Bắt chước nào: act it out together ---------- */
+const ACTS=[['🐸',T('Nhảy như chú ếch',"Hop like a frog")],['🐱',T('Kêu meo meo như mèo',"Meow like a cat")],['🐦',T('Vỗ cánh bay như chim',"Flap your wings like a bird")],['🐧',T('Đi lạch bạch như chim cánh cụt',"Waddle like a penguin")],['🦁',T('Gầm thật to như sư tử',"Roar like a lion")],['🐻',T('Ngủ khò khò như gấu',"Snore like a sleepy bear")],['🐘',T('Vẫy vòi như chú voi',"Swing your trunk like an elephant")],['🦀',T('Bò ngang như con cua',"Walk sideways like a crab")],['🐒',T('Gãi đầu như chú khỉ',"Scratch your head like a monkey")],['🐍',T('Uốn éo như con rắn',"Wiggle like a snake")],['🤗',T('Ôm nhau thật chặt',"Give each other a big hug")],['😂',T('Cười thật to',"Laugh out loud")],['👏',T('Vỗ tay năm cái',"Clap five times")],['🙆',T('Giơ tay lên thật cao',"Reach up high")],['🌀',T('Xoay một vòng',"Spin around once")],['🤫',T('Đi rón rén thật khẽ',"Tiptoe very quietly")],['🐰',T('Nhảy lò cò như thỏ',"Bounce like a bunny")],['🐟',T('Bơi như con cá',"Swim like a fish")]];
+const Mimic=(()=>{
+  const stage=$('#mmstage'),ROUNDS=8,SEC=8;let r=0,deck=[],timers=[],lock=false;
+  function start(){r=0;deck=shuffle(ACTS.slice());stop();next()}
+  function next(){
+    lock=false;const a=deck[r%deck.length];
+    stage.innerHTML=`<div class="mmw"><div class="mmcard"><div class="big">${a[0]}</div><div>${a[1]}</div></div><div class="mmbar"><i></i></div><button class="pbtn">✅ ${T('Xong rồi!',"Done!")}</button></div>`;
+    stage.querySelector('.pbtn').addEventListener('click',done);
+    setPrompt('mimic',T(`🎭 Cả nhà cùng làm! ${r+1}/${ROUNDS}`,`🎭 Do it together! ${r+1}/${ROUNDS}`),T('Cả nhà cùng nào! ',"Everybody! ")+a[1]+'!');
+    timers.push(afterSay(()=>{const bar=stage.querySelector('.mmbar i');if(!bar)return;bar.animate?bar.animate([{transform:'scaleX(1)'},{transform:'scaleX(0)'}],{duration:SEC*1000,fill:'forwards'}):0;
+      for(let k=0;k<SEC;k++)timers.push(setTimeout(()=>tone(k%2?520:440,.06,'triangle',.08),k*1000));
+      timers.push(setTimeout(done,SEC*1000))},300,100));
+  }
+  function done(){
+    if(lock)return;lock=true;timers.forEach(clearTimeout);timers=[];sfx('ding');addStar();r++;buddy.react('yay',pickOne(PRAISE));
+    if(r>=ROUNDS){timers.push(setTimeout(()=>win(T('Cả nhà bắt chước giỏi quá! 🎭',"Brilliant acting, everyone! 🎭"),start),500));return}
+    say(pickOne(PRAISE));timers.push(afterSay(next,1000,300));
+  }
+  function stop(){timers.forEach(clearTimeout);timers=[]}
+  return{start,stop};
+})();
+
+/* ---------- Cờ ca-rô 3×3: 🐱 (kid) vs 🐶 (parent), first to 3 wins ---------- */
+const TTT=(()=>{
+  const stage=$('#ttstage'),P=['🐱','🐶'],NAME=[T('Bé',"Kid"),T('Bố mẹ',"Parent")],NEED=3,L=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+  let b=[],turn=0,first=0,score=[0,0],lock=false,timers=[];
+  function start(){score=[0,0];first=0;stop();deal()}
+  function deal(){
+    b=Array(9).fill(-1);turn=first;lock=false;
+    stage.innerHTML=`<div class="ttw"><div class="ttbar"><span data-p="0">${P[0]} ${NAME[0]} <b>${score[0]}</b></span><span data-p="1">${P[1]} ${NAME[1]} <b>${score[1]}</b></span></div><div class="ttgrid">${b.map((_,i)=>`<button class="ttc" data-i="${i}"></button>`).join('')}</div></div>`;
+    stage.querySelectorAll('.ttc').forEach(c=>c.addEventListener('click',()=>play(+c.dataset.i,c)));
+    bar();setPrompt('ttt',T('⭕ Ai xếp được 3 con thẳng hàng?',"⭕ Get three in a row!"),score[0]+score[1]?T(`Lượt của ${turn?'bố mẹ':'bé'}!`,`${turn?"Parent":"Kid"}'s turn!`):T('Bé là mèo, bố mẹ là cún. Ai xếp được ba con thẳng hàng trước thì thắng! Bé đi trước nhé.',"Kid is the cat, parent is the puppy. First to get three in a row wins! Kid goes first."));
+  }
+  function bar(){stage.querySelectorAll('.ttbar span').forEach(s=>s.classList.toggle('on',+s.dataset.p===turn))}
+  function play(i,c){
+    if(lock||b[i]>=0)return;b[i]=turn;c.innerHTML=`<span>${P[turn]}</span>`;tone(turn?392:523,.12,'triangle',.15);
+    const ln=L.find(l=>l.every(k=>b[k]===turn));
+    if(ln){lock=true;ln.forEach(k=>stage.querySelectorAll('.ttc')[k].classList.add('line'));sfx('ding');score[turn]++;if(!turn)addStar(2);
+      stage.querySelectorAll('.ttbar b')[turn].textContent=score[turn];
+      if(score[turn]>=NEED){timers.push(setTimeout(()=>win(turn?T('Bố mẹ thắng chung cuộc! Bé chơi lại nhé! 🐶',"Parent wins the match! Play again? 🐶"):T('Bé thắng chung cuộc! 🐱🏆',"The kid wins the match! 🐱🏆"),start),900));return}
+      say(turn?T('Bố mẹ thắng ván này!',"Parent wins this round!"):T('Bé thắng ván này! Giỏi quá!',"Kid wins this round! Great job!"));
+      first=1-first;timers.push(afterSay(deal,1600,300));return}
+    if(b.every(x=>x>=0)){lock=true;sfx('boing');say(T('Hoà rồi! Chơi ván mới nào.',"It's a draw! New round."));first=1-first;timers.push(afterSay(deal,1400,300));return}
+    turn=1-turn;bar();
+  }
+  function stop(){timers.forEach(clearTimeout);timers=[]}
+  return{start,stop};
+})();
+
+/* ---------- Xúc xắc kể chuyện: roll a hero, a place and a thing, then tell the story together ---------- */
+const SD_WHO=[['🐰',T('một bạn thỏ con',"a little rabbit")],['🐻',T('một chú gấu',"a bear")],['🦖',T('một bạn khủng long',"a dinosaur")],['👸',T('một nàng công chúa',"a princess")],['🤖',T('một chú robot',"a robot")],['🐱',T('một cô mèo',"a cat")],['🧙',T('một ông phù thuỷ',"a wizard")],['🐘',T('một chú voi con',"a baby elephant")],['🐧',T('một bạn chim cánh cụt',"a penguin")]];
+const SD_WHERE=[['🌳',T('trong khu rừng',"in the forest")],['🏖️',T('ở bãi biển',"at the beach")],['🌙',T('trên mặt trăng',"on the moon")],['🏰',T('trong toà lâu đài',"in a castle")],['🌊',T('dưới đáy biển',"under the sea")],['🏙️',T('giữa thành phố',"in the big city")],['🏡',T('ở nhà bà ngoại',"at grandma's house")],['❄️',T('ở xứ băng tuyết',"in the land of snow")]];
+const SD_WHAT=[['🎁',T('một hộp quà bí mật',"a secret gift box")],['☂️',T('một chiếc ô thần kỳ',"a magic umbrella")],['🔑',T('một chiếc chìa khoá vàng',"a golden key")],['🥚',T('một quả trứng khổng lồ',"a giant egg")],['🗺️',T('một tấm bản đồ kho báu',"a treasure map")],['🎈',T('một quả bóng bay biết nói',"a talking balloon")],['🍰',T('một chiếc bánh kem',"a birthday cake")],['⭐',T('một ngôi sao rơi',"a fallen star")]];
+const StoryDice=(()=>{
+  const stage=$('#sdcstage'),GOAL=3;let pick=null,told=0,rolling=false,timers=[];
+  const tale=()=>T(`Ngày xửa ngày xưa, có ${pick[0][1]} sống ${pick[1][1]}. Một hôm, bạn ấy tìm thấy ${pick[2][1]}. Chuyện gì xảy ra tiếp theo nhỉ? Bố mẹ và bé cùng kể tiếp nhé!`,
+    `Once upon a time, there was ${pick[0][1]} who lived ${pick[1][1]}. One day, they found ${pick[2][1]}. What happened next? Tell the rest of the story together!`);
+  function start(){told=0;stop();render(null)}
+  function render(p,quiet){
+    pick=p;const D=[[T('Nhân vật',"Hero"),SD_WHO],[T('Nơi chốn',"Place"),SD_WHERE],[T('Đồ vật',"Thing"),SD_WHAT]];
+    stage.innerHTML=`<div class="sdw"><div class="sddice">${D.map((d,i)=>`<div class="sdd"><small>${d[0]}</small><div class="big">${p?p[i][0]:'❔'}</div><b>${p?p[i][1]:''}</b></div>`).join('')}</div>${p?`<div class="sdtext">${tale()}</div>`:''}<div class="sdbtns"><button class="pbtn roll">🎲 ${T('Lắc xúc xắc',"Roll the dice")}</button>${p?`<button class="pbtn alt again">🔊 ${T('Nghe lại',"Hear again")}</button><button class="pbtn alt fin">⭐ ${T('Kể xong!',"Story told!")}</button>`:''}</div></div>`;
+    stage.querySelector('.roll').addEventListener('click',roll);
+    if(p){stage.querySelector('.again').addEventListener('click',()=>{sfx('tap');say(tale())});stage.querySelector('.fin').addEventListener('click',finish)}
+    setPrompt('story',T(`📖 Xúc xắc kể chuyện · ${told}/${GOAL}`,`📖 Story dice · ${told}/${GOAL}`),quiet?'':p?tale():T('Bé lắc xúc xắc để chọn nhân vật, nơi chốn và đồ vật. Rồi cả nhà cùng kể chuyện nhé!',"Roll the dice to pick a hero, a place and a thing. Then tell a story together!"));
+  }
+  function roll(){
+    if(rolling)return;rolling=true;hush();sfx('tap');const ds=stage.querySelectorAll('.sdd');ds.forEach(d=>{d.classList.add('roll');d.querySelector('b').textContent=''});
+    const L=[SD_WHO,SD_WHERE,SD_WHAT];let k=0;
+    const spin=setInterval(()=>{ds.forEach((d,i)=>d.querySelector('.big').textContent=pickOne(L[i])[0]);tone(300+ri(400),.04,'square',.04);if(++k>14){clearInterval(spin);rolling=false;sfx('ding');render(L.map(pickOne))}},70);
+    timers.push(spin);
+  }
+  function finish(){
+    sfx('ding');addStar(2);told++;buddy.react('yay',T('Hay quá!',"Lovely!"));
+    if(told>=GOAL){timers.push(setTimeout(()=>win(T('Cả nhà là những người kể chuyện tài ba! 📖',"What a family of storytellers! 📖"),start),500));return}
+    render(null,true);say(T('Câu chuyện hay quá! Lắc tiếp nào!',"What a great story! Roll again!"));
+  }
+  function stop(){timers.forEach(t=>{clearTimeout(t);clearInterval(t)});timers=[];rolling=false}
+  return{start,stop};
+})();
+
+/* ---------- 4–5: TRƯỚC – SAU (xếp tranh theo thứ tự diễn ra) ---------- */
+const SEQS=[[['🥚','🐣','🐔'],T('Trứng nở ra gà con, gà con lớn thành gà!',"The egg hatches into a chick, and the chick grows into a hen!")],
+  [['🌰','🌱','🌻'],T('Hạt giống nảy mầm, rồi nở thành hoa!',"The seed sprouts, then grows into a flower!")],
+  [['🥚','🐛','🦋'],T('Trứng nở thành sâu, sâu biến thành bướm!',"The egg hatches into a caterpillar, and it becomes a butterfly!")],
+  [['☁️','🌧️','🌈'],T('Mây kéo đến, trời mưa, rồi cầu vồng hiện ra!',"Clouds come, it rains, then a rainbow appears!")],
+  [['😴','🪥','🎒'],T('Ngủ dậy, đánh răng, rồi đi học!',"Wake up, brush your teeth, then go to school!")],
+  [['🧱','🏗️','🏠'],T('Có gạch, xây lên, thành ngôi nhà!',"Bricks, building, and then a house!")],
+  [['👶','🧒','🧑','🧓'],T('Em bé lớn lên thành bạn nhỏ, rồi người lớn, rồi ông bà!',"A baby grows into a child, then a grown-up, then a grandparent!")],
+  [['🌅','☀️','🌇','🌙'],T('Buổi sáng, buổi trưa, buổi chiều, rồi buổi tối!',"Morning, noon, evening, then night!")],
+  [['🛒','🍳','🍽️'],T('Đi chợ, nấu ăn, rồi cả nhà ăn cơm!',"Go shopping, cook, then the family eats together!")]];
+const Sequence=(()=>{
+  const stage=$('#seqstage'),ROUNDS=6;let round=0,order=[],sq=null,nxt=0,tmr=0;
+  function start(){round=0;order=pickN([...SEQS.keys()],ROUNDS).sort((a,b)=>SEQS[a][0].length-SEQS[b][0].length);next()}
+  function next(){
+    clearTimeout(tmr);nxt=0;sq=SEQS[order[round]];const P=sq[0],n=P.length,mix=shuffle([...Array(n).keys()]);
+    if(mix.every((k,i)=>k===i))mix.reverse();
+    stage.innerHTML=`<div class="srw"><div class="srpool">${mix.map(k=>`<button class="sri" data-r="${k}" style="animation-delay:${k*.06}s">${P[k]}</button>`).join('')}</div>
+      <div class="srline">${P.map((_,i)=>`${i?'<span class="srarrow">➜</span>':''}<span class="srslot"></span>`).join('')}</div></div>`;
+    stage.querySelectorAll('.sri').forEach(b=>b.addEventListener('click',()=>tap(b)));
+    setPrompt('sequence',T(`🔊 Xếp theo thứ tự ${round+1}/${ROUNDS}`,`🔊 Put in order ${round+1}/${ROUNDS}`),T('Bé chạm vào tranh theo thứ tự: cái gì xảy ra trước, cái gì xảy ra sau nhé!',"Tap the pictures in order: what happens first, and what happens next?"));
+  }
+  function tap(b){
+    if(b.classList.contains('used')||!sq||nxt>=sq[0].length)return;const k=+b.dataset.r,n=sq[0].length;
+    if(k===nxt){
+      const slot=stage.querySelectorAll('.srslot')[nxt];slot.innerHTML=b.innerHTML;slot.classList.add('full');b.classList.add('used');
+      audio();tone(PENTA[nxt],.25,'triangle',.18);nxt++;
+      if(nxt>=n){addStar();round++;sfx('ding');buddy.react('yay',pickOne(PRAISE));say(sq[1]);
+        tmr=afterSay(()=>round>=ROUNDS?win(T('Bé hiểu thứ tự mọi việc rồi! 🐣',"You know what comes first! 🐣"),start):next(),1800)}
+    }else{
+      b.classList.remove('no');void b.offsetWidth;b.classList.add('no');sfx('boing');buddy.react('oops',T('Thử lại nào!',"Try again!"));
+      say(nxt?T('Chưa đúng. Tiếp theo là gì nhỉ?',"Not quite. What comes next?"):T('Chưa đúng. Cái gì xảy ra trước tiên?',"Not quite. What happens first?"));
+    }
+  }
+  return{start,stop:()=>clearTimeout(tmr)};
+})();
+
+/* ---------- 4–5: XÚC XẮC ---------- */
+const PIPS={1:[4],2:[0,8],3:[0,4,8],4:[0,2,6,8],5:[0,2,4,6,8],6:[0,2,3,5,6,8]};
+const die=(n,c)=>`<span class="dice"${c?` style="--dc:${c}"`:''}>${[...Array(9)].map((_,i)=>`<i class="${PIPS[n].includes(i)?'on':''}"></i>`).join('')}</span>`;
+const DiceQ=makeQuiz({id:'dice',stage:'#dicestage',rounds:8,winMsg:T('Bé đếm chấm xúc xắc siêu nhanh! 🎲',"Super dice counting! 🎲"),gen(r){
+  const mode=r<3?r%2:r<6?1+(r%2):2;  // 0: count one die · 1: number → find the die · 2: add two dice
+  if(mode===2){const a=1+ri(6),b=1+ri(Math.min(6,10-a)),s=a+b,o=new Set([s]);while(o.size<3){const m=s+ri(5)-2;if(m>=2&&m<=12)o.add(m)}
+    return{html:`<div class="qdice">${die(a)}<span class="aop">+</span>${die(b,'#FF7A6B')}</div>`,prompt:T('🔊 Hai xúc xắc có mấy chấm?',"🔊 How many dots in all?"),speech:T('Hai xúc xắc có tất cả mấy chấm?',"How many dots are on both dice?"),
+      options:shuffle([...o]).map(m=>({html:m,correct:m===s,say:T('Bé đếm hết các chấm nhé!',"Count all the dots!")})),onCorrect(){say(T(`Đúng rồi! ${viNum(a)} thêm ${viNum(b)} là ${viNum(s)}!`,`Correct! ${enNum(a)} plus ${enNum(b)} is ${enNum(s)}!`));return 2200}}}
+  const o=pickN([1,2,3,4,5,6],3),a=pickOne(o);
+  if(mode===1)return{html:`<div class="qtext">${a}</div>`,prompt:T(`🔊 Mặt nào có ${a} chấm?`,`🔊 Which die shows ${a}?`),speech:T(`Mặt xúc xắc nào có ${viNum(a)} chấm?`,`Which die has ${enNum(a)} ${a===1?'dot':'dots'}?`),
+      options:o.map(x=>({white:true,html:die(x),correct:x===a,say:T(`Mặt này có ${viNum(x)} chấm. Thử lại nhé!`,`This one has ${enNum(x)}. Try again!`)})),onCorrect(){say(T(`Đúng rồi! ${cap(viNum(a))} chấm!`,`Correct! ${cap(enNum(a))}!`));return 1800}};
+  return{html:`<div class="qdice">${die(a)}</div>`,prompt:T('🔊 Xúc xắc có mấy chấm?',"🔊 How many dots?"),speech:T('Xúc xắc có mấy chấm nhỉ?',"How many dots are on the die?"),
+    options:o.map(x=>({html:x,correct:x===a,say:T('Bé chỉ tay đếm từng chấm nhé!',"Point and count each dot!")})),onCorrect(){say(T(`Đúng rồi! ${cap(viNum(a))} chấm!`,`Correct! ${cap(enNum(a))} ${a===1?'dot':'dots'}!`));return 1800}};
+}});
+
+/* ---------- 4–5: TRỘN MÀU ---------- */
+const PAINT={r:['#FF5A4E',T('đỏ',"red")],y:['#FFD447',T('vàng',"yellow")],b:['#3F8FE8',T('xanh dương',"blue")],w:['#FFFFFF',T('trắng',"white")],k:['#3A3A48',T('đen',"black")],
+  o:['#FF9A3D',T('cam',"orange")],p:['#9B6BE8',T('tím',"purple")],g:['#4CC46E',T('xanh lá',"green")],pk:['#FF9EC4',T('hồng',"pink")],gr:['#A9ADB8',T('xám',"gray")]};
+const MIXES=[['r','y','o'],['r','b','p'],['b','y','g'],['r','w','pk'],['k','w','gr']];
+const blob=(k,q)=>`<span class="blob${q?' q':''}" style="--c:${k?PAINT[k][0]:'#fff'}">${q?'?':''}</span>`;
+const MixQ=makeQuiz({id:'mixcolor',stage:'#mixstage',rounds:6,winMsg:T('Bé là hoạ sĩ trộn màu tài ba! 🎨',"You're a color-mixing artist! 🎨"),gen(){
+  const m=pickOne(MIXES),[a,b]=Math.random()<.5?[m[0],m[1]]:[m[1],m[0]],c=m[2],A=PAINT[a][1],B=PAINT[b][1],C=PAINT[c][1];
+  const o=shuffle([c,...pickN(MIXES.map(x=>x[2]).filter(x=>x!==c),2)]);
+  return{html:`<div class="mixq">${blob(a)}<b>+</b>${blob(b)}<b>=</b>${blob(0,1)}</div>`,prompt:T(`🔊 Màu ${A} trộn màu ${B} ra màu gì?`,`🔊 ${cap(A)} and ${B} make…?`),speech:T(`Màu ${A} trộn với màu ${B} sẽ ra màu gì nhỉ?`,`If we mix ${A} and ${B}, what color do we get?`),
+    options:o.map(x=>({white:true,html:blob(x),correct:x===c,say:T(`Đây là màu ${PAINT[x][1]}. Thử lại nhé!`,`That's ${PAINT[x][1]}. Try again!`)})),
+    onCorrect(st){const q=st.querySelector('.blob.q');if(q){q.textContent='';q.style.setProperty('--c',PAINT[c][0]);q.classList.add('fill')}
+      say(T(`Đúng rồi! Màu ${A} trộn màu ${B} thành màu ${C}!`,`Correct! ${cap(A)} and ${B} make ${C}!`));return 2300}};
+}});
+
 /* ---------- Home: card icons (illustrated, ink-outlined SVG, 64×64) ---------- */
 const W='#fff',K='#2B2350';
 const IR='#FF6B5A',IY='#FFC23D',IB='#52B4F5',IP='#FF8DBE',IT='#33C3B4',IV='#A07CF2',IG='#62C771',IO='#FF9B45',IC='#FFF3E2',ISK='#FFD9B8',ISA='#F4D58D',IBR='#C98A4B',ILB='#E3F4FF',IMUD='#9C6A3E';
@@ -5143,6 +5736,9 @@ const istar=(cx,cy,r,f)=>{let d='';for(let i=0;i<10;i++){const a=-Math.PI/2+i*Ma
 const ibal=(x,y,r,f)=>il(`M${x} ${y+r*1.2} q-4 ${r*.6} 1 ${r*1.3}`,2.5)+ie(x,y,r,r*1.18,f)+ip(`M${x-3} ${y+r*1.3}h6l-3-4Z`,f)+il(`M${x-r*.5} ${y-r*.35} q2 -${r*.4} ${r*.4} -${r*.45}`,2.5,W);
 const ismile=(y=40,w=6)=>il(`M${32-w} ${y} Q32 ${y+5} ${32+w} ${y}`);
 const ICONS={
+  sequence:ie(13,34,8,11,W)+il('M24 34 H31 M28 30 L32 34 L28 38',3)+ic(46,34,12,IY)+idt(43,31,1.8)+idt(50,31,1.8)+ip('M44 37 l2 3 2-3Z',IO)+ip('M40 23 l3 3 3-3 3 3 3-3',IC),
+  dice:iq(4,14,30,30,7,W)+idt(12,22,3)+idt(19,29,3)+idt(26,36,3)+iq(30,22,30,30,7,IR)+`<circle cx="38" cy="30" r="3" fill="#fff"/><circle cx="52" cy="30" r="3" fill="#fff"/><circle cx="38" cy="44" r="3" fill="#fff"/><circle cx="52" cy="44" r="3" fill="#fff"/>`,
+  mixcolor:ic(21,24,13,IR)+ic(43,24,13,IY)+ic(32,44,13,IO),
   connect:iq(6,6,52,52,12,W)+il('M16 46 L24 16 L44 22 L48 48 Z',3)+ip('M16 46 L24 16 L44 22 L48 48 Z',IP)+ic(16,46,3.5,IG)+ic(24,16,3.5,IG)+ic(44,22,3.5,IG)+ic(48,48,3.5,IY),
   rain:ip('M16 36 Q6 36 8 28 Q10 20 18 22 Q20 10 32 12 Q42 8 46 20 Q56 20 56 28 Q56 36 48 36 Z',W)+ip('M20 42 q-5 7 0 10 q5-3 0-10Z',IB)+ip('M34 44 q-5 7 0 10 q5-3 0-10Z',IB)+ip('M47 41 q-5 7 0 10 q5-3 0-10Z',IB),
   animalQ:ie(18,20,7,11,IBR)+ie(46,20,7,11,IBR)+ic(32,34,18,IO)+idt(25,31)+idt(39,31)+ie(32,40,5,3.5,K)+il('M28 46 Q32 49 36 46',2.5),
@@ -5352,12 +5948,31 @@ Object.assign(CARDS,{
   missing:['✍️',T('Điền chữ',"Missing letter"),T('Chính tả',"Spelling"),'#5fd3c8','#4FC9BC'],
   sides:['🔺',T('Hình học',"Shapes & sides"),T('Đếm cạnh',"Count the sides"),'#8ee07a','#45b026'],
   connect:['✏️',T('Nối điểm',"Connect the dots"),T('Đếm 1–10',"Count 1–10"),'#ffb86b','#ff8f3d'],
+  sequence:['🐣',T('Trước – sau',"First – next"),T('Thứ tự câu chuyện',"Story order"),'#ffd966','#f0a800'],
+  dice:['🎲',T('Xúc xắc',"Dice"),T('Đếm chấm',"Count the dots"),'#ff8a8a','#ff5757'],
+  mixcolor:['🎨',T('Trộn màu',"Mixing colors"),T('Khoa học màu',"Color science"),'#B49CFF','#6c5cff'],
   robot:['🤖',T('Lập trình robot',"Code the robot"),T('Tư duy lập trình',"Coding logic"),'#9aa5c8','#5a6290']
+});
+Object.assign(CARDS,{
+  pquiz:['🍼',T('Đố vui nuôi con',"Parenting quiz"),T('Kiến thức cho bố mẹ',"Know your baby facts"),'#ffb38a','#FF9A5C'],
+  myth:['🤔',T('Thật hay đùa?',"Fact or myth?"),T('Mẹo dân gian đúng hay sai',"Old wives' tales"),'#b49cff','#A98CFF'],
+  merge:['🧸',T('Gộp đồ bé',"Merge & grow"),T('Vuốt gộp từ 🍼 đến 🎓',"Swipe from 🍼 to 🎓"),'#ffd447','#FFC23D'],
+  slide:['🔢',T('Trượt số',"Sliding puzzle"),T('Xếp lại cho đúng',"Put it back in order"),'#6cc4f7','#5AB6F2'],
+  ptype:['💞',T('Bố mẹ kiểu gì?',"Parent type"),T('Trắc nghiệm vui',"A fun quiz"),'#ffaacb','#FF8FBF'],
+  breathe:['🌿',T('Hít thở 1 phút',"One-minute calm"),T('Thư giãn khi bé ngủ',"Relax while baby naps"),'#74d68e','#5CCB7E'],
+  tug:['🪢',T('Kéo co',"Tug of war"),T('Ai chạm nhanh hơn?',"Who taps faster?"),'#ff8a8a','#FF7A6B'],
+  snap:['⚡',T('Ai nhanh hơn?',"Quick snap"),T('Thi tìm hình 2 người',"2-player picture race"),'#ffd447','#FFC23D'],
+  hideseek:['🙈',T('Trốn tìm',"Hide & seek"),T('Giấu và tìm bạn thú',"Hide and find a friend"),'#74d68e','#62C771'],
+  mimic:['🎭',T('Bắt chước nào',"Copy me!"),T('Cả nhà cùng vận động',"Move together"),'#ffb38a','#FF9A5C'],
+  ttt:['⭕',T('Cờ ca-rô',"Tic-tac-toe"),T('Mèo đấu cún',"Cats vs puppies"),'#6cc4f7','#5AB6F2'],
+  story:['📖',T('Kể chuyện',"Story dice"),T('Lắc xúc xắc rồi kể',"Roll, then tell a tale"),'#b49cff','#A98CFF']
 });
 const AGES=[{icon:'👶',label:T('1–2 tuổi',"Age 1–2"),say:T('một đến hai',"one to two"),games:['tap','peek','bubbles','wand','bath','dig','mud','sandbox','paintbub','castle','animals','vehicles','draw','piano','fruitsB','colorsB','bodyB','instr','family','aqua','daynight','fireworks','eggs','shapesB','walk','wipe','pump','garden','float','train','dance','icecream','blocks','flashlight','phone','rain']},
   {icon:'🐣',label:T('2–3 tuổi',"Age 2–3"),say:T('hai đến ba',"two to three"),games:['balloon','sound','sorter','feed','piano','paint','fruitQ','colorQ','sizeQ','bodyQ','sameQ','eatQ','homeQ','count3','shapeQ','csort','animalQ','useQ','weatherQ','pairQ','tallQ','posQ','onemany','tidy']},
-  {icon:'🐥',label:T('4–5 tuổi',"Age 4–5"),say:T('bốn đến năm',"four to five"),games:['race','count','countballoon','pattern','shadow','build','puzzle','memory','abc','bigger','vnletter','moreless','oddone','opposite','emotion','nextnum','whack','simon','vehq','caseQ','jobQ','seriate','addsub','sinkQ','connect']},
-  {icon:'🦉',label:T('6–7 tuổi',"Age 6–7"),say:T('sáu đến bảy',"six to seven"),games:['math','spell','clock','maze','puzzle','memory','abc','piano','math20','compare','readvn','listen','days','evenodd','tens','sudoku','mathrace','leftright','mulQ','measure','frac','missing','sides','robot']}];
+  {icon:'🐥',label:T('4–5 tuổi',"Age 4–5"),say:T('bốn đến năm',"four to five"),games:['race','count','countballoon','pattern','shadow','build','puzzle','memory','abc','bigger','vnletter','moreless','oddone','opposite','emotion','nextnum','whack','simon','vehq','caseQ','jobQ','seriate','addsub','sinkQ','connect','sequence','dice','mixcolor']},
+  {icon:'🦉',label:T('6–7 tuổi',"Age 6–7"),say:T('sáu đến bảy',"six to seven"),games:['math','spell','clock','maze','puzzle','memory','abc','piano','math20','compare','readvn','listen','days','evenodd','tens','sudoku','mathrace','leftright','mulQ','measure','frac','missing','sides','robot']},
+  {icon:'👨‍👩‍👧',label:T('Bố mẹ',"Parents"),intro:T('Trò chơi cho bố mẹ, lúc bé ngủ','Games for parents, while the little one naps'),games:['pquiz','myth','merge','slide','ptype','breathe']},
+  {icon:'🤝',label:T('Cùng bé',"Together"),intro:T('Bố mẹ và bé cùng chơi','Games for parent and child to play together'),games:['tug','snap','hideseek','mimic','ttt','story']}];
 function renderHome(){
   $('#agetabs').innerHTML=AGES.map((a,i)=>`<button class="agetab${i===AGE?' on':''}" data-a="${i}">${a.label}</button>`).join('');
   $('#grid').innerHTML=AGES[AGE].games.filter(g=>!(LANG==='en'&&g==='vnletter')).map((g,i)=>{const c=CARDS[g],img=c[5]||CARD_IMG[g];
@@ -5365,7 +5980,7 @@ function renderHome(){
     return`<button class="card" data-game="${g}" style="--tc:${tileFor(g,i)};--crot:${[-1.2,.8,-.6,1.1,-.9,.6,.9,-1,.5,-.7,1,-1.3][i%12]}deg;animation-delay:${Math.min(i,8)*.04}s"><span class="cwin">${icon}</span><span class="clabel">${c[1]}<small>${c[2]}</small></span></button>`}).join('');
   document.querySelectorAll('.agetab').forEach(b=>b.addEventListener('click',()=>{
     AGE=+b.dataset.a;try{localStorage.setItem('bevui_age2',AGE)}catch(e){}
-    sfx('tap');say(T('Trò chơi cho bé '+AGES[AGE].say+' tuổi','Games for ages '+AGES[AGE].say));renderHome();
+    sfx('tap');say(AGES[AGE].intro||T('Trò chơi cho bé '+AGES[AGE].say+' tuổi','Games for ages '+AGES[AGE].say));renderHome();
   }));
   document.querySelectorAll('#grid .card').forEach(c=>c.addEventListener('click',()=>{say(CARDS[c.dataset.game][1]);openGame(c.dataset.game)}));
 }
@@ -5380,7 +5995,7 @@ $('#langToggle').addEventListener('click',()=>{sfx('tap');setLang(LANG==='en'?'v
 document.querySelectorAll('.langbtn').forEach(b=>{b.classList.toggle('on',b.dataset.lang===LANG);b.addEventListener('click',()=>{sfx('tap');setLang(b.dataset.lang)})});
 
 /* ---------- Navigation ---------- */
-const GAMES={connect:Connect,rain:Rain,animalQ:AnimalQ,useQ:UseQ,weatherQ:WeatherQ,pairQ:PairQ,tallQ:TallQ,posQ:PosQ,onemany:OneManyQ,tidy:Tidy,caseQ:CaseQ,jobQ:JobQ,seriate:Seriate,addsub:AddSubQ,sinkQ:SinkQ,mulQ:MulQ,measure:MeasureQ,frac:FracQ,missing:MissQ,sides:SidesQ,robot:Robot,wand:Wand,bath:Bath,dig:Dig,mud:Mud,sandbox:Sandbox,paintbub:PaintBub,castle:Castle,walk:Walk,wipe:Wipe,pump:Pump,garden:Garden,float:Float,train:Train,dance:Dance,icecream:IceCream,blocks:Blocks,flashlight:Flashlight,phone:Phone,fruitsB:FruitBoard,colorsB:ColorBoard,bodyB:BodyBoard,instr:InstrBoard,family:FamilyBoard,aqua:Aqua,daynight:DayNight,fireworks:Fireworks,eggs:Eggs,shapesB:ShapeBoard,fruitQ:FruitQ,colorQ:ColorQ,sizeQ:SizeQ,bodyQ:BodyQ,sameQ:SameQ,eatQ:EatQ,homeQ:HomeQ,count3:Count3Q,countballoon:CountBalloonQ,shapeQ:ShapeQ,csort:CSort,bigger:BiggerQ,vnletter:VNLetterQ,moreless:MoreLessQ,oddone:OddQ,opposite:OppQ,emotion:EmotionQ,nextnum:NextNumQ,whack:Whack,simon:Simon,vehq:VehQ,math20:Math20Q,compare:CompareQ,readvn:ReadVNQ,listen:ListenQ,days:DaysQ,evenodd:EvenOddQ,tens:TensQ,sudoku:Sudoku,mathrace:MathRaceQ,leftright:LeftRightQ,tap:TapFun,peek:Peek,bubbles:Bubbles,animals:AnimalBoard,vehicles:VehicleBoard,draw:Draw,race:Race,build:Build,memory:Memory,balloon:Balloon,paint:Paint,puzzle:Puzzle,abc:ABC,feed:Feed,piano:Piano,sound:SoundQ,sorter:Sorter,shadow:ShadowQ,count:CountQ,pattern:PatternQ,math:MathQ,spell:Spell,maze:Maze,clock:ClockQ};
+const GAMES={sequence:Sequence,dice:DiceQ,mixcolor:MixQ,pquiz:PQuiz,myth:MythQ,merge:Merge,slide:Slide,ptype:PType,breathe:Breathe,tug:Tug,snap:Snap,hideseek:HideSeek,mimic:Mimic,ttt:TTT,story:StoryDice,connect:Connect,rain:Rain,animalQ:AnimalQ,useQ:UseQ,weatherQ:WeatherQ,pairQ:PairQ,tallQ:TallQ,posQ:PosQ,onemany:OneManyQ,tidy:Tidy,caseQ:CaseQ,jobQ:JobQ,seriate:Seriate,addsub:AddSubQ,sinkQ:SinkQ,mulQ:MulQ,measure:MeasureQ,frac:FracQ,missing:MissQ,sides:SidesQ,robot:Robot,wand:Wand,bath:Bath,dig:Dig,mud:Mud,sandbox:Sandbox,paintbub:PaintBub,castle:Castle,walk:Walk,wipe:Wipe,pump:Pump,garden:Garden,float:Float,train:Train,dance:Dance,icecream:IceCream,blocks:Blocks,flashlight:Flashlight,phone:Phone,fruitsB:FruitBoard,colorsB:ColorBoard,bodyB:BodyBoard,instr:InstrBoard,family:FamilyBoard,aqua:Aqua,daynight:DayNight,fireworks:Fireworks,eggs:Eggs,shapesB:ShapeBoard,fruitQ:FruitQ,colorQ:ColorQ,sizeQ:SizeQ,bodyQ:BodyQ,sameQ:SameQ,eatQ:EatQ,homeQ:HomeQ,count3:Count3Q,countballoon:CountBalloonQ,shapeQ:ShapeQ,csort:CSort,bigger:BiggerQ,vnletter:VNLetterQ,moreless:MoreLessQ,oddone:OddQ,opposite:OppQ,emotion:EmotionQ,nextnum:NextNumQ,whack:Whack,simon:Simon,vehq:VehQ,math20:Math20Q,compare:CompareQ,readvn:ReadVNQ,listen:ListenQ,days:DaysQ,evenodd:EvenOddQ,tens:TensQ,sudoku:Sudoku,mathrace:MathRaceQ,leftright:LeftRightQ,tap:TapFun,peek:Peek,bubbles:Bubbles,animals:AnimalBoard,vehicles:VehicleBoard,draw:Draw,race:Race,build:Build,memory:Memory,balloon:Balloon,paint:Paint,puzzle:Puzzle,abc:ABC,feed:Feed,piano:Piano,sound:SoundQ,sorter:Sorter,shadow:ShadowQ,count:CountQ,pattern:PatternQ,math:MathQ,spell:Spell,maze:Maze,clock:ClockQ};
 const NAMES={race:T('Đua xe!',"Racing!"),build:T('Lắp ráp!',"Build it!"),memory:T('Lật thẻ!',"Memory!"),balloon:T('Bóng bay!',"Balloons!"),paint:T('Tô màu!',"Coloring!"),puzzle:T('Ghép hình!',"Puzzle!"),abc:T('Chữ cái!',"Letters!"),feed:T('Cho thú ăn!',"Feed the animals!"),piano:T('Đàn piano!',"Piano!")};
 let current=null;
 const GTINT=[['#FFF0E8','#F6D9CB'],['#FFF7D6','#F1E3A6'],['#EAF8EC','#CBE8D0'],['#E8F4FD','#C7E0F3'],['#F1ECFF','#DAD0F6'],['#FFEEF5','#F5D0E0'],['#E6F7F4','#C3E6DF']];
@@ -5393,6 +6008,18 @@ function openGame(name){
 }
 function goHome(){if(current)current.stop();current=null;CUR_GAME=null;hideWin();buddy.hide();hush();music.play('home');show('home')}
 renderHome();
+// speed button in every game's top bar (also for games added later: it is injected, not written in each section)
+const SPEED_SAY=[T('Chậm thôi!',"Slow!"),T('Vừa vừa!',"Normal!"),T('Nhanh lên!',"Fast!")];
+function paintSpeed(name){const sc=document.getElementById(name),b=sc&&sc.querySelector('.speed-btn');if(!b)return;
+  const i=SPEED_OF[name]!=null?SPEED_OF[name]:1;b.textContent=SPEEDS[i].icon;b.dataset.s=i;sc.style.setProperty('--pace',SPEEDS[i].wait)}
+document.querySelectorAll('.screen .topbar').forEach(tb=>{
+  const st=tb.querySelector('.stars');if(!st||tb.querySelector('.speed-btn'))return;
+  const b=document.createElement('button');b.className='btn-round speed-btn';b.textContent='🐇';b.setAttribute('aria-label',T('Tốc độ',"Speed"));
+  b.addEventListener('click',()=>{const id=tb.closest('.screen').id,i=((SPEED_OF[id]!=null?SPEED_OF[id]:1)+1)%3;
+    SPEED_OF[id]=i;try{localStorage.setItem('bevui_speed',JSON.stringify(SPEED_OF))}catch(e){}
+    sfx('tap');paintSpeed(id);b.classList.remove('bump');void b.offsetWidth;b.classList.add('bump');say(SPEED_SAY[i])});
+  tb.insertBefore(b,st);
+});
 document.querySelectorAll('.home-btn').forEach(b=>{
   b.addEventListener('click',()=>{sfx('tap');goHome()});
 });
@@ -5431,15 +6058,3 @@ document.addEventListener('dblclick',e=>e.preventDefault());
 </script>
 </body>
 </html>
-// speed button in every game's top bar (also for games added later: it is injected, not written in each section)
-const SPEED_SAY=[T('Chậm thôi!',"Slow!"),T('Vừa vừa!',"Normal!"),T('Nhanh lên!',"Fast!")];
-function paintSpeed(name){const sc=document.getElementById(name),b=sc&&sc.querySelector('.speed-btn');if(!b)return;
-  const i=SPEED_OF[name]!=null?SPEED_OF[name]:1;b.textContent=SPEEDS[i].icon;b.dataset.s=i;sc.style.setProperty('--pace',SPEEDS[i].wait)}
-document.querySelectorAll('.screen .topbar').forEach(tb=>{
-  const st=tb.querySelector('.stars');if(!st||tb.querySelector('.speed-btn'))return;
-  const b=document.createElement('button');b.className='btn-round speed-btn';b.textContent='🐇';b.setAttribute('aria-label',T('Tốc độ',"Speed"));
-  b.addEventListener('click',()=>{const id=tb.closest('.screen').id,i=((SPEED_OF[id]!=null?SPEED_OF[id]:1)+1)%3;
-    SPEED_OF[id]=i;try{localStorage.setItem('bevui_speed',JSON.stringify(SPEED_OF))}catch(e){}
-    sfx('tap');paintSpeed(id);b.classList.remove('bump');void b.offsetWidth;b.classList.add('bump');say(SPEED_SAY[i])});
-  tb.insertBefore(b,st);
-});
