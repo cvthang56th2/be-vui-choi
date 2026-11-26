@@ -7,11 +7,16 @@
   },
   "scripts": {
     "build": "node scripts/build.mjs",
-    "ios": "npm run build && npx cap sync ios && npx cap open ios"
+    "ios": "npm run build && npx cap sync ios && npx cap open ios",
+    "voice:harvest": "node scripts/voice-harvest.mjs",
+    "voice": "node scripts/voice-harvest.mjs && .venv-voice/bin/python scripts/gen-voice.py"
   },
   "dependencies": {
     "@capacitor/cli": "^8.6.0",
     "@capacitor/core": "^8.6.0",
     "@capacitor/ios": "^8.6.0"
+  },
+  "devDependencies": {
+    "jsdom": "^26.1.0"
   }
 }

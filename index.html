@@ -1365,7 +1365,8 @@ html,body{font-family:'Nunito',system-ui,sans-serif;background-color:var(--paper
     <label class="vcol"><span data-en="Music volume: <b id=&quot;mVolL&quot;></b>">Âm lượng nhạc: <b id="mVolL"></b></span><input type="range" id="mVol" min="0" max="0.5" step="0.02"></label>
     <div class="vsep"></div>
     <label class="vrow"><span data-en="Voice on">Bật giọng đọc</span><input type="checkbox" id="vOn"></label>
-    <label class="vcol"><span data-en="Vietnamese voice">Giọng tiếng Việt</span><select id="vVi"></select></label>
+    <label class="vrow"><span data-en="Natural Vietnamese voice (recorded)">Giọng tiếng Việt tự nhiên (thu sẵn)</span><input type="checkbox" id="vRec"></label>
+    <label class="vcol"><span data-en="Device Vietnamese voice">Giọng máy tiếng Việt</span><select id="vVi"></select></label>
     <button class="vtest" data-t="vi" data-en="▶ Test Vietnamese">▶ Nghe thử tiếng Việt</button>
     <label class="vcol"><span data-en="English voice">Giọng tiếng Anh</span><select id="vEn"></select></label>
     <button class="vtest" data-t="en" data-en="▶ Test English">▶ Nghe thử tiếng Anh</button>
@@ -1583,7 +1584,7 @@ let voices=[];
 const hasTTS='speechSynthesis' in window;
 // Novelty / robotic system voices that sound bad for kids
 const BAD=/(albert|bad news|bahh|bells|boing|bubbles|cellos|deranged|good news|hysterical|jester|junior|organ|superstar|trinoids|whisper|wobble|zarvox|fred|kathy|ralph|eddy|flo|grandma|grandpa|reed|rocko|sandy|shelley|eloquence|compact|espeak|pico)/i;
-const VS={on:true,rate:0.85,vi:'',en:''};
+const VS={on:true,rec:true,rate:0.85,vi:'',en:''};
 try{Object.assign(VS,JSON.parse(localStorage.getItem('bevui_voice')||'{}'))}catch(e){}
 function saveVS(){try{localStorage.setItem('bevui_voice',JSON.stringify(VS))}catch(e){}}
 const MS={on:true,vol:0.18};
@@ -1614,21 +1615,82 @@ function pickVoice(lang){
 }
 function loadVoices(){try{voices=speechSynthesis.getVoices()||[]}catch(e){}if(window.renderVoiceUI)renderVoiceUI()}
 if(hasTTS){loadVoices();try{speechSynthesis.onvoiceschanged=loadVoices}catch(e){}setTimeout(loadVoices,800)}
-function say(text,lang,queue,force){
-  if(!hasTTS||!text||(!VS.on&&!force))return;
-  if(lang==='vi-VN!')lang='vi-VN';else if(!lang||lang==='vi-VN')lang=LANG==='en'?'en-US':'vi-VN';
-  try{
-    if(!queue)speechSynthesis.cancel();
-    const v=pickVoice(lang),pre=lang.slice(0,2),rate=pre==='vi'?VS.rate:Math.max(.5,VS.rate-.07);
-    text.replace(/([.!?…])\s+/g,'$1\n').split('\n').filter(c=>c.trim()).forEach(c=>{
-      const u=new SpeechSynthesisUtterance(c);
-      u.lang=lang;if(v)u.voice=v;
-      u.rate=rate;u.pitch=1.0;u.volume=1;
-      speechSynthesis.speak(u);
-    });
-  }catch(e){}
+/* Recorded voice: sentences pre-recorded with KorvaTTS (scripts/gen-voice.py → audio/voice/).
+   say() splits its text into sentences; a sentence found in the manifest plays its recording, any other
+   sentence is read by the device voice. Sentences the app speaks that have no recording are listed in
+   localStorage 'bevui_voice_miss' so they can be added to scripts/voice-extra.json and recorded. */
+const vnorm=s=>s.normalize('NFC').toLowerCase().replace(/’/g,"'").replace(/[–—-]/g,' ').replace(/[^\p{L}\p{N}\p{M}\s'_]/gu,' ').replace(/\s+/g,' ').trim();
+const REC={map:null,bufs:new Map(),src:new Set(),tok:0,chain:Promise.resolve(),busy:0,gain:null};
+try{fetch('audio/voice/manifest.json').then(r=>r.ok?r.json():null).then(m=>{
+  if(m)for(const k of Object.keys(m))if(k==='_'||!Object.keys(m[k]).length)delete m[k];REC.map=m;
+}).catch(()=>{})}catch(e){}
+function recFile(pre,chunk){
+  const m=REC.map&&REC.map[pre];if(!m)return null;
+  const f=m[vnorm(chunk)];
+  if(!f&&/\p{L}/u.test(chunk)){try{const k='bevui_voice_miss',a=JSON.parse(localStorage.getItem(k)||'[]');
+    if(a.length<500&&!a.some(x=>x[1]===chunk)){a.push([pre,chunk]);localStorage.setItem(k,JSON.stringify(a))}}catch(e){}}
+  return f||null;
 }
-function hush(){if(hasTTS){try{speechSynthesis.cancel()}catch(e){}}}
+function recBuf(f){
+  if(REC.bufs.has(f))return REC.bufs.get(f);
+  const a=actx;if(!a)return Promise.resolve(null);
+  const p=fetch('audio/voice/'+f).then(r=>r.ok?r.arrayBuffer():null)
+    .then(ab=>ab?new Promise((ok,no)=>a.decodeAudioData(ab,ok,no)):null).catch(()=>null);
+  p.then(b=>{if(!b)REC.bufs.delete(f)});
+  REC.bufs.set(f,p);if(REC.bufs.size>40)REC.bufs.delete(REC.bufs.keys().next().value);  // decoded audio is ~0.4 MB per sentence; keep the last 40 (~16 MB)
+  return p;
+}
+function recPlay(buf){
+  const a=actx;
+  if(!REC.gain){REC.gain=a.createGain();REC.gain.gain.value=1;REC.gain.connect(a.destination)}
+  return new Promise(done=>{
+    const s=a.createBufferSource();s.buffer=buf;s.connect(REC.gain);
+    s.onended=()=>{REC.src.delete(s);done()};REC.src.add(s);s.start();
+    setTimeout(done,buf.duration*1000+500);  // safety net if onended never fires
+  });
+}
+function ttsSpeak(chunk,lang,voice,rate){
+  return new Promise(done=>{
+    if(!hasTTS)return done();
+    try{
+      const u=new SpeechSynthesisUtterance(chunk);
+      u.lang=lang;if(voice)u.voice=voice;u.rate=rate;u.pitch=1;u.volume=1;
+      u.onend=u.onerror=()=>done();
+      speechSynthesis.speak(u);
+      setTimeout(done,Math.max(2500,chunk.length*160));
+    }catch(e){done()}
+  });
+}
+// force: speak even when the voice is switched off (settings test buttons); 'device' also skips recordings
+function say(text,lang,queue,force){
+  if(!text||(!VS.on&&!force))return;
+  if(lang==='vi-VN!')lang='vi-VN';else if(!lang||lang==='vi-VN')lang=LANG==='en'?'en-US':'vi-VN';
+  if(!queue)hush();
+  const pre=lang.slice(0,2),v=hasTTS?pickVoice(lang):null,rate=pre==='vi'?VS.rate:Math.max(.5,VS.rate-.07);
+  const chunks=text.replace(/([.!?…])\s+/g,'$1\n').split('\n').filter(c=>c.trim());
+  const useRec=VS.rec&&force!=='device'&&audio();
+  const plan=chunks.map(c=>{const f=useRec?recFile(pre,c):null;return{c,buf:f?recBuf(f):null}});
+  if(!REC.busy&&!plan.some(p=>p.buf)){
+    // nothing recorded: speak right away, still inside the tap, which iOS needs for the first utterance
+    if(hasTTS)try{chunks.forEach(c=>{const u=new SpeechSynthesisUtterance(c);u.lang=lang;if(v)u.voice=v;u.rate=rate;u.pitch=1;u.volume=1;speechSynthesis.speak(u)})}catch(e){}
+    return;
+  }
+  const tok=REC.tok;REC.busy++;
+  REC.chain=REC.chain.then(async()=>{
+    for(let i=0;i<plan.length;i++){
+      if(tok!==REC.tok)return;
+      const b=plan[i].buf?await plan[i].buf:null;
+      if(tok!==REC.tok)return;
+      if(b&&actx&&actx.state==='running')await recPlay(b);else await ttsSpeak(plan[i].c,lang,v,rate);
+      if(i<plan.length-1&&tok===REC.tok)await new Promise(r=>setTimeout(r,120));
+    }
+  }).catch(()=>{}).finally(()=>{if(tok===REC.tok)REC.busy--});
+}
+function hush(){
+  REC.tok++;REC.chain=Promise.resolve();REC.busy=0;
+  REC.src.forEach(s=>{try{s.stop()}catch(e){}});REC.src.clear();
+  if(hasTTS){try{speechSynthesis.cancel()}catch(e){}}
+}
 
 /* ---------- Age group ---------- */
 let AGE=2;try{const a=parseInt(localStorage.getItem('bevui_age2'),10);if(a>=0&&a<=3)AGE=a}catch(e){}
@@ -2692,7 +2754,7 @@ const Piano=(()=>{
 
 /* ---------- Voice settings UI ---------- */
 (function(){
-  const box=$('#vset'),selVi=$('#vVi'),selEn=$('#vEn'),rate=$('#vRate'),rl=$('#vRateL'),on=$('#vOn'),tip=$('#vTip');
+  const box=$('#vset'),selVi=$('#vVi'),selEn=$('#vEn'),rate=$('#vRate'),rl=$('#vRateL'),on=$('#vOn'),recOn=$('#vRec'),tip=$('#vTip');
   const mOn=$('#mOn'),mVol=$('#mVol'),mVolL=$('#mVolL');
   const label=v=>{const n=v.name||'';const q=/premium|cao cấp/i.test(n)?' ⭐⭐':/enhanced|nâng cao|siri|natural|neural/i.test(n)?' ⭐':'';return n+q};
   function fill(sel,lang){
@@ -2702,7 +2764,7 @@ const Piano=(()=>{
   }
   window.renderVoiceUI=function(){
     const vi=fill(selVi,'vi-VN');fill(selEn,'en-US');
-    on.checked=VS.on;rate.value=VS.rate;rl.textContent=Math.round(VS.rate*100)+'%';
+    on.checked=VS.on;recOn.checked=VS.rec;rate.value=VS.rate;rl.textContent=Math.round(VS.rate*100)+'%';
     mOn.checked=MS.on;mVol.value=MS.vol;mVolL.textContent=Math.round(MS.vol*100)+'%';
     const good=vi.some(v=>/premium|enhanced|nâng cao|cao cấp|siri/i.test(v.name));
     tip.innerHTML=(!hasTTS?T('<b>Trình duyệt này không hỗ trợ giọng đọc.</b><br>',"<b>This browser does not support speech.</b><br>"):'')+
@@ -2712,11 +2774,12 @@ const Piano=(()=>{
   $('#gearBtn').addEventListener('click',()=>{sfx('tap');loadVoices();renderVoiceUI();box.classList.add('show')});
   $('#vClose').addEventListener('click',()=>{sfx('tap');box.classList.remove('show')});
   box.addEventListener('click',e=>{if(e.target===box)box.classList.remove('show')});
-  selVi.addEventListener('change',()=>{VS.vi=selVi.value;saveVS();say(T('Chào bé! Mình là Mít. Bé có nghe rõ không?',"Hi! I'm Mit. Can you hear me clearly?"),'vi-VN',false,true)});
-  selEn.addEventListener('change',()=>{VS.en=selEn.value;saveVS();say('Hello! Apple. Ball. Cat.','en-US',false,true)});
+  selVi.addEventListener('change',()=>{VS.vi=selVi.value;saveVS();say(T('Chào bé! Mình là Mít. Bé có nghe rõ không?',"Hi! I'm Mit. Can you hear me clearly?"),'vi-VN',false,'device')});
+  selEn.addEventListener('change',()=>{VS.en=selEn.value;saveVS();say('Hello! Apple. Ball. Cat.','en-US',false,'device')});
   rate.addEventListener('input',()=>{VS.rate=+rate.value;rl.textContent=Math.round(VS.rate*100)+'%';saveVS()});
   rate.addEventListener('change',()=>say(T('Một, hai, ba, bốn, năm.',"One, two, three, four, five."),'vi-VN',false,true));
   on.addEventListener('change',()=>{VS.on=on.checked;saveVS();if(!VS.on)hush()});
+  recOn.addEventListener('change',()=>{VS.rec=recOn.checked;saveVS();say(T('Chào bé! Mình là Mít. Bé có nghe rõ không?',"Hi! I'm Mit. Can you hear me clearly?"),'vi-VN',false,true)});
   mOn.addEventListener('change',()=>{MS.on=mOn.checked;saveMS();music.setEnabled(MS.on)});
   mVol.addEventListener('input',()=>{MS.vol=+mVol.value;mVolL.textContent=Math.round(MS.vol*100)+'%';saveMS();music.setVolume(MS.vol)});
   box.querySelectorAll('.vtest').forEach(b=>b.addEventListener('click',()=>{
@@ -2731,8 +2794,9 @@ const QC=['#FF8A65','#FFD447','#6CC4F7','#B49CFF','#74D68E','#FFAACB'];
 const PRAISE=[T('Giỏi quá!',"Great job!"),T('Đúng rồi!',"Correct!"),T('Tuyệt vời!',"Awesome!"),T('Bé thông minh quá!',"So smart!"),T('Hoan hô!',"Hooray!")];
 const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
 const ri=n=>Math.floor(Math.random()*n);
+const QUIZZES=[];  // registry, read by scripts/voice-harvest.js to collect every spoken sentence
 function makeQuiz(cfg){
-  const stage=$(cfg.stage);let round=0,lock=false,tmr=0,q=null,streak=0,gold=-1,miss=0;
+  QUIZZES.push(cfg);const stage=$(cfg.stage);let round=0,lock=false,tmr=0,q=null,streak=0,gold=-1,miss=0;
   // one surprise "golden question" (x3 stars) somewhere after the first round
   function start(){round=0;streak=0;gold=cfg.rounds>=4?1+ri(cfg.rounds-1):-1;next()}
   function next(){
