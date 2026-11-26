@@ -236,6 +236,10 @@ button{font-family:inherit;cursor:pointer}
 .cblbox .cbitem{position:relative;width:clamp(40px,7vmin,64px);transition:opacity .3s,transform .3s}
 .cblbox .cbitem .string{height:30%}
 .cblbox .cbitem.popped{opacity:0;transform:scale(.3) translateY(14px)}
+.citem.counted,.cblbox .cbitem.counted{animation:cntbump .45s ease-out}
+@keyframes cntbump{0%{scale:1}40%{scale:1.3}100%{scale:1}}
+.cblbox .cbitem.counted{transform:translateY(-10px)}
+.cblbox .cbitem .cbn{position:absolute;left:50%;top:-14px;translate:-50% 0;background:var(--ink,#2B2350);color:#fff;border-radius:50%;width:1.8em;height:1.8em;font-size:clamp(14px,2.4vmin,24px);display:flex;align-items:center;justify-content:center;animation:pop .3s;font-style:normal;font-family:var(--hf);z-index:2}
 .cop{font-size:clamp(40px,7vmin,72px);font-weight:800;color:var(--ink);padding:0 1vmin}
 .seq{display:flex;gap:1.2vmin;align-items:center;background:#fff;border-radius:30px;padding:2vmin 3vmin;box-shadow:inset 0 -4px 0 rgba(27,27,47,.12);font-size:clamp(42px,7.5vmin,86px);flex-wrap:wrap;justify-content:center;max-width:94vw}
 .seq .q{display:inline-flex;width:1.15em;height:1.15em;align-items:center;justify-content:center;border:4px dashed #A98CFF;border-radius:18px;font-size:.8em;animation:glow .7s ease-in-out infinite alternate}
@@ -280,9 +284,10 @@ button{font-family:inherit;cursor:pointer}
 .tapdeco{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:clamp(28px,5vmin,48px);font-weight:800;color:rgba(27,27,47,.25);pointer-events:none;text-align:center}
 .peekwrap{position:absolute;inset:0;display:flex;align-items:center;justify-content:space-evenly;padding:3vmin;background:linear-gradient(180deg,transparent 60%,#2B2350 60%,#2B2350 calc(60% + 4px),#9EDC8A calc(60% + 4px))}
 .spot{position:relative;width:clamp(170px,28vmin,300px);aspect-ratio:1;cursor:pointer;touch-action:none}
-.spot .ani{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:clamp(110px,18vmin,200px);transform:scale(.3) translateY(30%);opacity:0;transition:all .4s cubic-bezier(.2,1.6,.4,1)}
-.spot.open .ani{transform:scale(1);opacity:1;animation:hop .3s ease-in-out .4s 4 alternate}
-.spot .cover{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:clamp(150px,26vmin,280px);line-height:1;transition:transform .5s cubic-bezier(.3,1.4,.5,1),opacity .5s;filter:drop-shadow(inset 0 -6px 0 rgba(27,27,47,.12))}
+.spot .ani{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:clamp(110px,18vmin,200px);transform:scale(.3) translateY(30%);opacity:0;transition:all .5s cubic-bezier(.2,1.6,.4,1)}
+.spot.open .ani{transition-delay:.35s}
+.spot.open .ani{transform:scale(1);opacity:1;animation:hop .4s ease-in-out .9s 4 alternate}
+.spot .cover{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:clamp(150px,26vmin,280px);line-height:1;transition:transform .9s cubic-bezier(.3,1.3,.5,1),opacity .9s;filter:drop-shadow(inset 0 -6px 0 rgba(27,27,47,.12))}
 .spot .cover .covsvg{width:1em;height:1.08em;display:block;overflow:visible}
 .spot:not(.open) .cover{animation:wiggle 2.4s ease-in-out infinite}
 .spot:nth-child(2):not(.open) .cover{animation-delay:.8s}.spot:nth-child(3):not(.open) .cover{animation-delay:1.6s}
@@ -1644,13 +1649,24 @@ function recBuf(f){
   REC.bufs.set(f,p);if(REC.bufs.size>40)REC.bufs.delete(REC.bufs.keys().next().value);  // decoded audio is ~0.4 MB per sentence; keep the last 40 (~16 MB)
   return p;
 }
-function recPlay(buf){
+// where the sound starts/ends inside a recording (skips the silent lead-in and tail), cached per buffer
+const REC_TRIM=new WeakMap();
+function recTrim(buf){
+  let t=REC_TRIM.get(buf);if(t)return t;
+  const d=buf.getChannelData(0),sr=buf.sampleRate,th=.02;let a=0,b=d.length-1;
+  while(a<b&&Math.abs(d[a])<th)a++;while(b>a&&Math.abs(d[b])<th)b--;
+  a=Math.max(0,a-sr*.03);b=Math.min(d.length,b+sr*.06);  // keep a hair of padding so words are not clipped
+  t=[a/sr,Math.max(.05,(b-a)/sr)];REC_TRIM.set(buf,t);return t;
+}
+function recPlay(buf,fast){
   const a=actx;
   if(!REC.gain){REC.gain=a.createGain();REC.gain.gain.value=1;REC.gain.connect(a.destination)}
   return new Promise(done=>{
     const s=a.createBufferSource();s.buffer=buf;s.connect(REC.gain);
-    s.onended=()=>{REC.src.delete(s);done()};REC.src.add(s);s.start();
-    setTimeout(done,buf.duration*1000+500);  // safety net if onended never fires
+    s.onended=()=>{REC.src.delete(s);done()};REC.src.add(s);
+    let dur=buf.duration;
+    if(fast){const[off,len]=recTrim(buf);s.playbackRate.value=fast;s.start(0,off,len);dur=len/fast}else s.start();
+    setTimeout(done,dur*1000+500);  // safety net if onended never fires
   });
 }
 function ttsSpeak(chunk,lang,voice,rate){
@@ -1666,7 +1682,7 @@ function ttsSpeak(chunk,lang,voice,rate){
   });
 }
 // force: speak even when the voice is switched off (settings test buttons); 'device' also skips recordings
-function say(text,lang,queue,force){
+function say(text,lang,queue,force,opts){
   if(!text||(!VS.on&&!force))return;
   if(lang==='vi-VN!')lang='vi-VN';else if(!lang||lang==='vi-VN')lang=LANG==='en'?'en-US':'vi-VN';
   if(!queue)hush();
@@ -1676,7 +1692,13 @@ function say(text,lang,queue,force){
   const plan=chunks.map(c=>{const f=useRec?recFile(pre,c):null;return{c,buf:f?recBuf(f):null}});
   if(!REC.busy&&!plan.some(p=>p.buf)){
     // nothing recorded: speak right away, still inside the tap, which iOS needs for the first utterance
-    if(hasTTS)try{chunks.forEach(c=>{const u=new SpeechSynthesisUtterance(c);u.lang=lang;if(v)u.voice=v;u.rate=rate;u.pitch=1;u.volume=1;speechSynthesis.speak(u)})}catch(e){}
+    if(hasTTS)try{const tok=REC.tok;let t0=Date.now();
+      chunks.forEach((c,i)=>{const u=new SpeechSynthesisUtterance(c);u.lang=lang;if(v)u.voice=v;u.pitch=1;u.volume=1;
+        u.rate=opts&&opts.fast&&(!opts.fastN||i<opts.fastN)?Math.min(2,rate*(1+(opts.fast-1)*2.5)):rate;
+        // track our own utterances: speechSynthesis.speaking can stay stuck on true in some browsers
+        let fin=false;const end=()=>{if(fin)return;fin=true;if(tok===REC.tok&&TTS_LIVE>0)TTS_LIVE--};TTS_LIVE++;
+        t0+=Math.max(1500,c.length*130/rate);setTimeout(end,t0-Date.now()+1500);
+        u.onend=u.onerror=end;if(opts&&opts.onChunk)u.onstart=()=>opts.onChunk(i);speechSynthesis.speak(u)})}catch(e){}
     return;
   }
   const tok=REC.tok;REC.busy++;
@@ -1685,13 +1707,15 @@ function say(text,lang,queue,force){
       if(tok!==REC.tok)return;
       const b=plan[i].buf?await plan[i].buf:null;
       if(tok!==REC.tok)return;
-      if(b&&actx&&actx.state==='running')await recPlay(b);else await ttsSpeak(plan[i].c,lang,v,rate);
-      if(i<plan.length-1&&tok===REC.tok)await new Promise(r=>setTimeout(r,120));
+      if(opts&&opts.onChunk)try{opts.onChunk(i)}catch(e){}
+      const fast=opts&&opts.fast&&(!opts.fastN||i<opts.fastN)?opts.fast:0;
+      if(b&&actx&&actx.state==='running')await recPlay(b,fast);else await ttsSpeak(plan[i].c,lang,v,fast?Math.min(2,rate*(1+(fast-1)*2.5)):rate);
+      if(i<plan.length-1&&tok===REC.tok)await new Promise(r=>setTimeout(r,(opts&&opts.gap)||120));
     }
   }).catch(()=>{}).finally(()=>{if(tok===REC.tok)REC.busy--});
 }
 function hush(){
-  REC.tok++;REC.chain=Promise.resolve();REC.busy=0;
+  REC.tok++;TTS_LIVE=0;REC.chain=Promise.resolve();REC.busy=0;
   REC.src.forEach(s=>{try{s.stop()}catch(e){}});REC.src.clear();
   if(hasTTS){try{speechSynthesis.cancel()}catch(e){}}
 }
@@ -1810,10 +1834,11 @@ function win(msg,again){
   confetti();$('#winmsg').textContent=msg;$('#win').classList.add('show');winAgainFn=again;
   buddy.hide();
   const earned=Math.max(0,stars-gameStars);gameStars=stars;
+let TTS_LIVE=0;
   $('#winEarn').textContent=`+${earned} ⭐`;$('#winEarn').style.display=earned?'':'none';
   // gift box: tap (or wait) to open and reveal a sticker
   const g=$('#winSticker'),got=$('#winGot');g.textContent='🎁';g.classList.remove('open');got.textContent=T('Chạm để mở quà!',"Tap to open your gift!");
-  pendingGift=awardSticker();clearTimeout(giftT);giftT=setTimeout(openGift,2600);
+  pendingGift=awardSticker();clearTimeout(giftT);giftT=afterSay(openGift,2600,500);
 }
 let pendingGift=null,giftT=0,gameStars=0;
 function openGift(){
@@ -1868,8 +1893,8 @@ const Race=(()=>{
     if(o.n===targetN){
       sfx('ding');got++;total++;addStar();speed+=10;
       pops.push({x:laneX(o.lane),y:o.y,t:0,text:'+⭐'});
-      if(total>=GOAL){running=false;draw();setTimeout(()=>win(T('Về đích rồi! 🏁',"Finish line! 🏁"),start),350);return}
-      if(got>=3){say(T('Tuyệt vời!',"Awesome!"));setTimeout(()=>{if(running)newTarget()},900)}
+      if(total>=GOAL){running=false;draw();afterSay(()=>win(T('Về đích rồi! 🏁',"Finish line! 🏁"),start),600,300);return}
+      if(got>=3){say(T('Tuyệt vời!',"Awesome!"));afterSay(()=>{if(running)newTarget()},1200,400)}
       else say(T('Đúng rồi! Số ',"Correct! Number ")+NUMW[o.n]);
     }else{
       sfx('boing');
@@ -1881,6 +1906,33 @@ const Race=(()=>{
     const v=speed*(slowT>0?.4:1);
     slowT=Math.max(0,slowT-dt);wobble*=Math.pow(.2,dt);
     scroll+=v*dt;
+/* Pacing: little ones need time to hear the voice before the game moves on.
+   afterSay(fn,ms) runs fn after at least ms AND once the voice has gone quiet (+ a short breath).
+   Its handle works with clearTimeout like a normal timer id. */
+const isSpeaking=()=>REC.busy>0||TTS_LIVE>0;
+const SAY_WAIT=new Map(),_clearT=window.clearTimeout.bind(window);
+window.clearTimeout=id=>{const c=SAY_WAIT.get(id);if(c!==undefined){SAY_WAIT.delete(id);_clearT(c)}_clearT(id)};
+function afterSay(fn,ms,pad=700){
+  const t0=Date.now();let quiet=0;
+  const h=setTimeout(function tick(){
+    if(!SAY_WAIT.has(h))return;
+    const late=Date.now()-t0>ms+12000;  // never hang if a voice engine forgets to report the end
+    if(!late&&isSpeaking()){quiet=0;SAY_WAIT.set(h,setTimeout(tick,150));return}
+    if(!late&&!quiet){quiet=1;SAY_WAIT.set(h,setTimeout(tick,pad));return}
+    SAY_WAIT.delete(h);fn();
+  },ms);
+  SAY_WAIT.set(h,h);return h;
+}
+/* Count items one by one in step with the voice: "Một! Hai! Ba! …" then a closing sentence.
+   mark(i) is called as each number is spoken (timers stand in when the voice is off). */
+function countAlong(n,mark,closing,gap=260,step=800,fast=0){
+  const seen=new Set(),hit=i=>{if(i<n&&!seen.has(i)){seen.add(i);for(let k=0;k<i;k++)hit(k);mark(i)}};
+  const words=NUMW.slice(1,n+1).map(w=>cap(w)+'!');
+  const fb=[],byTimer=()=>{for(let i=0;i<n;i++)fb.push(setTimeout(()=>hit(i),i*step))};
+  if(!VS.on)byTimer();else fb.push(setTimeout(()=>{if(!seen.size)byTimer()},2500));  // voice silent? count on timers instead
+  say(words.join(' ')+(closing?' '+closing:''),undefined,false,false,{gap,fast,fastN:n,onChunk:i=>hit(i)});
+  return{cancel:()=>fb.forEach(clearTimeout)};
+}
     carX+=(laneX(lane)-carX)*Math.min(1,dt*12);
     spawnT-=dt;if(spawnT<=0){spawn();spawnT=rand(1.0,1.6)*(260/speed)}
     const cy=carY();
@@ -2136,7 +2188,7 @@ const Build=(()=>{
     setTimeout(()=>{
       slotsG.style.opacity=0;say(T('Hoàn thành ',"You finished ")+bp.name+T('! Hoan hô!',"! Hooray!"));
       sfx('win');asm.classList.add(bp.anim);
-      setTimeout(()=>win(T('Bé đã lắp xong ',"You built ")+bp.name+'! '+bp.icon,showPicker),2300);
+      afterSay(()=>win(T('Bé đã lắp xong ',"You built ")+bp.name+'! '+bp.icon,showPicker),2800);
     },450);
   }
   return{start:showPicker,stop:()=>{drag=null}};
@@ -2187,14 +2239,14 @@ const Memory=(()=>{
       setTimeout(()=>{sfx('ding');f.c.classList.add('matched');c.classList.add('matched')},350);
       if(matched===pairs){
         lock=true;
-        timer=setTimeout(()=>{
+        timer=afterSay(()=>{
           const next=()=>{level=Math.min(LEVELS.length-1,level+1);deal()};
           win(level<LEVELS.length-1?T('Bé tìm hết rồi! Lên cấp nhé!',"You found them all! Next level!"):T('Bé nhớ siêu giỏi!',"Super memory!"),next);
         },1600);
       }
     }else{
       lock=true;
-      timer=setTimeout(()=>{f.c.classList.remove('flipped');c.classList.remove('flipped');lock=false},1300);
+      timer=setTimeout(()=>{f.c.classList.remove('flipped');c.classList.remove('flipped');lock=false},1800);
     }
   }
   return{start:()=>{level=[0,0,0,1][AGE];deal()},stop:()=>clearTimeout(timer),resize:layout};
@@ -2253,8 +2305,8 @@ const Balloon=(()=>{
       t.style.left=cx+'px';t.style.top=cy+'px';stage.appendChild(t);setTimeout(()=>t.remove(),1000);
       if(count>=PER){
         round++;waiting=true;say(cap(NUMW[count])+T('! Giỏi lắm!',"! Well done!"));
-        if(round>=ROUNDS){setTimeout(()=>{running=false;win(T('Bé biết rất nhiều màu sắc! 🎈',"You know so many colors! 🎈"),start)},900)}
-        else setTimeout(()=>{if(running)newTarget()},1600);
+        if(round>=ROUNDS){afterSay(()=>{running=false;win(T('Bé biết rất nhiều màu sắc! 🎈',"You know so many colors! 🎈"),start)},1200)}
+        else afterSay(()=>{if(running)newTarget()},2000);
       }else say(cap(NUMW[count])+'!');
     }else{
       const bb=b.el.querySelector('.bb');bb.classList.remove('no');void bb.offsetWidth;bb.classList.add('no');
@@ -2693,7 +2745,7 @@ const ABC=(()=>{
       rv.innerHTML=`<span style="color:#4FC9BC">${cur[0]}${cur[0].toLowerCase()}</span> · ${cur[1]} · <span style="color:#A98CFF">${cur[3]}</span>`;rv.classList.add('show');
       say(cur[0]+'. '+cur[1],'en-US');say(cur[3],'vi-VN!',true);
       round++;stage.querySelectorAll('.dots i')[round-1].classList.add('on');
-      tmr=setTimeout(()=>round>=ROUNDS?win(T('Bé biết nhiều chữ cái quá! 🔤',"You know so many letters! 🔤"),start):next(),3000);
+      tmr=afterSay(()=>round>=ROUNDS?win(T('Bé biết nhiều chữ cái quá! 🔤',"You know so many letters! 🔤"),start):next(),3000);
     }else{
       b.classList.remove('no');void b.offsetWidth;b.classList.add('no');sfx('boing');
       say(L,'en-US');say(T('Không phải rồi, thử lại nhé!',"Not that one, try again!"),'vi-VN',true);
@@ -2732,7 +2784,7 @@ const Feed=(()=>{
     if(count===need){
       lock=true;addStar();round++;
       setTimeout(()=>{sfx('ding');an.classList.add('happy');say(cap(pair[2])+T(' no rồi! Cảm ơn bé!'," is full! Thank you!"))},600);
-      tmr=setTimeout(()=>round>=ROUNDS?win(T('Các bạn thú no căng bụng rồi! 🍽️',"All the animals are full! 🍽️"),start):next(),2800);
+      tmr=afterSay(()=>round>=ROUNDS?win(T('Các bạn thú no căng bụng rồi! 🍽️',"All the animals are full! 🍽️"),start):next(),3200);
     }
   }
   return{start,stop:()=>clearTimeout(tmr)};
@@ -2862,7 +2914,7 @@ function makeQuiz(cfg){
       buddy.react('yay',g?T('Câu vàng! ×3','Gold! ×3'):pickOne(PRAISE));
       let d=1600;if(q.onCorrect)d=q.onCorrect(stage)||1800;else say(pickOne(PRAISE));
       round++;const dd=stage.querySelectorAll('.dots i');if(dd[round-1])dd[round-1].classList.add('on');
-      tmr=setTimeout(()=>round>=cfg.rounds?win(cfg.winMsg,start):next(),d);
+      tmr=afterSay(()=>round>=cfg.rounds?win(cfg.winMsg,start):next(),d);
     }else{
       b.classList.remove('no');void b.offsetWidth;b.classList.add('no');sfx('boing');miss++;streak=0;
       setTimeout(()=>b.classList.add('out'),380);// fade the wrong choice so the next try is easier
@@ -2904,8 +2956,9 @@ const CountQ=makeQuiz({id:'count',stage:'#cstage',rounds:8,winMsg:T('Bé đếm 
     prompt:T(`🔊 Có bao nhiêu ${it[0]}?`,`🔊 How many ${it[0]}?`),speech:T(`Có bao nhiêu ${it[1]} nhỉ?`,`How many ${pl(it[1],2)} are there?`),
     options:shuffle([...opts]).map(m=>({html:m,correct:m===n,say:T('Chưa đúng. Bé chỉ tay đếm lại nhé!',"Not quite. Point and count again!")})),
     onCorrect(st){
-      st.querySelectorAll('.citem').forEach((e,i)=>setTimeout(()=>e.insertAdjacentHTML('beforeend',`<b>${i+1}</b>`),i*450));
-      say(NUMW.slice(1,n+1).map(cap).join(', ')+T('. Có '+NUMW[n]+' '+it[1]+'!','. '+cap(NUMW[n])+' '+pl(it[1],n)+'!'));return n*450+1700}};
+      const els=[...st.querySelectorAll('.citem')];
+      countAlong(n,i=>{const e=els[i];if(e){e.insertAdjacentHTML('beforeend',`<b>${i+1}</b>`);e.classList.add('counted');tone(500+i*60,.12,'triangle',.1)}},
+        T('Có '+NUMW[n]+' '+it[1]+'!',cap(NUMW[n])+' '+pl(it[1],n)+'!'),30,550,1.1);return 1500}};
 }});
 
 /* ---------- 4–5: QUY LUẬT ---------- */
@@ -2974,7 +3027,7 @@ const Sorter=(()=>{
     if(hole&&hole.dataset.k===k&&!hole.dataset.done){
       hole.dataset.done=1;hole.innerHTML=el.innerHTML;hole.classList.add('filled');el.remove();
       sfx('snap');addStar();say(cap(SH[k][0])+T('! Vừa khít!',"! Perfect fit!"));left--;
-      if(!left){round++;tmr=setTimeout(()=>{if(round>=ROUNDS)win(T('Bé xếp hình giỏi quá! 🔺',"Great shape sorting! 🔺"),start);else{sfx('ding');say(pickOne(PRAISE));next()}},1400)}
+      if(!left){round++;tmr=afterSay(()=>{if(round>=ROUNDS)win(T('Bé xếp hình giỏi quá! 🔺',"Great shape sorting! 🔺"),start);else{sfx('ding');say(pickOne(PRAISE));next()}},1400)}
     }else{back();if(hole){sfx('boing');say(T('Không vừa rồi, bé thử lỗ khác nhé!',"It doesn't fit, try another hole!"))}}
   }
   return{start,stop:()=>clearTimeout(tmr)};
@@ -3010,7 +3063,7 @@ const Spell=(()=>{
       if(pos===w[0].length){
         lock=true;sfx('ding');addStar();round++;stage.querySelectorAll('.dots i')[round-1].classList.add('on');
         setTimeout(()=>{say(w[0].split('').join(', ')+'. '+w[0].toLowerCase()+'!','en-US');say(cap(w[2])+'!','vi-VN!',true)},350);
-        tmr=setTimeout(()=>round>=ROUNDS?win(T('Bé đánh vần giỏi quá! 🔡',"Great spelling! 🔡"),start):next(),4200);
+        tmr=afterSay(()=>round>=ROUNDS?win(T('Bé đánh vần giỏi quá! 🔡',"Great spelling! 🔡"),start):next(),4200);
       }
     }else{b.classList.remove('no');void b.offsetWidth;b.classList.add('no');sfx('boing');say(L,'en-US')}
   }
@@ -3063,7 +3116,7 @@ const Maze=(()=>{
     sfx('tap');draw();
     if(px===n-1&&py===n-1){
       done=true;sfx('ding');addStar(2);say(T('Về đến nhà rồi! Giỏi quá!',"You made it home! Great job!"));level++;
-      tmr=setTimeout(()=>level>=3?win(T('Bé thoát mê cung giỏi quá! 🌀',"You escaped the maze! 🌀"),start):build(),1700);
+      tmr=afterSay(()=>level>=3?win(T('Bé thoát mê cung giỏi quá! 🌀',"You escaped the maze! 🌀"),start):build(),2000);
     }
   }
   function draw(){
@@ -3121,9 +3174,9 @@ const Peek=(()=>{
     stage.querySelectorAll('.spot').forEach(sp=>sp.addEventListener('pointerdown',e=>{
       e.preventDefault();if(sp.classList.contains('open'))return;
       const a=pickOne(SOUNDS);sp.querySelector('.ani').textContent=a[0];sp.classList.add('open');
-      audio();tone(300,.35,'sine',.22,0,3);tone(1200,.2,'triangle',.12,.3);addStar();
-      say(T(`Ú òa! ${a[1]}! ${a[2]}!`,`Peekaboo! ${a[1]}! ${a[2]}!`));
-      timers.push(setTimeout(()=>sp.classList.remove('open'),2800));
+      audio();tone(300,.6,'sine',.22,0,3);tone(1200,.2,'triangle',.12,.7);addStar();
+      timers.push(setTimeout(()=>{say(T(`Ú òa! ${a[1]}! ${a[2]}!`,`Peekaboo! ${a[1]}! ${a[2]}!`));
+        timers.push(afterSay(()=>sp.classList.remove('open'),3500,1200))},500));
     }));
     setPrompt('peek',T('🙈 Ai trốn trong này nhỉ?',"🙈 Who's hiding in here?"),T('Ai đang trốn trong này nhỉ? Bé chạm vào xem nào!',"Who's hiding in here? Tap to see!"));
   }
@@ -3398,7 +3451,7 @@ const Eggs=(()=>{
       if(s<3){say(s===1?T('Cốc!',"Knock!"):T('Cốc cốc!',"Knock knock!"));return}
       const a=pickOne(HB);eg.querySelector('.baby').textContent=a[0];
       timers.push(setTimeout(()=>{eg.classList.add('hatched');audio();tone(400,.4,'sine',.2,0,2.5);addStar();say(T(`Ồ! ${a[1]} chui ra rồi!`,`Oh! A ${a[1].toLowerCase()} came out!`))},250));
-      timers.push(setTimeout(()=>{eg.classList.remove('hatched');eg.dataset.s=0;eg.querySelectorAll('.ck').forEach(c=>c.style.opacity=0)},4200));
+      timers.push(afterSay(()=>{eg.classList.remove('hatched');eg.dataset.s=0;eg.querySelectorAll('.ck').forEach(c=>c.style.opacity=0)},4800,1200));
     }));
     setPrompt('eggs',T('🥚 Gõ vào trứng xem ai chui ra!',"🥚 Tap the eggs to see who hatches!"),T('Bé gõ vào quả trứng ba lần xem ai chui ra nhé!',"Tap an egg three times to see who comes out!"));
   }
@@ -3451,11 +3504,13 @@ const Count3Q=makeQuiz({id:'count3',stage:'#c3stage',rounds:6,winMsg:T('Bé đ�
   const n=1+ri(3),it=pickOne(COUNTI);
   return{html:`<div class="cbox">${[...Array(n)].map(()=>`<span class="citem">${it[0]}</span>`).join('')}</div>`,prompt:T(`🔊 Có mấy ${it[0]}?`,`🔊 How many ${it[0]}?`),speech:T(`Có mấy ${it[1]} nhỉ?`,`How many ${pl(it[1],2)}?`),
     options:[1,2,3].map(m=>({html:m,correct:m===n,say:T('Bé chỉ tay đếm lại nhé!',"Point and count again!")})),
-    onCorrect(st){st.querySelectorAll('.citem').forEach((e,i)=>setTimeout(()=>e.insertAdjacentHTML('beforeend',`<b>${i+1}</b>`),i*500));say(NUMW.slice(1,n+1).map(cap).join(', ')+'!');return n*500+1500}};
+    onCorrect(st){const els=[...st.querySelectorAll('.citem')];
+      countAlong(n,i=>{const e=els[i];if(e){e.insertAdjacentHTML('beforeend',`<b>${i+1}</b>`);e.classList.add('counted');tone(500+i*60,.12,'triangle',.1)}},
+        T('Có '+NUMW[n]+' '+it[1]+'!',cap(NUMW[n])+' '+pl(it[1],n)+'!'),30,550,1.1);return 1500}};
 }});
 const CountBalloonQ=(()=>{
   let popTmrs=[];
-  function clearPops(){popTmrs.forEach(clearTimeout);popTmrs=[]}
+  function clearPops(){popTmrs.forEach(t=>t&&t.c?t.c.cancel():clearTimeout(t));popTmrs=[]}
   const q=makeQuiz({id:'countballoon',stage:'#cblstage',rounds:8,winMsg:T('Bé đếm bóng bay giỏi quá! 🎈',"Great balloon counting! 🎈"),gen(){
     const n=1+ri(10),opts=new Set([n]);
     while(opts.size<3){const m=n+ri(5)-2;if(m>=1&&m<=Math.max(10,n+2))opts.add(m)}
@@ -3464,15 +3519,16 @@ const CountBalloonQ=(()=>{
       options:shuffle([...opts]).map(m=>({html:m,correct:m===n,say:T('Chưa đúng. Bé chỉ tay đếm lại nhé!',"Not quite. Point and count again!")})),
       onCorrect(st){
         clearPops();
-        const items=[...st.querySelectorAll('.cbitem')],sr=st.getBoundingClientRect();
-        items.forEach((e,i)=>{
-          popTmrs.push(setTimeout(()=>{
-            if(current!==CountBalloonQ)return;
-            const r=e.getBoundingClientRect();sparks(st,r.left-sr.left+r.width/2,r.top-sr.top+r.height*.4,e.dataset.c,10);sfx('pop');e.classList.add('popped');
-          },i*140));
-        });
-        say(NUMW.slice(1,n+1).map(cap).join(', ')+T('. Có '+NUMW[n]+' quả bóng bay!','. There '+(n===1?'is':'are')+' '+NUMW[n]+' '+pl('balloon',n)+'!'));
-        return items.length*140+1700;
+        const items=[...st.querySelectorAll('.cbitem')];
+        const popAll=()=>{if(current!==CountBalloonQ)return;const sr=st.getBoundingClientRect();
+          items.forEach((e,i)=>popTmrs.push(setTimeout(()=>{if(current!==CountBalloonQ)return;
+            const r=e.getBoundingClientRect();sparks(st,r.left-sr.left+r.width/2,r.top-sr.top+r.height*.4,e.dataset.c,10);sfx('pop');e.classList.add('popped')},i*90)))};
+        const c=countAlong(n,i=>{const e=items[i];if(!e||current!==CountBalloonQ)return;
+            e.classList.add('counted');e.insertAdjacentHTML('beforeend',`<b class="cbn">${i+1}</b>`);tone(520+i*50,.12,'triangle',.12);
+            if(i===n-1)popTmrs.push(setTimeout(popAll,900))},
+          T('Có '+NUMW[n]+' quả bóng bay!','There '+(n===1?'is':'are')+' '+NUMW[n]+' '+pl('balloon',n)+'!'),30,550,1.1);
+        popTmrs.push({c});
+        return 2000;
       }};
   }});
   const stop0=q.stop;q.stop=()=>{clearPops();stop0()};
@@ -3500,7 +3556,7 @@ const CSort=(()=>{
     if(bk&&+bk.dataset.c===ci){
       const e=el.textContent;el.remove();bk.querySelector('.bkin').insertAdjacentHTML('beforeend',`<span>${e}</span>`);
       bk.classList.remove('ok');void bk.offsetWidth;bk.classList.add('ok');sfx('snap');addStar();say(T('Màu ',"")+cols[ci][0]+'!');left--;
-      if(!left){round++;tmr=setTimeout(()=>round>=ROUNDS?win(T('Bé xếp màu giỏi quá! 🧺',"Great color sorting! 🧺"),start):(sfx('ding'),say(pickOne(PRAISE)),next()),1300)}
+      if(!left){round++;tmr=afterSay(()=>round>=ROUNDS?win(T('Bé xếp màu giỏi quá! 🧺',"Great color sorting! 🧺"),start):(sfx('ding'),say(pickOne(PRAISE)),next()),1500)}
     }else{back();if(bk){sfx('boing');say(T('Cái này màu ',"This one is ")+cols[ci][0]+T(' mà!',"!"))}}
   }
   return{start,stop:()=>clearTimeout(tmr)};
@@ -3570,18 +3626,18 @@ const Whack=(()=>{
       e.preventDefault();if(!m.classList.contains('up')||m.dataset.hit)return;const n=+m.dataset.n;
       if(n===target){m.dataset.hit=1;m.classList.add('bonk');m.querySelector('.mn').textContent='⭐';sfx('ding');addStar();hits++;
         setTimeout(()=>m.classList.remove('up'),250);setPrompt('whack',T(`🔊 Đập chuột số <b style="color:#FF7A6B;font-size:1.2em">${target}</b> &nbsp;${hits}/${GOAL}`,`🔊 Bop number <b style="color:#FF7A6B;font-size:1.2em">${target}</b> &nbsp;${hits}/${GOAL}`));
-        if(hits>=GOAL){run=false;stop();setTimeout(()=>win(T('Bé đập chuột giỏi quá! 🐹',"Great bopping! 🐹"),start),500);return}
-        if(hits%4===0)setTimeout(newTarget,400);else say(pickOne([T('Bốp!',"Bop!"),T('Trúng rồi!',"Got it!"),T('Giỏi!',"Nice!")]));
+        if(hits>=GOAL){run=false;stop();afterSay(()=>win(T('Bé đập chuột giỏi quá! 🐹',"Great bopping! 🐹"),start),700,300);return}
+        if(hits%4===0)timers.push(afterSay(newTarget,500,200));else say(pickOne([T('Bốp!',"Bop!"),T('Trúng rồi!',"Got it!"),T('Giỏi!',"Nice!")]));
       }else{sfx('boing');say(T('Đây là số ',"This is number ")+viNum(n)+'!')}
     }));
-    newTarget();tick=setInterval(pop,800);
+    newTarget();tick=setInterval(pop,1000);
   }
   function newTarget(){if(!run)return;let t;do{t=1+ri(9)}while(t===target);target=t;
     setPrompt('whack',T(`🔊 Đập chuột số <b style="color:#FF7A6B;font-size:1.2em">${target}</b> &nbsp;${hits}/${GOAL}`,`🔊 Bop number <b style="color:#FF7A6B;font-size:1.2em">${target}</b> &nbsp;${hits}/${GOAL}`),T(`Bé đập chú chuột có số ${viNum(target)} nhé!`,`Bop the mouse with number ${viNum(target)}!`))}
   function pop(){
     if(!run)return;const free=[...stage.querySelectorAll('.mole:not(.up)')];if(!free.length)return;
     const m=pickOne(free),n=Math.random()<.45?target:1+ri(9);m.dataset.n=n;delete m.dataset.hit;m.classList.remove('bonk');m.querySelector('.mn').textContent=n;m.classList.add('up');
-    timers.push(setTimeout(()=>m.classList.remove('up'),rand(1500,2100)));
+    timers.push(setTimeout(()=>m.classList.remove('up'),rand(2000,2800)));
   }
   function stop(){run=false;clearInterval(tick);timers.forEach(clearTimeout);timers=[]}
   return{start,stop};
@@ -3596,14 +3652,14 @@ const Simon=(()=>{
     seq=[ri(4),ri(4)];timers.push(setTimeout(play,900));
     setPrompt('simon',T('🔊 Nhìn kỹ rồi bấm lại theo thứ tự',"🔊 Watch, then tap in the same order"),T('Bé nhìn và nghe thật kỹ, rồi bấm lại theo đúng thứ tự nhé!',"Watch and listen carefully, then tap in the same order!"));
   }
-  function play(){lock=true;pos=0;seq.forEach((k,j)=>timers.push(setTimeout(()=>light(k,520),j*700)));timers.push(setTimeout(()=>{lock=false;say(T('Đến lượt bé!',"Your turn!"))},seq.length*700+100))}
+  function play(){lock=true;pos=0;seq.forEach((k,j)=>timers.push(setTimeout(()=>light(k,600),j*850)));timers.push(setTimeout(()=>{lock=false;say(T('Đến lượt bé!',"Your turn!"))},seq.length*850+150))}
   function press(i){
     if(lock)return;light(i,300);
-    if(i!==seq[pos]){lock=true;sfx('boing');say(T('Ôi, chưa đúng. Mình xem lại nhé!',"Oops, not quite. Let's watch again!"));timers.push(setTimeout(play,1600));return}
+    if(i!==seq[pos]){lock=true;sfx('boing');say(T('Ôi, chưa đúng. Mình xem lại nhé!',"Oops, not quite. Let's watch again!"));timers.push(afterSay(play,1600,500));return}
     pos++;
     if(pos===seq.length){lock=true;addStar();
       if(seq.length>=GOAL){timers.push(setTimeout(()=>win(T('Bé có trí nhớ siêu giỏi! 🎵',"Amazing memory! 🎵"),start),600));return}
-      say(pickOne(PRAISE));seq.push(ri(4));timers.push(setTimeout(play,1400));
+      say(pickOne(PRAISE));seq.push(ri(4));timers.push(afterSay(play,1400,500));
     }
   }
   function stop(){timers.forEach(clearTimeout);timers=[];lock=true}
@@ -3708,7 +3764,7 @@ const Sudoku=(()=>{
     if(sel<0)return;const c=cell(sel);
     if(sol[sel]===k){grid[sel]=k;c.textContent=sym[k];c.classList.add('given','ok');c.classList.remove('sel');sfx('snap');
       const nx=grid.indexOf(-1);
-      if(nx<0){addStar(3);round++;sfx('ding');say(T('Hoàn thành! Giỏi quá!',"Done! Great job!"));sel=-1;tmr=setTimeout(()=>round>=ROUNDS?win(T('Bé giải Sudoku siêu giỏi! 🔲',"Sudoku superstar! 🔲"),start):next(),1600)}
+      if(nx<0){addStar(3);round++;sfx('ding');say(T('Hoàn thành! Giỏi quá!',"Done! Great job!"));sel=-1;tmr=afterSay(()=>round>=ROUNDS?win(T('Bé giải Sudoku siêu giỏi! 🔲',"Sudoku superstar! 🔲"),start):next(),1800)}
       else select(nx);
     }else{c.textContent=sym[k];c.classList.remove('no');void c.offsetWidth;c.classList.add('no');sfx('boing');
       say(T('Hình này đã có trong hàng, cột hoặc ô vuông rồi. Thử hình khác nhé!',"That picture is already in this row, column or box. Try another one!"));setTimeout(()=>{if(grid[sel]<0&&cell(sel)===c)c.textContent=''},600)}
@@ -3770,7 +3826,7 @@ const Wipe=(()=>{
     const d=ctx.getImageData(0,0,W,H).data;let clear=0,tot=0;
     for(let yy=10;yy<H;yy+=24)for(let xx=10;xx<W;xx+=24){tot++;if(d[(yy*W+xx)*4+3]<40)clear++}
     if(clear/tot>.6){done=true;cv.style.transition='opacity .5s';cv.style.opacity=0;stage.querySelector('.wipepic').classList.add('show');
-      audio();[523,659,784].forEach((f,i)=>tone(f,.25,'triangle',.18,i*.12));addStar();say(T(`Ú òa! ${cur[1]}!`,`Peekaboo! ${cur[1]}!`));tmr=setTimeout(start,3200)}
+      audio();[523,659,784].forEach((f,i)=>tone(f,.25,'triangle',.18,i*.12));addStar();say(T(`Ú òa! ${cur[1]}!`,`Peekaboo! ${cur[1]}!`));tmr=afterSay(start,3800,1200)}
   }
   return{start,stop:()=>clearTimeout(tmr)};
 })();
@@ -3791,7 +3847,7 @@ const Pump=(()=>{
       e.preventDefault();if(busy)return;size++;const b=stage.querySelector('.pballoon');
       b.style.transform=`translateX(-50%) scale(${.25+size*.15})`;audio();tone(300+size*60,.25,'sawtooth',.05,0,1.5);
       if(size>=6){busy=true;b.style.bottom=getComputedStyle(b).bottom;void b.offsetWidth;b.classList.add('fly');addStar();
-        say(T(`${b.dataset.r} bay lên trời rồi!`,`${b.dataset.r} is flying into the sky!`));[523,659,784,1046].forEach((f,i)=>tone(f,.3,'triangle',.15,i*.15));tmr.push(setTimeout(newBalloon,2600))}
+        say(T(`${b.dataset.r} bay lên trời rồi!`,`${b.dataset.r} is flying into the sky!`));[523,659,784,1046].forEach((f,i)=>tone(f,.3,'triangle',.15,i*.15));tmr.push(afterSay(newBalloon,3000,900))}
       else if(size===3)say(T('To hơn nữa!',"Bigger!"));
     });
     setPrompt('pump',T('💨 Bấm để bơm bóng!',"💨 Tap to pump the balloon!"),T('Bé bấm nút để bơm bóng bay nhé!',"Tap the button to pump up the balloon!"));
@@ -3869,7 +3925,7 @@ const IceCream=(()=>{
     audio();tone(pickOne(PENTA),.3,'sine',.2,0,.7);say(F[i][2]+'!');
     if(n>=5){busy=true;tmr.push(setTimeout(()=>{c.insertAdjacentHTML('beforeend','<div class="cherry">🍒</div>');say(T('Cây kem to quá! Măm măm!',"What a big ice cream! Yum yum!"));addStar(2)},700));
       tmr.push(setTimeout(()=>{[...c.querySelectorAll('.scoop,.cherry')].reverse().forEach((el,k)=>tmr.push(setTimeout(()=>{el.classList.add('eat');audio();tone(200,.1,'square',.06)},k*350)))},2200));
-      tmr.push(setTimeout(start,4800))}
+      tmr.push(afterSay(start,5200,900))}
   }
   return{start,stop:()=>{tmr.forEach(clearTimeout);tmr=[]}};
 })();
@@ -3887,7 +3943,7 @@ const Blocks=(()=>{
       if(n>=7||H*.88-bs*(n+1)<0){busy=true;addStar(2);
         tmr.push(setTimeout(()=>{say(T('Ối! Đổ rồi! Hi hi!',"Oops! It fell down! Hee hee!"));audio();for(let i=0;i<6;i++)tone(rand(100,260),.25,'square',.06,i*.07);
           w.querySelectorAll('.blk').forEach(k=>{k.classList.add('fall');k.style.top=(H+bs)+'px';k.style.transform=`translateX(${rand(-W*.4,W*.4)}px) rotate(${rand(-200,200)}deg)`})},1100));
-        tmr.push(setTimeout(start,2600))}
+        tmr.push(afterSay(start,3000,900))}
     });
     setPrompt('blocks',T('🧱 Chạm để xếp tháp thật cao!',"🧱 Tap to build a tall tower!"),T('Bé chạm vào màn hình để xếp khối thành tháp nhé!',"Tap the screen to stack blocks into a tower!"));
   }
@@ -3903,7 +3959,7 @@ const Flashlight=(()=>{
       el.style.left=x+'px';el.style.top=y+'px';w.insertBefore(el,dk);hid.push({el,a,x,y,f:false})});
     const mv=(x,y)=>{dk.style.setProperty('--x',x+'px');dk.style.setProperty('--y',y+'px');
       for(const h of hid){if(!h.f&&Math.hypot(h.x-x,h.y-y)<R*.75){h.f=true;h.el.classList.add('found');audio();tone(pickOne(PENTA),.35,'triangle',.2);addStar();say(T(`Tìm thấy ${h.a[1]}!`,`Found the ${h.a[1]}!`));
-        if(hid.every(q=>q.f)){tmr=setTimeout(()=>{say(T('Bé tìm được hết rồi! Giỏi quá!',"You found everyone! Great job!"));sfx('win');tmr=setTimeout(start,2500)},1300)}}}};
+        if(hid.every(q=>q.f)){tmr=afterSay(()=>{say(T('Bé tìm được hết rồi! Giỏi quá!',"You found everyone! Great job!"));sfx('win');tmr=afterSay(start,3000,1000)},1300,400)}}}};
     dk.style.setProperty('--r',R+'px');mv(r.width/2,r.height/2);
     w.addEventListener('pointerdown',e=>{e.preventDefault();const b=w.getBoundingClientRect();mv(e.clientX-b.left,e.clientY-b.top)});
     w.addEventListener('pointermove',e=>{const b=w.getBoundingClientRect();mv(e.clientX-b.left,e.clientY-b.top)});
@@ -4397,7 +4453,7 @@ const PaintBub=(()=>{
     done=true;tmr.push(setTimeout(()=>{
       wrap.querySelector('.pb2-frame').classList.add('on');confetti(40);addStar(2);say(T('Đẹp quá!','So pretty!'));buddy.react('yay',T('Đẹp quá!','So pretty!'));
       audio();[523,659,784,1047].forEach((f,i)=>tone(f,.3,'triangle',.18,i*.13));
-      tmr.push(setTimeout(()=>{cv.classList.add('pb2-fade');tmr.push(setTimeout(fresh,700))},3000));
+      tmr.push(afterSay(()=>{cv.classList.add('pb2-fade');tmr.push(setTimeout(fresh,700))},3500,800));
     },500));
   }
   function fresh(){ctx.clearRect(0,0,W,H);drips=[];pops=0;done=false;cv.classList.remove('pb2-fade');wrap.querySelector('.pb2-frame').classList.remove('on')}
