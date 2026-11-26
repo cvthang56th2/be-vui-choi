@@ -1223,6 +1223,28 @@ svg.shp{width:clamp(150px,30vmin,270px);height:auto;display:block}
 .blob.q{font-size:.6em;width:1.67em;height:1.67em;background:#fff;box-shadow:inset 0 0 0 .06em #2B2350}
 .blob.q.fill{background:var(--c);animation:pop .4s}
 .qopt .blob{font-size:.95em}
+/* 4–5: Tìm điểm khác */
+.sdw{position:absolute;inset:0;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:3vmin;padding:2vmin;align-content:center}
+.sdg{display:grid;grid-template-columns:repeat(var(--c),1fr);gap:1.2vmin;background:#fff;border-radius:26px;padding:1.6vmin;box-shadow:0 10px 24px rgba(27,27,47,.08),inset 0 0 0 4px #2B2350}
+.sdc{width:clamp(56px,10vmin,104px);height:clamp(56px,10vmin,104px);border:none;border-radius:16px;background:#F4F1FF;font-size:clamp(36px,6.8vmin,70px);line-height:1;display:flex;align-items:center;justify-content:center;padding:0}
+.sdc.ok{background:#CFF3DA;box-shadow:0 0 0 5px #5CCB7E;animation:pop .35s}
+.sdc.no{animation:shake .35s}
+@media (orientation:portrait){.sdc{width:clamp(52px,17vw,96px);height:clamp(52px,17vw,96px);font-size:clamp(32px,11vw,64px)}}
+/* 4–5: Câu cá số */
+.fsw{position:absolute;inset:0;overflow:hidden;touch-action:none;background:linear-gradient(#CDEBFF 0,#CDEBFF 26%,#6EC3F2 26%,#2F8FD6 100%)}
+.fsw::before{content:"";position:absolute;left:0;right:0;top:calc(26% - 8px);height:16px;background:radial-gradient(circle at 10px 0,transparent 9px,#6EC3F2 10px) 0 0/20px 16px repeat-x}
+.fscard{position:absolute;left:3%;top:3%;max-width:62%;background:#fff;border-radius:22px;padding:1vmin 2.4vmin;box-shadow:0 8px 20px rgba(27,27,47,.12),inset 0 0 0 3px #2B2350;display:flex;flex-direction:column;align-items:flex-start;z-index:3}
+.fscard.nw{animation:pop .35s}
+.fslbl{font-weight:800;font-size:clamp(15px,2.6vmin,24px);opacity:.7}
+.fsitems{font-size:clamp(26px,5vmin,48px);line-height:1.15;letter-spacing:.04em;word-break:break-all}
+.fsbucket{position:absolute;right:3%;top:3%;font-size:clamp(54px,10vmin,100px);line-height:1;display:flex;flex-direction:column;align-items:center;z-index:3}
+.fsbucket b{font-size:clamp(15px,2.6vmin,24px);background:#fff;border-radius:999px;padding:.2em .7em;margin-top:-.2em;box-shadow:inset 0 0 0 2px #2B2350}
+.fsh{position:absolute;left:0;top:0;border:none;background:none;padding:0;width:clamp(80px,14vmin,130px);height:clamp(66px,11vmin,110px);display:flex;align-items:center;justify-content:center;transform:translate(-50%,-50%)}
+.fsh .fe{font-size:clamp(60px,11vmin,110px);line-height:1;display:block}
+.fsh b{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:#fff;color:#2B2350;border-radius:50%;width:1.7em;height:1.7em;display:flex;align-items:center;justify-content:center;font-size:clamp(18px,3.4vmin,32px);font-weight:800;box-shadow:inset 0 0 0 3px #2B2350}
+.fsh.no{animation:cnshake2 .35s}
+@keyframes cnshake2{25%{margin-left:-10px}75%{margin-left:10px}}
+.fsh.got b{background:#5CCB7E;color:#fff}
 </style>
 <script>
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
@@ -1697,6 +1719,14 @@ svg.shp{width:clamp(150px,30vmin,270px);height:auto;display:block}
 <section class="screen" id="mixcolor">
   <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
   <div class="stage" id="mixstage"></div>
+</section>
+<section class="screen" id="spotdiff">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="sdfstage"></div>
+</section>
+<section class="screen" id="fishing">
+  <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
+  <div class="stage" id="fishstage"></div>
 </section>
 <section class="screen" id="walk">
   <div class="topbar"><button class="btn-round home-btn">🏠</button><div class="prompt"></div><div class="stars">⭐ <span class="starcount">0</span></div></div>
@@ -5740,6 +5770,86 @@ const MixQ=makeQuiz({id:'mixcolor',stage:'#mixstage',rounds:6,winMsg:T('Bé là 
       say(T(`Đúng rồi! Màu ${A} trộn màu ${B} thành màu ${C}!`,`Correct! ${cap(A)} and ${B} make ${C}!`));return 2300}};
 }});
 
+/* ---------- 4–5: TÌM ĐIỂM KHÁC (hai bảng hình, khác đúng một ô) ---------- */
+const SpotDiff=(()=>{
+  const POOL=['🐶','🐱','🐰','🐼','🦊','🐻','🐸','🐵','🐔','🐧','🐤','🐟','🐢','🦋','🐞','🍎','🍌','🍇','🍓','🍉','🥕','🌽','🚗','🚌','🚲','⭐','🌸','🌻','🎈','⚽','🧸','🎁'];
+  const stage=$('#sdfstage'),ROUNDS=6;let round=0,idx=-1,lock=false,tmr=0;
+  function start(){round=0;next()}
+  function next(){
+    clearTimeout(tmr);lock=false;
+    const cols=round<2?3:4,rows=round<1?2:3,n=cols*rows,L=pickN(POOL,n+1),R=L.slice(0,n);idx=ri(n);R[idx]=L[n];
+    const grid=(arr,side)=>`<div class="sdg" style="--c:${cols}">${arr.slice(0,n).map((e,i)=>`<button class="sdc" data-i="${i}" data-s="${side}">${e}</button>`).join('')}</div>`;
+    stage.innerHTML=`<div class="sdw">${grid(L,0)}${grid(R,1)}</div>`;
+    stage.querySelectorAll('.sdc').forEach(b=>b.addEventListener('click',()=>tap(b)));
+    setPrompt('spotdiff',T(`🔊 Chỗ nào khác? ${round+1}/${ROUNDS}`,`🔊 What's different? ${round+1}/${ROUNDS}`),T('Hai bảng này khác nhau đúng một chỗ. Bé tìm xem chỗ nào nhé!',"These two pictures are different in just one place. Can you find it?"));
+  }
+  function tap(b){
+    if(lock)return;
+    if(+b.dataset.i===idx){
+      lock=true;stage.querySelectorAll(`.sdc[data-i="${idx}"]`).forEach(c=>c.classList.add('ok'));addStar();sfx('ding');buddy.react('yay',pickOne(PRAISE));round++;
+      say(T('Tìm ra rồi! Chỗ này khác nhau.',"You found it! This one is different."));
+      tmr=afterSay(()=>round>=ROUNDS?win(T('Bé tinh mắt quá! 🔍',"Such sharp eyes! 🔍"),start):next(),1600);
+    }else{
+      b.classList.remove('no');void b.offsetWidth;b.classList.add('no');sfx('boing');buddy.react('oops',T('Thử lại nào!',"Try again!"));
+      say(T('Chỗ này giống nhau mà. Bé nhìn kỹ lại nhé!',"These are the same. Look carefully!"));
+    }
+  }
+  return{start,stop:()=>clearTimeout(tmr)};
+})();
+
+/* ---------- 4–5: CÂU CÁ SỐ (đếm quả trên thẻ, câu con cá đúng số) ---------- */
+const Fishing=(()=>{
+  const stage=$('#fishstage'),GOAL=8,FISH=['🐟','🐠','🐡'];
+  let fish=[],target=0,item=null,caught=0,run=false,raf=0,last=0,spawnT=0,W=0,H=0,tmr=[];
+  function start(){
+    stop();caught=0;fish=[];
+    stage.innerHTML=`<div class="fsw"><div class="fscard"></div><div class="fsbucket">🪣<b>0/${GOAL}</b></div></div>`;
+    const r=stage.getBoundingClientRect();W=r.width;H=r.height;
+    newTarget();run=true;last=performance.now();spawnT=0;for(let i=0;i<3;i++)spawn(rand(.15,.85)*W);raf=requestAnimationFrame(loop);
+  }
+  function newTarget(){
+    let t;do{t=1+ri(9)}while(t===target);target=t;item=pickOne(COUNTI.filter(x=>x[0]!=='🐟'));
+    const c=stage.querySelector('.fscard');c.innerHTML=`<span class="fslbl">${T('Câu cá số…','Catch fish…')}</span><span class="fsitems">${item[0].repeat(target)}</span>`;
+    c.classList.remove('nw');void c.offsetWidth;c.classList.add('nw');
+    setPrompt('fishing',T(`🔊 Câu cá ${caught}/${GOAL}`,`🔊 Fishing ${caught}/${GOAL}`),T(`Có mấy ${item[1]}? Bé câu con cá có số đó nhé!`,`How many ${pl(item[1],2)}? Catch the fish with that number!`));
+  }
+  function spawn(x0){
+    const w=stage.querySelector('.fsw');if(!w)return;
+    const dir=Math.random()<.5?1:-1,lane=ri(4),n=fish.some(f=>f.n===target)&&Math.random()>.4?1+ri(9):target;
+    const el=document.createElement('button');el.className='fsh';el.innerHTML=`<span class="fe" style="transform:scaleX(${-dir})">${pickOne(FISH)}</span><b>${n}</b>`;
+    const f={el,n,dir,x:x0!=null?x0:(dir>0?-80:W+80),y:H*(.36+lane*.15)+rand(-10,10),v:rand(55,95)+round2(),ph:Math.random()*6};
+    el.addEventListener('pointerdown',e=>{e.preventDefault();tap(f)});w.appendChild(el);fish.push(f);
+  }
+  const round2=()=>Math.min(40,caught*5);
+  function tap(f){
+    if(!run||f.done)return;
+    if(f.n===target){
+      f.done=true;const b=stage.querySelector('.fsbucket').getBoundingClientRect(),s=stage.getBoundingClientRect();
+      f.el.classList.add('got');f.el.style.transition='left .6s ease-in,top .6s cubic-bezier(.3,-.6,.6,1),opacity .6s';f.el.style.left=(b.left-s.left+b.width/2-30)+'px';f.el.style.top=(b.top-s.top)+'px';f.el.style.opacity=.2;
+      tmr.push(setTimeout(()=>{f.el.remove();fish=fish.filter(x=>x!==f)},650));
+      caught++;addStar();sfx('ding');stage.querySelector('.fsbucket b').textContent=`${caught}/${GOAL}`;say(T(`Số ${viNum(target)}! Giỏi quá!`,`Number ${enNum(target)}! Great!`));
+      if(caught>=GOAL){run=false;tmr.push(afterSay(()=>win(T('Bé câu được nhiều cá quá! 🎣',"What a great catch! 🎣"),start),900))}
+      else if(caught%2===0)tmr.push(afterSay(()=>{if(run)newTarget()},900));
+      else setPrompt('fishing',T(`🔊 Câu cá ${caught}/${GOAL}`,`🔊 Fishing ${caught}/${GOAL}`));
+    }else{
+      f.el.classList.remove('no');void f.el.offsetWidth;f.el.classList.add('no');sfx('boing');
+      say(T(`Con cá này số ${viNum(f.n)}. Bé đếm lại nhé!`,`This fish is number ${enNum(f.n)}. Count again!`));
+    }
+  }
+  function loop(t){
+    if(!run)return;const dt=Math.min(.05,(t-last)/1000);last=t;spawnT+=dt;
+    if(spawnT>1.2&&fish.filter(f=>!f.done).length<7){spawnT=0;spawn()}
+    fish.forEach(f=>{if(f.done)return;f.x+=f.dir*f.v*dt;f.ph+=dt*3;f.el.style.left=f.x+'px';f.el.style.top=(f.y+Math.sin(f.ph)*8)+'px';
+      if(f.x<-120||f.x>W+120){f.done=true;f.el.remove()}});
+    fish=fish.filter(f=>f.el.isConnected);
+    // make sure the right fish is always swimming somewhere
+    if(!fish.some(f=>!f.done&&f.n===target)&&spawnT>.5){spawnT=0;const d=fish.length;spawn();const nf=fish[fish.length-1];if(nf&&fish.length>d){nf.n=target;nf.el.querySelector('b').textContent=target}}
+    raf=requestAnimationFrame(loop);
+  }
+  function stop(){run=false;cancelAnimationFrame(raf);tmr.forEach(clearTimeout);tmr=[]}
+  return{start,stop,resize(){const r=stage.getBoundingClientRect();W=r.width;H=r.height}};
+})();
+
 /* ---------- Home: card icons (illustrated, ink-outlined SVG, 64×64) ---------- */
 const W='#fff',K='#2B2350';
 const IR='#FF6B5A',IY='#FFC23D',IB='#52B4F5',IP='#FF8DBE',IT='#33C3B4',IV='#A07CF2',IG='#62C771',IO='#FF9B45',IC='#FFF3E2',ISK='#FFD9B8',ISA='#F4D58D',IBR='#C98A4B',ILB='#E3F4FF',IMUD='#9C6A3E';
@@ -5756,6 +5866,8 @@ const istar=(cx,cy,r,f)=>{let d='';for(let i=0;i<10;i++){const a=-Math.PI/2+i*Ma
 const ibal=(x,y,r,f)=>il(`M${x} ${y+r*1.2} q-4 ${r*.6} 1 ${r*1.3}`,2.5)+ie(x,y,r,r*1.18,f)+ip(`M${x-3} ${y+r*1.3}h6l-3-4Z`,f)+il(`M${x-r*.5} ${y-r*.35} q2 -${r*.4} ${r*.4} -${r*.45}`,2.5,W);
 const ismile=(y=40,w=6)=>il(`M${32-w} ${y} Q32 ${y+5} ${32+w} ${y}`);
 const ICONS={
+  spotdiff:iq(4,12,26,40,6,W)+iq(34,12,26,40,6,W)+ic(17,24,5,IR)+ic(17,40,5,IB)+ic(47,24,5,IR)+ic(47,40,7,IY)+il('M47 40 m-10 0 a10 10 0 1 0 20 0 a10 10 0 1 0 -20 0',2.5,IG),
+  fishing:il('M10 6 V24 M10 6 Q30 4 46 10',3)+il('M46 10 V30',2)+ie(34,44,18,10,IB)+ip('M50 44 L60 36 L60 52Z',IB)+idt(26,42,2.2)+itx('3',14,49,W,36),
   sequence:ie(13,34,8,11,W)+il('M24 34 H31 M28 30 L32 34 L28 38',3)+ic(46,34,12,IY)+idt(43,31,1.8)+idt(50,31,1.8)+ip('M44 37 l2 3 2-3Z',IO)+ip('M40 23 l3 3 3-3 3 3 3-3',IC),
   dice:iq(4,14,30,30,7,W)+idt(12,22,3)+idt(19,29,3)+idt(26,36,3)+iq(30,22,30,30,7,IR)+`<circle cx="38" cy="30" r="3" fill="#fff"/><circle cx="52" cy="30" r="3" fill="#fff"/><circle cx="38" cy="44" r="3" fill="#fff"/><circle cx="52" cy="44" r="3" fill="#fff"/>`,
   mixcolor:ic(21,24,13,IR)+ic(43,24,13,IY)+ic(32,44,13,IO),
@@ -5973,6 +6085,8 @@ Object.assign(CARDS,{
   sequence:['🐣',T('Trước – sau',"First – next"),T('Thứ tự câu chuyện',"Story order"),'#ffd966','#f0a800'],
   dice:['🎲',T('Xúc xắc',"Dice"),T('Đếm chấm',"Count the dots"),'#ff8a8a','#ff5757'],
   mixcolor:['🎨',T('Trộn màu',"Mixing colors"),T('Khoa học màu',"Color science"),'#B49CFF','#6c5cff'],
+  spotdiff:['🔍',T('Tìm điểm khác',"Spot the difference"),T('Quan sát',"Observation"),'#8ee07a','#45b026'],
+  fishing:['🎣',T('Câu cá số',"Number fishing"),T('Đếm & câu',"Count & catch"),'#7fc4ff','#5AB6F2'],
   robot:['🤖',T('Lập trình robot',"Code the robot"),T('Tư duy lập trình',"Coding logic"),'#9aa5c8','#5a6290']
 });
 Object.assign(CARDS,{
@@ -5991,7 +6105,7 @@ Object.assign(CARDS,{
 });
 const AGES=[{icon:'👶',label:T('1–2 tuổi',"Age 1–2"),say:T('một đến hai',"one to two"),games:['tap','peek','bubbles','wand','bath','dig','mud','sandbox','paintbub','castle','animals','vehicles','draw','piano','fruitsB','colorsB','bodyB','instr','family','aqua','daynight','fireworks','eggs','shapesB','walk','wipe','pump','garden','float','train','dance','icecream','blocks','flashlight','phone','rain']},
   {icon:'🐣',label:T('2–3 tuổi',"Age 2–3"),say:T('hai đến ba',"two to three"),games:['balloon','sound','sorter','feed','piano','paint','fruitQ','colorQ','sizeQ','bodyQ','sameQ','eatQ','homeQ','count3','shapeQ','csort','animalQ','useQ','weatherQ','pairQ','tallQ','posQ','onemany','tidy']},
-  {icon:'🐥',label:T('4–5 tuổi',"Age 4–5"),say:T('bốn đến năm',"four to five"),games:['race','count','countballoon','pattern','shadow','build','puzzle','memory','abc','bigger','vnletter','moreless','oddone','opposite','emotion','nextnum','whack','simon','vehq','caseQ','jobQ','seriate','addsub','sinkQ','connect','sequence','dice','mixcolor']},
+  {icon:'🐥',label:T('4–5 tuổi',"Age 4–5"),say:T('bốn đến năm',"four to five"),games:['race','count','countballoon','pattern','shadow','build','puzzle','memory','abc','bigger','vnletter','moreless','oddone','opposite','emotion','nextnum','whack','simon','vehq','caseQ','jobQ','seriate','addsub','sinkQ','connect','sequence','dice','mixcolor','spotdiff','fishing']},
   {icon:'🦉',label:T('6–7 tuổi',"Age 6–7"),say:T('sáu đến bảy',"six to seven"),games:['math','spell','clock','maze','puzzle','memory','abc','piano','math20','compare','readvn','listen','days','evenodd','tens','sudoku','mathrace','leftright','mulQ','measure','frac','missing','sides','robot']},
   {icon:'👨‍👩‍👧',label:T('Bố mẹ',"Parents"),intro:T('Trò chơi cho bố mẹ, lúc bé ngủ','Games for parents, while the little one naps'),games:['pquiz','myth','merge','slide','ptype','breathe']},
   {icon:'🤝',label:T('Cùng bé',"Together"),intro:T('Bố mẹ và bé cùng chơi','Games for parent and child to play together'),games:['tug','snap','hideseek','mimic','ttt','story']}];
@@ -6017,7 +6131,7 @@ $('#langToggle').addEventListener('click',()=>{sfx('tap');setLang(LANG==='en'?'v
 document.querySelectorAll('.langbtn').forEach(b=>{b.classList.toggle('on',b.dataset.lang===LANG);b.addEventListener('click',()=>{sfx('tap');setLang(b.dataset.lang)})});
 
 /* ---------- Navigation ---------- */
-const GAMES={sequence:Sequence,dice:DiceQ,mixcolor:MixQ,pquiz:PQuiz,myth:MythQ,merge:Merge,slide:Slide,ptype:PType,breathe:Breathe,tug:Tug,snap:Snap,hideseek:HideSeek,mimic:Mimic,ttt:TTT,story:StoryDice,connect:Connect,rain:Rain,animalQ:AnimalQ,useQ:UseQ,weatherQ:WeatherQ,pairQ:PairQ,tallQ:TallQ,posQ:PosQ,onemany:OneManyQ,tidy:Tidy,caseQ:CaseQ,jobQ:JobQ,seriate:Seriate,addsub:AddSubQ,sinkQ:SinkQ,mulQ:MulQ,measure:MeasureQ,frac:FracQ,missing:MissQ,sides:SidesQ,robot:Robot,wand:Wand,bath:Bath,dig:Dig,mud:Mud,sandbox:Sandbox,paintbub:PaintBub,castle:Castle,walk:Walk,wipe:Wipe,pump:Pump,garden:Garden,float:Float,train:Train,dance:Dance,icecream:IceCream,blocks:Blocks,flashlight:Flashlight,phone:Phone,fruitsB:FruitBoard,colorsB:ColorBoard,bodyB:BodyBoard,instr:InstrBoard,family:FamilyBoard,aqua:Aqua,daynight:DayNight,fireworks:Fireworks,eggs:Eggs,shapesB:ShapeBoard,fruitQ:FruitQ,colorQ:ColorQ,sizeQ:SizeQ,bodyQ:BodyQ,sameQ:SameQ,eatQ:EatQ,homeQ:HomeQ,count3:Count3Q,countballoon:CountBalloonQ,shapeQ:ShapeQ,csort:CSort,bigger:BiggerQ,vnletter:VNLetterQ,moreless:MoreLessQ,oddone:OddQ,opposite:OppQ,emotion:EmotionQ,nextnum:NextNumQ,whack:Whack,simon:Simon,vehq:VehQ,math20:Math20Q,compare:CompareQ,readvn:ReadVNQ,listen:ListenQ,days:DaysQ,evenodd:EvenOddQ,tens:TensQ,sudoku:Sudoku,mathrace:MathRaceQ,leftright:LeftRightQ,tap:TapFun,peek:Peek,bubbles:Bubbles,animals:AnimalBoard,vehicles:VehicleBoard,draw:Draw,race:Race,build:Build,memory:Memory,balloon:Balloon,paint:Paint,puzzle:Puzzle,abc:ABC,feed:Feed,piano:Piano,sound:SoundQ,sorter:Sorter,shadow:ShadowQ,count:CountQ,pattern:PatternQ,math:MathQ,spell:Spell,maze:Maze,clock:ClockQ};
+const GAMES={spotdiff:SpotDiff,fishing:Fishing,sequence:Sequence,dice:DiceQ,mixcolor:MixQ,pquiz:PQuiz,myth:MythQ,merge:Merge,slide:Slide,ptype:PType,breathe:Breathe,tug:Tug,snap:Snap,hideseek:HideSeek,mimic:Mimic,ttt:TTT,story:StoryDice,connect:Connect,rain:Rain,animalQ:AnimalQ,useQ:UseQ,weatherQ:WeatherQ,pairQ:PairQ,tallQ:TallQ,posQ:PosQ,onemany:OneManyQ,tidy:Tidy,caseQ:CaseQ,jobQ:JobQ,seriate:Seriate,addsub:AddSubQ,sinkQ:SinkQ,mulQ:MulQ,measure:MeasureQ,frac:FracQ,missing:MissQ,sides:SidesQ,robot:Robot,wand:Wand,bath:Bath,dig:Dig,mud:Mud,sandbox:Sandbox,paintbub:PaintBub,castle:Castle,walk:Walk,wipe:Wipe,pump:Pump,garden:Garden,float:Float,train:Train,dance:Dance,icecream:IceCream,blocks:Blocks,flashlight:Flashlight,phone:Phone,fruitsB:FruitBoard,colorsB:ColorBoard,bodyB:BodyBoard,instr:InstrBoard,family:FamilyBoard,aqua:Aqua,daynight:DayNight,fireworks:Fireworks,eggs:Eggs,shapesB:ShapeBoard,fruitQ:FruitQ,colorQ:ColorQ,sizeQ:SizeQ,bodyQ:BodyQ,sameQ:SameQ,eatQ:EatQ,homeQ:HomeQ,count3:Count3Q,countballoon:CountBalloonQ,shapeQ:ShapeQ,csort:CSort,bigger:BiggerQ,vnletter:VNLetterQ,moreless:MoreLessQ,oddone:OddQ,opposite:OppQ,emotion:EmotionQ,nextnum:NextNumQ,whack:Whack,simon:Simon,vehq:VehQ,math20:Math20Q,compare:CompareQ,readvn:ReadVNQ,listen:ListenQ,days:DaysQ,evenodd:EvenOddQ,tens:TensQ,sudoku:Sudoku,mathrace:MathRaceQ,leftright:LeftRightQ,tap:TapFun,peek:Peek,bubbles:Bubbles,animals:AnimalBoard,vehicles:VehicleBoard,draw:Draw,race:Race,build:Build,memory:Memory,balloon:Balloon,paint:Paint,puzzle:Puzzle,abc:ABC,feed:Feed,piano:Piano,sound:SoundQ,sorter:Sorter,shadow:ShadowQ,count:CountQ,pattern:PatternQ,math:MathQ,spell:Spell,maze:Maze,clock:ClockQ};
 const NAMES={race:T('Đua xe!',"Racing!"),build:T('Lắp ráp!',"Build it!"),memory:T('Lật thẻ!',"Memory!"),balloon:T('Bóng bay!',"Balloons!"),paint:T('Tô màu!',"Coloring!"),puzzle:T('Ghép hình!',"Puzzle!"),abc:T('Chữ cái!',"Letters!"),feed:T('Cho thú ăn!',"Feed the animals!"),piano:T('Đàn piano!',"Piano!")};
 let current=null;
 const GTINT=[['#FFF0E8','#F6D9CB'],['#FFF7D6','#F1E3A6'],['#EAF8EC','#CBE8D0'],['#E8F4FD','#C7E0F3'],['#F1ECFF','#DAD0F6'],['#FFEEF5','#F5D0E0'],['#E6F7F4','#C3E6DF']];
